@@ -16,7 +16,7 @@ var title = ['Большая уютная квартира',
 
 var locationX = function () {
   var minX = 100;
-  var maxX = 320;
+  var maxX = 1087;
   var X;
 
   return X = Math.floor(Math.random() * (maxX - minX)) + minX;
@@ -137,7 +137,7 @@ var body = document.querySelector('body');
 var wherePutCard = document.querySelector('.map__filters-container');
 var templateCard = document.body.querySelector('#card').content.querySelector('.map__card');
 var fragmentCard = document.createDocumentFragment();
-
+var photos__card = templateCard.querySelector('.popup__photos');
 var createCard = function (number) {
   for (var i = 0; i < number.length; i++) {
     var element = templateCard.cloneNode(true);
@@ -147,8 +147,11 @@ var createCard = function (number) {
     element.querySelector('.popup__text--capacity').textContent = rooms() + ' комнаты для ' + guests() + ' гостей';
     element.querySelector('.popup__text--time').textContent = 'Заезд после ' + getTime1() + ', выезд до ' + getTime2();
     element.querySelector('.popup__features').textContent = getFeatures();
+
     element.querySelector('.popup__description').textContent = description;
-    element.querySelector('.popup__photos').textContent = ;
+    for(var j = 0; j <= photos.length; j++){
+    photos__card.querySelector('img').src = photos[j];
+    }
     fragmentCard.appendChild(element);
     wherePutCard.appendChild(fragmentCard);
   }
