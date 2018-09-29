@@ -1,6 +1,7 @@
 'use strict';
 
 var getRandom = function(min,max){
+  var number;
     return number = Math.floor(Math.random() * (max - min)) + min;
   }
 
@@ -126,9 +127,7 @@ var fragmentCard = document.createDocumentFragment();
 var photos__card = templateCard.querySelector('.popup__photos');
 var features__template = templateCard.querySelector('.popup__features');
 
-var getRandom = function(min,max){
-  return number = Math.floor(Math.random() * (max - min)) + min;
-}
+
 
 var createCard = function (number) {
   for (var i = 0; i < number.length; i++) {
