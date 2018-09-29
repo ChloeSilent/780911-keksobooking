@@ -96,7 +96,7 @@ var getTime2 = function () {
 // var features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 
 
-// var description = '';
+var description = ' ';
 
 // var photos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg',
 //   'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
@@ -143,7 +143,8 @@ var getFeaturesList = function () {
 
   for (var i = 0; i < number - 1; i++) {
     // console.log(featuresLi[i]);
-    featuresArray += featuresUl.insertAdjacentHTML('afterbegin', featuresLi[i]);
+    featuresArray[i] = featuresLi[i];
+    // featuresUl.insertAdjacentHTML('afterbegin', featuresLi[i]);
   }
   return featuresArray;
   // console.log('<--->');
@@ -161,6 +162,7 @@ var createCard = function (number) {
     element.querySelector('.popup__text--capacity').textContent = rooms() + ' комнаты для ' + guests() + ' гостей';
     element.querySelector('.popup__text--time').textContent = 'Заезд после ' + getTime1() + ', выезд до ' + getTime2();
     element.querySelector('.popup__features').textContent = getFeaturesList();
+    element.querySelector('.popup__description').textContent = description;
     // for (var j = 0; j <= photos.length; j++) {
     //   photos__card.querySelector('img').src = photos[j];
     // }
