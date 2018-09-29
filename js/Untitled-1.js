@@ -15,6 +15,12 @@ var title = ['Большая уютная квартира',
   'Неуютное бунгало по колено в воде'
 ];
 
+var getTitle = function(){
+  var min = 1;
+  var max = 8;
+  var number = getRandom(min, max) - 1;
+  return title[number];
+}
 var locationX = function () {
   var minX = 100;
   var maxX = 1087;
@@ -132,7 +138,8 @@ var features__template = templateCard.querySelector('.popup__features');
 var createCard = function (number) {
   for (var i = 0; i < number.length; i++) {
     var element = templateCard.cloneNode(true);
-    element.querySelector('.popup__title').textContent = title[i];
+    element.querySelector('.popup__title').textContent = getTitle();
+
     element.querySelector('.popup__text--price').textContent = price() + '₽/ночь';
     element.querySelector('.popup__type').textContent = getType();
     element.querySelector('.popup__text--capacity').textContent = rooms() + ' комнаты для ' + guests() + ' гостей';

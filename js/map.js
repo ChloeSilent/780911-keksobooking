@@ -89,12 +89,11 @@ var getTime2 = function () {
 
 // var features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 
-var description = '';
-
-var photos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg',
-  'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
-  'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
-];
+//var description = '';
+// var photos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg',
+//   'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
+//   'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
+// ];
 
 var wherePutPin = document.querySelector('.map');
 var template = document.body.querySelector('#pin').content.querySelector('button');
@@ -155,15 +154,14 @@ var fragmentCard = document.createDocumentFragment();
 //   return featuresList;
 // };
 
-var createCard = function (number) {
-  for (var i = 0; i < number.length; i++) {
-    var element = templateCard.cloneNode(true);
-    element.querySelector('.popup__title').textContent = title[i];
-    element.querySelector('.popup__text--price').textContent = price() + '₽/ночь';
-    element.querySelector('.popup__type').textContent = getType();
-    element.querySelector('.popup__text--capacity').textContent = rooms() + ' комнаты для ' + guests() + ' гостей';
-    element.querySelector('.popup__text--time').textContent = 'Заезд после ' + getTime1() + ', выезд до ' + getTime2();
-    // element.querySelector('.popup__features').textContent = getFeatures();
+var createCard = function () {
+  var element = templateCard.cloneNode(true);
+  element.querySelector('.popup__title').textContent = title[i];
+  element.querySelector('.popup__text--price').textContent = price() + '₽/ночь';
+  element.querySelector('.popup__type').textContent = getType();
+  element.querySelector('.popup__text--capacity').textContent = rooms() + ' комнаты для ' + guests() + ' гостей';
+  element.querySelector('.popup__text--time').textContent = 'Заезд после ' + getTime1() + ', выезд до ' + getTime2();
+  // element.querySelector('.popup__features').textContent = getFeatures();
 
   //   element.querySelector('.popup__description').textContent = description;
   //   for (var j = 0; j <= photos.length; j++) {
