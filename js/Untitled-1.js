@@ -98,10 +98,10 @@ var getTime2 = function () {
 
 // var description = '';
 
-var photos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg',
-  'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
-  'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
-];
+// var photos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg',
+//   'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
+//   'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
+// ];
 
 var wherePutPin = document.querySelector('.map');
 var template = document.body.querySelector('#pin').content.querySelector('button');
@@ -143,8 +143,7 @@ var getFeaturesList = function () {
 
   for (var i = 0; i < number - 1; i++) {
     // console.log(featuresLi[i]);
-    featuresArray[i] = featuresLi[i];
-    // featuresUl.insertAdjacentHTML('afterbegin', featuresLi[i]);
+    featuresArray += featuresUl.insertAdjacentHTML('afterbegin', featuresLi[i]);
   }
   return featuresArray;
   // console.log('<--->');
@@ -165,8 +164,8 @@ var createCard = function (number) {
     // for (var j = 0; j <= photos.length; j++) {
     //   photos__card.querySelector('img').src = photos[j];
     // }
-    // fragmentCard.appendChild(element);
-    // wherePutCard.appendChild(fragmentCard);
+    fragmentCard.appendChild(element);
+    wherePutCard.appendChild(fragmentCard);
   }
 
 };
