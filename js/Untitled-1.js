@@ -160,10 +160,10 @@ var shuffle = function (featuresArray) {
 
 
 /* создает новый массив */
-var getFeaturesList = function () {
+var getFeaturesList = function (list) {
   var popupFeauturesList = [];
-  shuffle(featuresLi);
-  var number = getRandom(0, featuresLi.length);
+  shuffle(list);
+  var number = getRandom(0, list.length);
   // console.log('number = ' + number)
   for (var i = 0; i <= number; i++) {
     popupFeauturesList[i] = featuresLi[i];
@@ -172,8 +172,8 @@ var getFeaturesList = function () {
   return popupFeauturesList;
 };
 /* создает из массива элементы разметки*/
-var createHTMLfromArray = function () {
-  var featuresArray = getFeaturesList();
+var createHTMLfromArray = function (list) {
+  var featuresArray = getFeaturesList(list);
   var fragmentUL = document.createDocumentFragment();
   for (var i = 0; i < featuresArray.length; i++) {
     fragmentUL.appendChild(featuresArray[i]);
@@ -191,7 +191,7 @@ var createCard = function (number) {
     element.querySelector('.popup__type').textContent = getType();
     element.querySelector('.popup__text--capacity').textContent = rooms() + ' комнаты для ' + guests() + ' гостей';
     element.querySelector('.popup__text--time').textContent = 'Заезд после ' + getTime1() + ', выезд до ' + getTime2();
-    element.querySelector('.popup__features').textContent = createHTMLfromArray();
+    element.querySelector('.popup__features').innerHTML = createHTMLfromArray(featuresLi);
     element.querySelector('.popup__description').textContent = DESCRIPTION;
     // for (var j = 0; j <= photos.length; j++) {
     //   photos__card.querySelector('img').src = photos[j];
@@ -224,4 +224,4 @@ var createCard = function (number) {
 
 putPin([1, 1, 1, 1, 1, 1, 1, 1]);
 createCard([1, 1, 1, 1, 1, 1, 1]);
-shuffle(featuresLi);
+// shuffle(featuresLi);
