@@ -44,6 +44,16 @@ var PX = 'px';
 var SRCEXAMPLE = 'img/avatars/user0';
 var PNG = '.png';
 
+var FEATURES = ['--wifi', '--dishwasher', '--parking', '--washer', '--elevator', '--conditioner'];
+var FEATURESTYLE = 'popup__feature popup__feature';
+
+var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg',
+  'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
+  'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
+];
+
+var PHOTOPLACEWIDTH = 45;
+var PHOTOPLACEHEIGHT = 45;
 /* ПЕРЕМЕННЫЕ*/
 
 /* переменные пина*/
@@ -56,9 +66,8 @@ var fragment = document.createDocumentFragment();
 var wherePutCard = document.querySelector('.map__filters-container');
 var templateCard = document.body.querySelector('#card').content.querySelector('.map__card');
 var fragmentCard = document.createDocumentFragment();
-var featuresUl = templateCard.querySelector('ul');
-var featuresLi = featuresUl.querySelectorAll('.popup__feature');
-
+// var featuresUl = templateCard.querySelector('ul');
+// var featuresLi = featuresUl.querySelectorAll('.popup__feature');
 
 /* ФУНКЦИИ */
 /* Возвращает рандомное число между мин и макс */
@@ -118,12 +127,6 @@ var getTime2 = function () {
   return CHECKOUT[i];
 };
 
-// var features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-
-// var photos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg',
-//   'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
-//   'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
-// ];
 
 /* ставит пин на карту, меняет адрес внутри тега img внутри пина, добавляет атрибут alt для тега img*/
 
@@ -184,12 +187,11 @@ var putPin = function (number) {
 //   console.log(fragmentUL);
 //   return fragmentUL;
 // };
-var features = ['--wifi', '--dishwasher', '--parking', '--washer', '--elevator', '--conditioner'];
-var featureStyle = 'popup__feature popup__feature';
+
 
 /* перемешивает массив рандомно*/
 var shuffle = function () {
-  var featuresArray = features;
+  var featuresArray = FEATURES;
   var j;
   var x;
   for (var i = featuresArray.length - 1; i > 0; i--) {
@@ -228,14 +230,25 @@ var createHTMLfromArray = function (list) {
   // var fragment = document.createDocumentFragment();
   for (var i = 0; i < featuresArray.length; i++) {
     var newElement = document.createElement('li');
-    newElement.className = featureStyle + featuresArray[i];
+    newElement.className = FEATURESTYLE + featuresArray[i];
     fragment.appendChild(newElement);
   }
   // console.log('fragmentUL is ');
   // console.log(fragmentUL);
   return fragment;
 };
-
+var createPhoto = function () {
+  for (var i = 0; i < PHOTOS.length; i++) {
+    var newElement = document.createElement('img');
+    newElement.src = PHOTOS[i];
+    newElement.className = 'popup__photo';
+    newElement.alt = 'Фотография жилья';
+    newElement.width = PHOTOPLACEWIDTH;
+    newElement.height = PHOTOPLACEHEIGHT;
+    fragment.appendChild(newElement);
+  }
+  return fragment;
+};
 var createCard = function (number) {
   for (var i = 0; i < number.length; i++) {
     var element = templateCard.cloneNode(true);
@@ -245,38 +258,26 @@ var createCard = function (number) {
     element.querySelector('.popup__type').textContent = getType();
     element.querySelector('.popup__text--capacity').textContent = rooms() + ' комнаты для ' + guests() + ' гостей';
     element.querySelector('.popup__text--time').textContent = 'Заезд после ' + getTime1() + ', выезд до ' + getTime2();
-    // element.querySelector('.popup__features').innerHTML = createHTMLfromArray();
+    var ListFeatures = element.querySelector('.popup__features');
+    while (ListFeatures.firstChild) {
+      ListFeatures.removeChild(ListFeatures.firstChild);
+    }
     element.querySelector('.popup__features').appendChild(createHTMLfromArray());
     element.querySelector('.popup__description').textContent = DESCRIPTION;
-    // for (var j = 0; j <= photos.length; j++) {
-    //   photos__card.querySelector('img').src = photos[j];
-    // }
+    var ListPhotos = element.querySelector('.popup__photos');
+    while (ListPhotos.firstChild) {
+      ListPhotos.removeChild(ListPhotos.firstChild);
+    }
+    element.querySelector('.popup__photos').appendChild(createPhoto());
+    element.querySelector('.popup__avatar').src = SRCEXAMPLE + (i + 1) + PNG;
+
     fragmentCard.appendChild(element);
     wherePutCard.appendChild(fragmentCard);
   }
 
 };
 
-// var arrayTest = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-
-// var getFeaturesList = function () {
-//   var popupFeauturesList = [];
-//   shuffle(arrayTest);
-//   var number = getRandom(0, arrayTest.length);
-//   //console.log('number = ' + number)
-//   if (number !== 0) {
-//     for (var i = 0; i < number; i++) {
-//       popupFeauturesList[i] = arrayTest[i];
-//       console.log(popupFeauturesList[i]);
-//     }
-//   } else {
-//     //console.log('number = 0!!!')
-//   }
-// };
-
-// getFeaturesList();
-
 
 putPin([1, 1, 1, 1, 1, 1, 1, 1]);
-createCard([1, 1, 1, 1, 1, 1, 1]);
+createCard([1, 1, 1, 1, 1, 1, 1, 1]);
 // shuffle(featuresLi);
