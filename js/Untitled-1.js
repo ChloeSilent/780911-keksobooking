@@ -144,43 +144,97 @@ var putPin = function (number) {
 
 };
 
+// /* перемешивает массив рандомно*/
+// var shuffle = function (featuresArray) {
+//   var j;
+//   var x;
+//   for (var i = featuresArray.length - 1; i > 0; i--) {
+//     j = Math.floor(Math.random() * (i + 1));
+//     x = featuresArray[i];
+//     featuresArray[i] = featuresArray[j];
+//     featuresArray[j] = x;
+//   }
+//   console.log('featuresArray is ');
+//   console.log(featuresArray);
+//   return featuresArray;
+// };
+
+
+// /* создает новый массив */
+// var getFeaturesList = function (list) {
+//   var popupFeauturesList = [];
+//   shuffle(list);
+//   var number = getRandom(0, list.length);
+//   console.log('number = ' + number)
+//   for (var i = 0; i <= number; i++) {
+//     popupFeauturesList[i] = featuresLi[i];
+//     console.log('popupFeauturesList is ');
+//     console.log(popupFeauturesList);
+//   }
+//   return popupFeauturesList;
+// };
+// /* создает из массива элементы разметки*/
+// var createHTMLfromArray = function (list) {
+//   var featuresArray = getFeaturesList(list);
+//   var fragmentUL = document.createDocumentFragment();
+//   for (var i = 0; i < featuresArray.length; i++) {
+//     fragmentUL.appendChild(featuresArray[i]);
+//   }
+//   console.log('fragmentUL is ');
+//   console.log(fragmentUL);
+//   return fragmentUL;
+// };
+var features = ['--wifi', '--dishwasher', '--parking', '--washer', '--elevator', '--conditioner'];
+var featureStyle = 'popup__feature popup__feature';
+
 /* перемешивает массив рандомно*/
-var shuffle = function (featuresArray) {
+var shuffle = function () {
+  var featuresArray = features;
   var j;
   var x;
-  var i;
-  for (i = featuresArray.length - 1; i > 0; i--) {
+  for (var i = featuresArray.length - 1; i > 0; i--) {
     j = Math.floor(Math.random() * (i + 1));
     x = featuresArray[i];
     featuresArray[i] = featuresArray[j];
     featuresArray[j] = x;
   }
+  // console.log('featuresArray is ');
+  // console.log(featuresArray);
   return featuresArray;
 };
-
+// shuffle();
+// shuffle();
 
 /* создает новый массив */
-var getFeaturesList = function (list) {
+var getFeaturesList = function () {
   var popupFeauturesList = [];
-  shuffle(list);
+  var list = shuffle();
   var number = getRandom(0, list.length);
-  // console.log('number = ' + number)
+  // console.log('number = ' + number);
   for (var i = 0; i <= number; i++) {
-    popupFeauturesList[i] = featuresLi[i];
+    popupFeauturesList[i] = list[i];
+    // console.log('popupFeauturesList is ');
     // console.log(popupFeauturesList);
   }
   return popupFeauturesList;
 };
+
+// getFeaturesList();
+
 /* создает из массива элементы разметки*/
+
 var createHTMLfromArray = function (list) {
   var featuresArray = getFeaturesList(list);
-  var fragmentUL = document.createDocumentFragment();
+  // var fragment = document.createDocumentFragment();
   for (var i = 0; i < featuresArray.length; i++) {
-    fragmentUL.appendChild(featuresArray[i]);
+    var newElement = document.createElement('li');
+    newElement.className = featureStyle + featuresArray[i];
+    fragment.appendChild(newElement);
   }
-  return fragmentUL;
+  // console.log('fragmentUL is ');
+  // console.log(fragmentUL);
+  return fragment;
 };
-
 
 var createCard = function (number) {
   for (var i = 0; i < number.length; i++) {
@@ -191,7 +245,8 @@ var createCard = function (number) {
     element.querySelector('.popup__type').textContent = getType();
     element.querySelector('.popup__text--capacity').textContent = rooms() + ' комнаты для ' + guests() + ' гостей';
     element.querySelector('.popup__text--time').textContent = 'Заезд после ' + getTime1() + ', выезд до ' + getTime2();
-    element.querySelector('.popup__features').innerHTML = createHTMLfromArray(featuresLi);
+    // element.querySelector('.popup__features').innerHTML = createHTMLfromArray();
+    element.querySelector('.popup__features').appendChild(createHTMLfromArray());
     element.querySelector('.popup__description').textContent = DESCRIPTION;
     // for (var j = 0; j <= photos.length; j++) {
     //   photos__card.querySelector('img').src = photos[j];
