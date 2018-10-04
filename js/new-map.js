@@ -75,15 +75,17 @@ var getRandom = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 };
 
+var getAvatarImg = function (i) {
+  return SRCEXAMPLE + (i + 1) + PNG;
+};
 
-/* Возвращает рандомное title из массива TITLE */
+
 var getTitle = function () {
 
   var number = getRandom(0, TITLE.length);
   return TITLE[number];
 };
 
-/* Возвращает положение пина на оси Х(горизонталь) на карте */
 var locationX = function () {
   return getRandom(MINX, MAXX);
 };
@@ -104,12 +106,10 @@ var getType = function () {
   var i = getRandom(0, TYPE.length);
   return TYPEMATCH[TYPE[i]];
 };
-
 /* Возвращает рандомно количество комнат */
 var rooms = function () {
   return getRandom(MINAMOUTOFROOMS, MAXAMOUTOFROOMS);
 };
-
 /* Возвращает рандомно количество гостей, если их 0, функция повторяется, пока не веренет число отличное от 0 */
 var guests = function () {
   var guestNumber = Math.floor(Math.random() * 10);
@@ -118,6 +118,7 @@ var guests = function () {
   }
   return guestNumber;
 };
+
 /* возвращает рандомно время */
 var getTime1 = function () {
   var i = getRandom(0, CHECKIN.length);
@@ -129,69 +130,6 @@ var getTime2 = function () {
   return CHECKOUT[i];
 };
 
-
-/* ставит пин на карту, меняет адрес внутри тега img внутри пина, добавляет атрибут alt для тега img*/
-
-var putPin = function (number) {
-  for (var i = 0; i < number.length; i++) {
-
-    var pinClone = pin.cloneNode(true);
-
-    pinClone.style.left = (locationX() - PINWIDTH) + PX;
-    pinClone.style.top = (locationY() - PINHEIGHT) + PX;
-
-    pinClone.querySelector('img').src = SRCEXAMPLE + (i + 1) + PNG;
-
-    pinClone.querySelector('img').alt = TITLE[i];
-    fragment.appendChild(pinClone);
-    wherePutPin.appendChild(fragment);
-  }
-
-};
-
-// /* перемешивает массив рандомно*/
-// var shuffle = function (featuresArray) {
-//   var j;
-//   var x;
-//   for (var i = featuresArray.length - 1; i > 0; i--) {
-//     j = Math.floor(Math.random() * (i + 1));
-//     x = featuresArray[i];
-//     featuresArray[i] = featuresArray[j];
-//     featuresArray[j] = x;
-//   }
-//   console.log('featuresArray is ');
-//   console.log(featuresArray);
-//   return featuresArray;
-// };
-
-
-// /* создает новый массив */
-// var getFeaturesList = function (list) {
-//   var popupFeauturesList = [];
-//   shuffle(list);
-//   var number = getRandom(0, list.length);
-//   console.log('number = ' + number)
-//   for (var i = 0; i <= number; i++) {
-//     popupFeauturesList[i] = featuresLi[i];
-//     console.log('popupFeauturesList is ');
-//     console.log(popupFeauturesList);
-//   }
-//   return popupFeauturesList;
-// };
-// /* создает из массива элементы разметки*/
-// var createHTMLfromArray = function (list) {
-//   var featuresArray = getFeaturesList(list);
-//   var fragmentUL = document.createDocumentFragment();
-//   for (var i = 0; i < featuresArray.length; i++) {
-//     fragmentUL.appendChild(featuresArray[i]);
-//   }
-//   console.log('fragmentUL is ');
-//   console.log(fragmentUL);
-//   return fragmentUL;
-// };
-
-
-/* перемешивает массив рандомно*/
 var shuffle = function () {
   var featuresArray = FEATURES;
   var j;
@@ -223,8 +161,6 @@ var getFeaturesList = function () {
   return popupFeauturesList;
 };
 
-// getFeaturesList();
-
 /* создает из массива элементы разметки*/
 
 var createHTMLfromArray = function (list) {
@@ -239,47 +175,47 @@ var createHTMLfromArray = function (list) {
   // console.log(fragmentUL);
   return fragment;
 };
-var createPhoto = function () {
-  for (var i = 0; i < PHOTOS.length; i++) {
-    var newElement = document.createElement('img');
-    newElement.src = PHOTOS[i];
-    newElement.className = 'popup__photo';
-    newElement.alt = 'Фотография жилья';
-    newElement.width = PHOTOPLACEWIDTH;
-    newElement.height = PHOTOPLACEHEIGHT;
-    fragment.appendChild(newElement);
-  }
-  return fragment;
+
+/* ПЕРЕМЕННАЯ ОБЪЯВЛЕНИЯ*/
+var ad = {
+  'author': {
+    'avatar': getAvatarImg()
+  },
+
+  'offer': {
+    'title': getTitle(),
+
+    'price': price(),
+    'type': getType(),
+    'rooms': rooms(),
+    'guests': guests(),
+    'checkin': getTime1(),
+    'checkout': getTime2(),
+    'features': getFeaturesList(),
+    'description': DESCRIPTION,
+    'photos': PHOTOS
+  },
+
+  'location': {
+    xLocation: locationX(),
+    ylocation: locationY()}
 };
-var createCard = function (number) {
+
+/* ставит пин на карту, меняет адрес внутри тега img внутри пина, добавляет атрибут alt для тега img*/
+
+var putPin = function (number) {
   for (var i = 0; i < number.length; i++) {
-    var element = templateCard.cloneNode(true);
-    element.querySelector('.popup__title').textContent = getTitle();
 
-    element.querySelector('.popup__text--price').textContent = price() + '₽/ночь';
-    element.querySelector('.popup__type').textContent = getType();
-    element.querySelector('.popup__text--capacity').textContent = rooms() + ' комнаты для ' + guests() + ' гостей';
-    element.querySelector('.popup__text--time').textContent = 'Заезд после ' + getTime1() + ', выезд до ' + getTime2();
-    var ListFeatures = element.querySelector('.popup__features');
-    while (ListFeatures.firstChild) {
-      ListFeatures.removeChild(ListFeatures.firstChild);
-    }
-    element.querySelector('.popup__features').appendChild(createHTMLfromArray());
-    element.querySelector('.popup__description').textContent = DESCRIPTION;
-    var ListPhotos = element.querySelector('.popup__photos');
-    while (ListPhotos.firstChild) {
-      ListPhotos.removeChild(ListPhotos.firstChild);
-    }
-    element.querySelector('.popup__photos').appendChild(createPhoto());
-    element.querySelector('.popup__avatar').src = SRCEXAMPLE + (i + 1) + PNG;
+    var pinClone = pin.cloneNode(true);
 
-    fragmentCard.appendChild(element);
-    wherePutCard.appendChild(fragmentCard);
+    pinClone.style.left = (ad[i].location.xLocation - PINWIDTH) + PX;
+    pinClone.style.top = (ad[i].location.YLocation - PINHEIGHT) + PX;
+
+    pinClone.querySelector('img').src = ad[i].avatar;
+
+    pinClone.querySelector('img').alt = ad[i].title;
+    fragment.appendChild(pinClone);
+    wherePutPin.appendChild(fragment);
   }
 
 };
-
-
-putPin([1, 1, 1, 1, 1, 1, 1, 1]);
-createCard([1, 1, 1, 1, 1, 1, 1, 1]);
-// shuffle(featuresLi);
