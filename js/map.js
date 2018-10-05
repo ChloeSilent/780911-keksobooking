@@ -99,7 +99,7 @@ var getFromArray = function (array) {
 
 /* создает адрес для изображения из начала(адрес) номера файла(совпадет с i) и конца, обозначающего формат файла*/
 var createImageSource = function (i, adress, formatEnd) {
-  return adress + i + formatEnd;
+  return adress + (i + 1) + formatEnd;
 };
 /* создает массив фото и перемешивает их */
 /* создает из массива(который рандомно перемешивается функцией shuffle) другой массив, посредством указания его длины*/
@@ -118,7 +118,7 @@ var createNewArrayfromExistOne = function (array) {
 var createPhotosArray = function () {
   var photosArray = [];
   for (var i = 1; i <= 3; i++) {
-    photosArray[i - 1] = PHOTO_SOURCE + i + JPG; // минус единица в индексе элемента массива дана, тк в массиве отсчет с 0, а i в цикле начинается с 1
+    photosArray[i] = PHOTO_SOURCE + i + JPG; // минус единица в индексе элемента массива дана, тк в массиве отсчет с 0, а i в цикле начинается с 1
   }
   return shuffle(photosArray);
 };
@@ -131,7 +131,7 @@ var createObject = function (i) {
     },
 
     'offer': {
-      'title': TITLE[i - 1],
+      'title': TITLE[i],
       'address': '',
       'price': getRandom(MIN_PRICE, MAX_PRICE),
       'type': TYPE_MATCH[TYPE[getRandom(0, TYPE.length)]],
@@ -170,9 +170,9 @@ var createAndPutOnePin = function () {
 var createFeaturesAsDOM = function () {
   var element = createObject(i);
   var fragmentLi = document.createDocumentFragment();
-  for (var k = 1; k <= element.offer.features.length; k++) { // Я добавила сюда отсчет k от 0 и возрастание до =!!!!!!!!
+  for (var k = 0; k < element.offer.features.length; k++) {
     var newLi = document.createElement('li');
-    newLi.className = FEATURESTYLE + element.offer.features[k - 1];
+    newLi.className = FEATURESTYLE + element.offer.features[k];
     fragmentLi.appendChild(newLi);
   }
   return fragmentLi;
@@ -181,9 +181,9 @@ var createFeaturesAsDOM = function () {
 var createPhotosAsDom = function (i) {
   var element = createObject(i);
   var fragmentPhotos = document.createDocumentFragment();
-  for (var m = 1; m <= element.offer.photos.length; m++) {
+  for (var m = 1; m < element.offer.photos.length; m++) {
     var newPhoto = document.createElement('img');
-    newPhoto.src = element.offer.photos[m - 1];
+    newPhoto.src = element.offer.photos[m];
     newPhoto.className = 'popup__photo';
     newPhoto.alt = 'Фотография жилья';
     newPhoto.width = PHOTO_PLACE_WIDTH;
@@ -224,10 +224,11 @@ var createCard = function (i) {
 };
 
 /* вызовы функций */
-AMOUNT = 1;
-for (var i = 1; i <= AMOUNT; i++) {
-  newArray[i] = createObject(i);
+AMOUNT = 8;
+for (var i = 0; i < AMOUNT; i++) {
+
   createAndPutOnePin(i);
-  createCard(newArray[i]);
+  createCard(i);
 }
+
 
