@@ -235,7 +235,7 @@ var createCard = function (element) {
 };
 
 /* вызовы функций */
-AMOUNT = 8;
+
 for (var i = 0; i < AMOUNT; i++) {
 
   createAndPutOnePin(i);
