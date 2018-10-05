@@ -39,6 +39,7 @@ var CHECKOUT = CHECKIN;
 var FEATURES = ['--wifi', '--dishwasher', '--parking', '--washer', '--elevator', '--conditioner'];
 var FEATURESTYLE = 'popup__feature popup__feature';
 
+var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var PHOTO_SOURCE = 'http://o0.github.io/assets/images/tokyo/hotel';
 var JPG = '.jpg';
 var PHOTO_PLACE_WIDTH = 45;
@@ -98,8 +99,8 @@ var getFromArray = function (array) {
 };
 
 /* создает адрес для изображения из начала(адрес) номера файла(совпадет с i) и конца, обозначающего формат файла*/
-var createImageSource = function (i, adress, formatEnd) {
-  return adress + (i + 1) + formatEnd;
+var createImageSource = function (i, address, formatEnd) {
+  return address + (i + 1) + formatEnd;
 };
 /* создает массив фото и перемешивает их */
 /* создает из массива(который рандомно перемешивается функцией shuffle) другой массив, посредством указания его длины*/
@@ -115,13 +116,23 @@ var createNewArrayfromExistOne = function (array) {
 };
 
 /* создает массив фото и перемешивает их */
-var createPhotosArray = function () {
+// var createPhotosArray = function () {
+//   var photosArray = [];
+//   for (var i = 0; i < 3; i++) {
+//     photosArray[i] = PHOTO_SOURCE + (i + 1) + JPG; // минус единица в индексе элемента массива дана, тк в массиве отсчет с 0, а i в цикле начинается с 1
+//   }
+//   return photosArray;
+// };
+
+var createPhotosArray = function (arrayLength) {
   var photosArray = [];
-  for (var i = 0; i < 3; i++) {
+  for (var i = 0; i < arrayLength.length; i++) {
     photosArray[i] = PHOTO_SOURCE + (i + 1) + JPG; // минус единица в индексе элемента массива дана, тк в массиве отсчет с 0, а i в цикле начинается с 1
   }
-  return shuffle(photosArray);
+  return photosArray;
 };
+
+var createdPhotosArray = createPhotosArray(PHOTOS);
 
 /* функция создающая элемент-массив. На вход принимает цифру, которая указывает кол-во создх впоследствии эл-в*/
 var createObject = function (i) {
@@ -141,7 +152,7 @@ var createObject = function (i) {
       'checkout': getFromArray(CHECKOUT),
       'features': createNewArrayfromExistOne(FEATURES),
       'description': '',
-      'photos': createPhotosArray()
+      'photos': shuffle(createPhotosArray(createdPhotosArray))
     },
 
     'location': {
@@ -154,7 +165,7 @@ var createObject = function (i) {
 
 
 /* создает один пин как элемент DOM и помещает его на карту */
-var createAndPutOnePin = function () {
+var createAndPutOnePin = function (i) {
   var element = createObject(i);
   var pinClone = pin.cloneNode(true);
 
@@ -178,8 +189,8 @@ var createFeaturesAsDOM = function () {
   return fragmentLi;
 };
 /* создает новые фото на основе массива photos у элемента*/
-var createPhotosAsDom = function (i) {
-  var element = createObject(i);
+var createPhotosAsDom = function (element) {
+  element = createObject(i);
   var fragmentPhotos = document.createDocumentFragment();
   for (var m = 0; m < element.offer.photos.length; m++) {
     var newPhoto = document.createElement('img');
@@ -194,8 +205,8 @@ var createPhotosAsDom = function (i) {
 };
 
 /* создает карточку как DOM-элемент */
-var createCard = function (i) {
-  var element = createObject(i);
+var createCard = function (element) {
+  element = createObject(i);
   var cardClone = templateCard.cloneNode(true);
   cardClone.querySelector('.popup__title').textContent = element.offer.title;
 
