@@ -117,8 +117,8 @@ var createNewArrayfromExistOne = function (array) {
 /* создает массив фото и перемешивает их */
 var createPhotosArray = function () {
   var photosArray = [];
-  for (var i = 1; i <= 3; i++) {
-    photosArray[i] = PHOTO_SOURCE + i + JPG; // минус единица в индексе элемента массива дана, тк в массиве отсчет с 0, а i в цикле начинается с 1
+  for (var i = 0; i < 3; i++) {
+    photosArray[i] = PHOTO_SOURCE + (i + 1) + JPG; // минус единица в индексе элемента массива дана, тк в массиве отсчет с 0, а i в цикле начинается с 1
   }
   return shuffle(photosArray);
 };
@@ -181,7 +181,7 @@ var createFeaturesAsDOM = function () {
 var createPhotosAsDom = function (i) {
   var element = createObject(i);
   var fragmentPhotos = document.createDocumentFragment();
-  for (var m = 1; m < element.offer.photos.length; m++) {
+  for (var m = 0; m < element.offer.photos.length; m++) {
     var newPhoto = document.createElement('img');
     newPhoto.src = element.offer.photos[m];
     newPhoto.className = 'popup__photo';
