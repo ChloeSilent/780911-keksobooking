@@ -58,7 +58,7 @@ var PX = 'px';
 /* ПЕРЕМЕННЫЕ*/
 var newArray = [];
 newArray.length = AMOUNT;
-
+var pins = [];
 /* переменные пина*/
 var wherePutPin = document.querySelector('.map');
 var templatePin = document.body.querySelector('#pin');
@@ -165,8 +165,8 @@ var createObject = function (i) {
 
 
 /* создает один пин как элемент DOM и помещает его на карту */
-var createAndPutOnePin = function (i) {
-  var element = createObject(i);
+var createAndPutOnePin = function (element) {
+  // element = createObject(i);
   var pinClone = pin.cloneNode(true);
 
   pinClone.style.left = element.location.x - PIN_WIDTH + PX;
@@ -178,8 +178,8 @@ var createAndPutOnePin = function (i) {
   wherePutPin.appendChild(fragment);
 };
 /* создает новые li на основе массива features у элемента*/
-var createFeaturesAsDOM = function (i) {
-  var element = createObject(i);
+var createFeaturesAsDOM = function (element) {
+  // ar element = createObject(i);
   var fragmentLi = document.createDocumentFragment();
   for (var k = 0; k < element.offer.features.length; k++) {
     var newLi = document.createElement('li');
@@ -190,7 +190,6 @@ var createFeaturesAsDOM = function (i) {
 };
 /* создает новые фото на основе массива photos у элемента*/
 var createPhotosAsDom = function (element) {
-  element = createObject(i);
   var fragmentPhotos = document.createDocumentFragment();
   for (var m = 0; m < element.offer.photos.length; m++) {
     var newPhoto = document.createElement('img');
@@ -206,7 +205,7 @@ var createPhotosAsDom = function (element) {
 
 /* создает карточку как DOM-элемент */
 var createCard = function (element) {
-  element = createObject(i);
+  // element = createObject(i);
   var cardClone = templateCard.cloneNode(true);
   cardClone.querySelector('.popup__title').textContent = element.offer.title;
 
@@ -236,10 +235,15 @@ var createCard = function (element) {
 
 /* вызовы функций */
 
+// for (var i = 0; i < AMOUNT; i++) {
+
+//   createAndPutOnePin(i);
+//   createCard(i);
+// }
+
+
 for (var i = 0; i < AMOUNT; i++) {
-
-  createAndPutOnePin(i);
-  createCard(i);
+  pins[i] = createObject(i);
+  createAndPutOnePin(pins[i]);
+  createCard(pins[i]);
 }
-
-
