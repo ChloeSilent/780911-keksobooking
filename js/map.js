@@ -39,7 +39,7 @@ var CHECKOUT = CHECKIN;
 var FEATURES = ['--wifi', '--dishwasher', '--parking', '--washer', '--elevator', '--conditioner'];
 var FEATURESTYLE = 'popup__feature popup__feature';
 
-var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+var PHOTOS_AMOUNT = 3;
 var PHOTO_SOURCE = 'http://o0.github.io/assets/images/tokyo/hotel';
 var JPG = '.jpg';
 var PHOTO_PLACE_WIDTH = 45;
@@ -126,13 +126,13 @@ var createNewArrayfromExistOne = function (array) {
 
 var createPhotosArray = function (arrayLength) {
   var photosArray = [];
-  for (var i = 0; i < arrayLength.length; i++) {
+  for (var i = 0; i < arrayLength; i++) {
     photosArray[i] = PHOTO_SOURCE + (i + 1) + JPG; // минус единица в индексе элемента массива дана, тк в массиве отсчет с 0, а i в цикле начинается с 1
   }
   return photosArray;
 };
 
-var createdPhotosArray = createPhotosArray(PHOTOS);
+var createdPhotosArray = createPhotosArray(PHOTOS_AMOUNT);
 
 /* функция создающая элемент-массив. На вход принимает цифру, которая указывает кол-во создх впоследствии эл-в*/
 var createObject = function (i) {
@@ -152,7 +152,7 @@ var createObject = function (i) {
       'checkout': getFromArray(CHECKOUT),
       'features': createNewArrayfromExistOne(FEATURES),
       'description': '',
-      'photos': shuffle(createPhotosArray(createdPhotosArray))
+      'photos': shuffle(createdPhotosArray)
     },
 
     'location': {
@@ -178,7 +178,7 @@ var createAndPutOnePin = function (i) {
   wherePutPin.appendChild(fragment);
 };
 /* создает новые li на основе массива features у элемента*/
-var createFeaturesAsDOM = function () {
+var createFeaturesAsDOM = function (i) {
   var element = createObject(i);
   var fragmentLi = document.createDocumentFragment();
   for (var k = 0; k < element.offer.features.length; k++) {
