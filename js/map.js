@@ -166,6 +166,17 @@ var createAndPutOnePin = function () {
   fragment.appendChild(pinClone);
   wherePutPin.appendChild(fragment);
 };
+/* создает новые li на основе массива features у элемента*/
+var createFeaturesAsDOM = function () {
+  var element = createObject(i);
+  var fragmentLi = document.createDocumentFragment();
+  for (var k = 1; k <= element.offer.features.length; k++) { // Я добавила сюда отсчет k от 0 и возрастание до =!!!!!!!!
+    var newLi = document.createElement('li');
+    newLi.className = FEATURESTYLE + element.offer.features[k - 1];
+    fragmentLi.appendChild(newLi);
+  }
+  return fragmentLi;
+};
 /* создает новые фото на основе массива photos у элемента*/
 var createPhotosAsDom = function (i) {
   var element = createObject(i);
@@ -192,38 +203,18 @@ var createCard = function (i) {
   cardClone.querySelector('.popup__type').textContent = element.offer.type;
   cardClone.querySelector('.popup__text--capacity').textContent = element.offer.rooms + ' комнаты для ' + element.offer.guests + ' гостей';
   cardClone.querySelector('.popup__text--time').textContent = 'Заезд после ' + element.offer.checkin + ', выезд до ' + element.offer.checkout;
-  /* блок создания features в карточке */
   /* удаляет дефолтные li */
   var ListFeatures = cardClone.querySelector('.popup__features');
   while (ListFeatures.firstChild) {
     ListFeatures.removeChild(ListFeatures.firstChild);
   }
-  /* создает новые li на основе массива features у элемента*/
-  var fragmentLi = document.createDocumentFragment();
-  for (var k = 1; k <= element.offer.features.length; k++) { // Я добавила сюда отсчет k от 0 и возрастание до =!!!!!!!!
-    var newLi = document.createElement('li');
-    newLi.className = FEATURESTYLE + element.offer.features[k - 1];
-    fragmentLi.appendChild(newLi);
-  }
-  cardClone.querySelector('.popup__features').appendChild(fragmentLi);
+  cardClone.querySelector('.popup__features').appendChild(createFeaturesAsDOM(i));
   cardClone.querySelector('.popup__description').textContent = element.offer.description;
-  /* блок создания фотографий в карточке */
   /* удаляет дефолтные фото */
   var ListPhotos = cardClone.querySelector('.popup__photos');
   while (ListPhotos.firstChild) {
     ListPhotos.removeChild(ListPhotos.firstChild);
   }
-  /* создает новые фото на основе массива photos у элемента*/
-  // var fragmentPhotos = document.createDocumentFragment();
-  // for (var m = 1; m <= element.offer.photos.length; m++) {
-  //   var newPhoto = document.createElement('img');
-  //   newPhoto.src = element.offer.photos[m - 1];
-  //   newPhoto.className = 'popup__photo';
-  //   newPhoto.alt = 'Фотография жилья';
-  //   newPhoto.width = PHOTO_PLACE_WIDTH;
-  //   newPhoto.height = PHOTO_PLACE_HEIGHT;
-  //   fragmentPhotos.appendChild(newPhoto);
-  // }
   /* вставляет фото как DOM-элемент в разметку */
   cardClone.querySelector('.popup__photos').appendChild(createPhotosAsDom(i));
   cardClone.querySelector('.popup__avatar').src = element.author.avatar;
