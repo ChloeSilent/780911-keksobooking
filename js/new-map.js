@@ -131,7 +131,7 @@ var createObject = function (i) {
     },
 
     'offer': {
-      'title': TITLE[i],
+      'title': TITLE[i - 1],
       'address': '',
       'price': getRandom(MINPRICE, MAXPRICE),
       'type': TYPEMATCH[TYPE[getRandom(0, TYPE.length)]],
@@ -167,7 +167,6 @@ var createAndPutOnePin = function () {
   wherePutPin.appendChild(fragment);
 };
 
-
 /* создает карточку как DOM-элемент */
 var createCard = function () {
   var element = createObject(i);
@@ -186,13 +185,12 @@ var createCard = function () {
   }
   /* создает новые li на основе массива features у элемента*/
   var fragmentLi = document.createDocumentFragment();
-  for (var k = 0; k < element.offer.features.length; k++) {
+  for (var k = 1; k <= element.offer.features.length; k++) { // Я добавила сюда отсчет k от 0 и возрастание до =!!!!!!!!
     var newLi = document.createElement('li');
-    newLi.className = FEATURESTYLE + element.offer.features[k];
+    newLi.className = FEATURESTYLE + element.offer.features[k - 1];
     fragmentLi.appendChild(newLi);
   }
   cardClone.querySelector('.popup__features').appendChild(fragmentLi);
-
   cardClone.querySelector('.popup__description').textContent = element.offer.description;
   /* блок создания фотографий в карточке */
   /* удаляет дефолтные фото */
@@ -202,7 +200,7 @@ var createCard = function () {
   }
   /* создает новые фото на основе массива photos у элемента*/
   var fragmentPhotos = document.createDocumentFragment();
-  for (var m = 0; m <= 3; m++) {
+  for (var m = 1; m <= element.offer.photos.length; m++) {
     var newPhoto = document.createElement('img');
     newPhoto.src = element.offer.photos[m];
     newPhoto.className = 'popup__photo';
@@ -223,6 +221,6 @@ var createCard = function () {
 for (var i = 1; i <= AMOUNT; i++) {
   newArray[i] = createObject(i);
   createAndPutOnePin(i);
-  createCard(i);
+  createCard(newArray[i]);
 }
 
