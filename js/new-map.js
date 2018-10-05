@@ -202,7 +202,7 @@ var createCard = function () {
   var fragmentPhotos = document.createDocumentFragment();
   for (var m = 1; m <= element.offer.photos.length; m++) {
     var newPhoto = document.createElement('img');
-    newPhoto.src = element.offer.photos[m];
+    newPhoto.src = element.offer.photos[m - 1];
     newPhoto.className = 'popup__photo';
     newPhoto.alt = 'Фотография жилья';
     newPhoto.width = PHOTOPLACEWIDTH;
