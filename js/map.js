@@ -62,7 +62,7 @@ var pins = [];
 /* переменные пина*/
 var wherePutPin = document.querySelector('.map');
 var templatePin = document.body.querySelector('#pin');
-var pin = templatePin.content.querySelector('button');
+var pin = templatePin.content.querySelector('.map__pin');
 var fragment = document.createDocumentFragment();
 // var newArray = Array(AMOUNT);
 /* переменные карточки*/
@@ -177,6 +177,7 @@ var createAndPutOnePin = function (element) {
   fragment.appendChild(pinClone);
   wherePutPin.appendChild(fragment);
 };
+
 /* создает новые li на основе массива features у элемента*/
 var createFeaturesAsDOM = function (element) {
   // ar element = createObject(i);
@@ -218,7 +219,7 @@ var createCard = function (element) {
   while (ListFeatures.firstChild) {
     ListFeatures.removeChild(ListFeatures.firstChild);
   }
-  cardClone.querySelector('.popup__features').appendChild(createFeaturesAsDOM(i));
+  cardClone.querySelector('.popup__features').appendChild(createFeaturesAsDOM(element));
   cardClone.querySelector('.popup__description').textContent = element.offer.description;
   /* удаляет дефолтные фото */
   var ListPhotos = cardClone.querySelector('.popup__photos');
@@ -226,7 +227,7 @@ var createCard = function (element) {
     ListPhotos.removeChild(ListPhotos.firstChild);
   }
   /* вставляет фото как DOM-элемент в разметку */
-  cardClone.querySelector('.popup__photos').appendChild(createPhotosAsDom(i));
+  cardClone.querySelector('.popup__photos').appendChild(createPhotosAsDom(element));
   cardClone.querySelector('.popup__avatar').src = element.author.avatar;
 
   fragmentCard.appendChild(cardClone);
@@ -242,8 +243,15 @@ var createCard = function (element) {
 // }
 
 
+// for (var i = 0; i < AMOUNT; i++) {
+//   pins[i] = createObject(i);
+//   createAndPutOnePin(pins[i]);
+//   createCard(pins[i]);
+// }
+
 for (var i = 0; i < AMOUNT; i++) {
   pins[i] = createObject(i);
+  // createPhotosAsDom(createObject(i));
   createAndPutOnePin(pins[i]);
   createCard(pins[i]);
 }
