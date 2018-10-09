@@ -249,9 +249,70 @@ var createCard = function (element) {
 //   createCard(pins[i]);
 // }
 
-for (var i = 0; i < AMOUNT; i++) {
-  pins[i] = createObject(i);
-  // createPhotosAsDom(createObject(i));
-  createAndPutOnePin(pins[i]);
-  createCard(pins[i]);
-}
+
+
+
+/* module4-task1 */
+
+/* module4-task1 */
+var mainPin = document.querySelector('.map__pin--main');
+var formAd = document.querySelector('.ad-form');
+var selectInForm = document.querySelector('select');
+var fieldsetInForm = document.querySelector('fieldset');
+var inputInForm = document.querySelector('input');
+var textareaInForm = document.querySelector('textarea');
+var buttonSubmit = document.querySelector('.ad-form__submit');
+var buttonReset = document.querySelector('.ad-form__reset');
+var inputAddress = document.querySelector('#address');
+var firstCoordinate = 570;
+var secondCoordinate = 375;
+var bodyRect = mainPin.getBoundingClientRect();
+var mapImage = wherePutPin.getBoundingClientRect();
+
+var makeDisabled = function () {
+  wherePutPin.classList.add('map--faded');
+  selectInForm.setAttribute('disabled', '');
+  fieldsetInForm.setAttribute('disabled', '');
+  inputInForm.setAttribute('disabled', '');
+  textareaInForm.setAttribute('disabled', '');
+  buttonSubmit.setAttribute('disabled', '');
+  buttonReset.setAttribute('disabled', '');
+  inputAddress.placeholder = firstCoordinate + ', ' + secondCoordinate;
+};
+
+// document.addEventListener('DOMContentLoaded', makeDisabled);
+makeDisabled();
+var getCoordinateX = function () {
+
+  firstCoordinate = bodyRect.left - mapImage.left + window.scrollX;
+  return firstCoordinate;
+};
+var getCoordinateY = function () {
+
+  secondCoordinate = bodyRect.top + window.scrollY;
+  return secondCoordinate;
+};
+
+var makeActive = function () {
+  wherePutPin.classList.remove('map--faded');
+  formAd.classList.remove('ad-form--disabled');
+  selectInForm.removeAttribute('disabled');
+  fieldsetInForm.removeAttribute('disabled');
+  inputInForm.removeAttribute('disabled');
+  textareaInForm.removeAttribute('disabled');
+  buttonSubmit.removeAttribute('disabled');
+  buttonReset.removeAttribute('disabled');
+  inputAddress.placeholder = getCoordinateX() + ', ' + getCoordinateY();
+
+  for (var i = 0; i < AMOUNT; i++) {
+    pins[i] = createObject(i);
+    // createPhotosAsDom(createObject(i));
+    createAndPutOnePin(pins[i]);
+    // createCard(pins[i]);
+  }
+};
+
+document.addEventListener('DOMContentLoaded', function () {
+  mainPin.addEventListener('mouseup', makeActive);
+});
+
