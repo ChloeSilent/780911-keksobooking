@@ -37,13 +37,13 @@ var CHECKIN = ['12:00', '13:00', '14:00'];
 var CHECKOUT = CHECKIN;
 
 var FEATURES = ['--wifi', '--dishwasher', '--parking', '--washer', '--elevator', '--conditioner'];
-var FEATURESTYLE = 'popup__feature popup__feature';
+// var FEATURESTYLE = 'popup__feature popup__feature'; // РАСКОДИРОВАТЬ
 
 var PHOTOS_AMOUNT = 3;
 var PHOTO_SOURCE = 'http://o0.github.io/assets/images/tokyo/hotel';
 var JPG = '.jpg';
-var PHOTO_PLACE_WIDTH = 45;
-var PHOTO_PLACE_HEIGHT = 45;
+// var PHOTO_PLACE_WIDTH = 45; // РАСКОДИРОВАТЬ
+// var PHOTO_PLACE_HEIGHT = 45; // РАСКОДИРОВАТЬ
 
 var MIN_X = 100;
 var MAX_X = 1087;
@@ -66,9 +66,9 @@ var pin = templatePin.content.querySelector('.map__pin');
 var fragment = document.createDocumentFragment();
 // var newArray = Array(AMOUNT);
 /* переменные карточки*/
-var wherePutCard = document.querySelector('.map__filters-container');
-var templateCard = document.body.querySelector('#card').content.querySelector('.map__card');
-var fragmentCard = document.createDocumentFragment();
+// var wherePutCard = document.querySelector('.map__filters-container'); // РАСКОДИРОВАТЬ
+// var templateCard = document.body.querySelector('#card').content.querySelector('.map__card'); // РАСКОДИРОВАТЬ
+// var fragmentCard = document.createDocumentFragment();
 
 /* МЕТОДЫ */
 
@@ -179,60 +179,63 @@ var createAndPutOnePin = function (element) {
 };
 
 /* создает новые li на основе массива features у элемента*/
-var createFeaturesAsDOM = function (element) {
-  // ar element = createObject(i);
-  var fragmentLi = document.createDocumentFragment();
-  for (var k = 0; k < element.offer.features.length; k++) {
-    var newLi = document.createElement('li');
-    newLi.className = FEATURESTYLE + element.offer.features[k];
-    fragmentLi.appendChild(newLi);
-  }
-  return fragmentLi;
-};
+// РАСКОДИРОВАТЬ ВЕСЬ createFeaturesAsDOM
+// var createFeaturesAsDOM = function (element) {
+//   // ar element = createObject(i);
+//   var fragmentLi = document.createDocumentFragment();
+//   for (var k = 0; k < element.offer.features.length; k++) {
+//     var newLi = document.createElement('li');
+//     newLi.className = FEATURESTYLE + element.offer.features[k];
+//     fragmentLi.appendChild(newLi);
+//   }
+//   return fragmentLi;
+// };
 /* создает новые фото на основе массива photos у элемента*/
-var createPhotosAsDom = function (element) {
-  var fragmentPhotos = document.createDocumentFragment();
-  for (var m = 0; m < element.offer.photos.length; m++) {
-    var newPhoto = document.createElement('img');
-    newPhoto.src = element.offer.photos[m];
-    newPhoto.className = 'popup__photo';
-    newPhoto.alt = 'Фотография жилья';
-    newPhoto.width = PHOTO_PLACE_WIDTH;
-    newPhoto.height = PHOTO_PLACE_HEIGHT;
-    fragmentPhotos.appendChild(newPhoto);
-  }
-  return fragmentPhotos;
-};
+// РАСКОДИРОВАТЬ ВЕСЬ createPhotosAsDom
+// var createPhotosAsDom = function (element) {
+//   var fragmentPhotos = document.createDocumentFragment();
+//   for (var m = 0; m < element.offer.photos.length; m++) {
+//     var newPhoto = document.createElement('img');
+//     newPhoto.src = element.offer.photos[m];
+//     newPhoto.className = 'popup__photo';
+//     newPhoto.alt = 'Фотография жилья';
+//     newPhoto.width = PHOTO_PLACE_WIDTH;
+//     newPhoto.height = PHOTO_PLACE_HEIGHT;
+//     fragmentPhotos.appendChild(newPhoto);
+//   }
+//   return fragmentPhotos;
+// };
 
 /* создает карточку как DOM-элемент */
-var createCard = function (element) {
-  // element = createObject(i);
-  var cardClone = templateCard.cloneNode(true);
-  cardClone.querySelector('.popup__title').textContent = element.offer.title;
+// РАСКОДИРОВАТЬ ОТ var createCard ДО wherePutCard.appendChild(fragmentCard);
+// var createCard = function (element) {
 
-  cardClone.querySelector('.popup__text--price').textContent = element.offer.price + '₽/ночь';
-  cardClone.querySelector('.popup__type').textContent = element.offer.type;
-  cardClone.querySelector('.popup__text--capacity').textContent = element.offer.rooms + ' комнаты для ' + element.offer.guests + ' гостей';
-  cardClone.querySelector('.popup__text--time').textContent = 'Заезд после ' + element.offer.checkin + ', выезд до ' + element.offer.checkout;
-  /* удаляет дефолтные li */
-  var ListFeatures = cardClone.querySelector('.popup__features');
-  while (ListFeatures.firstChild) {
-    ListFeatures.removeChild(ListFeatures.firstChild);
-  }
-  cardClone.querySelector('.popup__features').appendChild(createFeaturesAsDOM(element));
-  cardClone.querySelector('.popup__description').textContent = element.offer.description;
-  /* удаляет дефолтные фото */
-  var ListPhotos = cardClone.querySelector('.popup__photos');
-  while (ListPhotos.firstChild) {
-    ListPhotos.removeChild(ListPhotos.firstChild);
-  }
-  /* вставляет фото как DOM-элемент в разметку */
-  cardClone.querySelector('.popup__photos').appendChild(createPhotosAsDom(element));
-  cardClone.querySelector('.popup__avatar').src = element.author.avatar;
+//   var cardClone = templateCard.cloneNode(true);
+//   cardClone.querySelector('.popup__title').textContent = element.offer.title;
 
-  fragmentCard.appendChild(cardClone);
-  wherePutCard.appendChild(fragmentCard);
-};
+//   cardClone.querySelector('.popup__text--price').textContent = element.offer.price + '₽/ночь';
+//   cardClone.querySelector('.popup__type').textContent = element.offer.type;
+//   cardClone.querySelector('.popup__text--capacity').textContent = element.offer.rooms + ' комнаты для ' + element.offer.guests + ' гостей';
+//   cardClone.querySelector('.popup__text--time').textContent = 'Заезд после ' + element.offer.checkin + ', выезд до ' + element.offer.checkout;
+//   /* удаляет дефолтные li */
+//   var ListFeatures = cardClone.querySelector('.popup__features');
+//   while (ListFeatures.firstChild) {
+//     ListFeatures.removeChild(ListFeatures.firstChild);
+//   }
+//   cardClone.querySelector('.popup__features').appendChild(createFeaturesAsDOM(element));
+//   cardClone.querySelector('.popup__description').textContent = element.offer.description;
+//   /* удаляет дефолтные фото */
+//   var ListPhotos = cardClone.querySelector('.popup__photos');
+//   while (ListPhotos.firstChild) {
+//     ListPhotos.removeChild(ListPhotos.firstChild);
+//   }
+//   /* вставляет фото как DOM-элемент в разметку */
+//   cardClone.querySelector('.popup__photos').appendChild(createPhotosAsDom(element));
+//   cardClone.querySelector('.popup__avatar').src = element.author.avatar;
+
+//   fragmentCard.appendChild(cardClone);
+//   wherePutCard.appendChild(fragmentCard);
+// };
 
 /* вызовы функций */
 
@@ -248,9 +251,6 @@ var createCard = function (element) {
 //   createAndPutOnePin(pins[i]);
 //   createCard(pins[i]);
 // }
-
-
-
 
 /* module4-task1 */
 
