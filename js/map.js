@@ -264,35 +264,37 @@ var textareaInForm = document.querySelector('textarea');
 var buttonSubmit = document.querySelector('.ad-form__submit');
 var buttonReset = document.querySelector('.ad-form__reset');
 var inputAddress = document.querySelector('#address');
-var firstCoordinate = 570;
-var secondCoordinate = 375;
+var FIRST_COORDINATE = 570;
+var SECOND_COORDINATE = 375;
 var bodyRect = mainPin.getBoundingClientRect();
 var mapImage = wherePutPin.getBoundingClientRect();
-
+/* делает все инпуты, филдсеты, баттоны неактивными, делает неактивной карту */
 var makeDisabled = function () {
   wherePutPin.classList.add('map--faded');
-  selectInForm.setAttribute('disabled', '');
-  fieldsetInForm.setAttribute('disabled', '');
-  inputInForm.setAttribute('disabled', '');
-  textareaInForm.setAttribute('disabled', '');
-  buttonSubmit.setAttribute('disabled', '');
-  buttonReset.setAttribute('disabled', '');
-  inputAddress.placeholder = firstCoordinate + ', ' + secondCoordinate;
+  selectInForm.setAttribute('disabled', true);
+  fieldsetInForm.setAttribute('disabled', true);
+  inputInForm.setAttribute('disabled', true);
+  textareaInForm.setAttribute('disabled', true);
+  buttonSubmit.setAttribute('disabled', true);
+  buttonReset.setAttribute('disabled', true);
+  inputAddress.placeholder = FIRST_COORDINATE + ', ' + SECOND_COORDINATE;
 };
 
 // document.addEventListener('DOMContentLoaded', makeDisabled);
 makeDisabled();
+/* вычисляет координату по оси Х для главного пина, адаптировано под расширение окна путем вычета координат карты */
 var getCoordinateX = function () {
-
-  firstCoordinate = bodyRect.left - mapImage.left + window.scrollX;
+  var firstCoordinate = bodyRect.left - mapImage.left + window.scrollX;
   return firstCoordinate;
 };
+/* вычисляет координату по оси Y для главного пина*/
 var getCoordinateY = function () {
-
-  secondCoordinate = bodyRect.top + window.scrollY;
+  var secondCoordinate = bodyRect.top + window.scrollY;
   return secondCoordinate;
 };
-
+/* активация карты(убирается класс юmap--faded) и делает все инпуты, филдсеты, баттоны активными.
+Вычислет координаты главного пина,
+создает пины объявлений */
 var makeActive = function () {
   wherePutPin.classList.remove('map--faded');
   formAd.classList.remove('ad-form--disabled');
@@ -311,8 +313,11 @@ var makeActive = function () {
     // createCard(pins[i]);
   }
 };
-
+/* запускает функцию makeActive когда клавиша мышки отпущена*/
 document.addEventListener('DOMContentLoaded', function () {
   mainPin.addEventListener('mouseup', makeActive);
 });
+
+/* --------------------------------module4-task2---------------------------- */
+
 
