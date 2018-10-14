@@ -257,7 +257,7 @@ var createAndPutOnePin = function (element) {
 /* module4-task1 */
 var mainPin = document.querySelector('.map__pin--main');
 var formAd = document.querySelector('.ad-form');
-var childOfForm = document.querySelector('.ad-form').children;
+// ыvar childOfForm = document.querySelector('.ad-form').children;
 // var selectInForm = document.querySelector('select');
 var fieldsetInForm = formAd.querySelectorAll('fieldset');
 // var inputInForm = document.querySelector('input');
