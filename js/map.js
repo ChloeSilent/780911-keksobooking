@@ -257,27 +257,37 @@ var createAndPutOnePin = function (element) {
 /* module4-task1 */
 var mainPin = document.querySelector('.map__pin--main');
 var formAd = document.querySelector('.ad-form');
-var selectInForm = document.querySelector('select');
+var childOfForm = document.querySelector('.ad-form').children;
+// var selectInForm = document.querySelector('select');
 var fieldsetInForm = document.querySelector('fieldset');
-var inputInForm = document.querySelector('input');
-var textareaInForm = document.querySelector('textarea');
-var buttonSubmit = document.querySelector('.ad-form__submit');
-var buttonReset = document.querySelector('.ad-form__reset');
+// var inputInForm = document.querySelector('input');
+// var textareaInForm = document.querySelector('textarea');
+// var buttonSubmit = document.querySelector('.ad-form__submit');
+// var buttonReset = document.querySelector('.ad-form__reset');
 var inputAddress = document.querySelector('#address');
 var FIRST_COORDINATE = 570;
 var SECOND_COORDINATE = 375;
 var bodyRect = mainPin.getBoundingClientRect();
 var mapImage = wherePutPin.getBoundingClientRect();
 /* делает все инпуты, филдсеты, баттоны неактивными, делает неактивной карту */
+// var makeDisabled = function () {
+//   wherePutPin.classList.add('map--faded');
+//   selectInForm.setAttribute('disabled', true);
+//   fieldsetInForm.setAttribute('disabled', true);
+//   inputInForm.setAttribute('disabled', true);
+//   textareaInForm.setAttribute('disabled', true);
+//   buttonSubmit.setAttribute('disabled', true);
+//   buttonReset.setAttribute('disabled', true);
+//   inputAddress.placeholder = FIRST_COORDINATE + ', ' + SECOND_COORDINATE;
+// };
+
+
 var makeDisabled = function () {
   wherePutPin.classList.add('map--faded');
-  selectInForm.setAttribute('disabled', true);
-  fieldsetInForm.setAttribute('disabled', true);
-  inputInForm.setAttribute('disabled', true);
-  textareaInForm.setAttribute('disabled', true);
-  buttonSubmit.setAttribute('disabled', true);
-  buttonReset.setAttribute('disabled', true);
   inputAddress.placeholder = FIRST_COORDINATE + ', ' + SECOND_COORDINATE;
+  for (var i = 0; i <= childOfForm.length; i++) {
+    fieldsetInForm.setAttribute('disabled', true);
+  }
 };
 
 // document.addEventListener('DOMContentLoaded', makeDisabled);
@@ -292,18 +302,34 @@ var getCoordinateY = function () {
   var secondCoordinate = bodyRect.top + window.scrollY;
   return secondCoordinate;
 };
-/* активация карты(убирается класс юmap--faded) и делает все инпуты, филдсеты, баттоны активными.
+/* активация карты(убирается класс .map--faded) и делает все инпуты, филдсеты, баттоны активными.
 Вычислет координаты главного пина,
 создает пины объявлений */
+// var makeActive = function () {
+//   wherePutPin.classList.remove('map--faded');
+//   formAd.classList.remove('ad-form--disabled');
+//   selectInForm.removeAttribute('disabled');
+//   fieldsetInForm.removeAttribute('disabled');
+//   inputInForm.removeAttribute('disabled');
+//   textareaInForm.removeAttribute('disabled');
+//   buttonSubmit.removeAttribute('disabled');
+//   buttonReset.removeAttribute('disabled');
+//   inputAddress.placeholder = getCoordinateX() + ', ' + getCoordinateY();
+
+//   for (var i = 0; i < AMOUNT; i++) {
+//     pins[i] = createObject(i);
+//     // createPhotosAsDom(createObject(i));
+//     createAndPutOnePin(pins[i]);
+//     // createCard(pins[i]);
+//   }
+// };
 var makeActive = function () {
   wherePutPin.classList.remove('map--faded');
   formAd.classList.remove('ad-form--disabled');
-  selectInForm.removeAttribute('disabled');
-  fieldsetInForm.removeAttribute('disabled');
-  inputInForm.removeAttribute('disabled');
-  textareaInForm.removeAttribute('disabled');
-  buttonSubmit.removeAttribute('disabled');
-  buttonReset.removeAttribute('disabled');
+  for (var j = 0; j <= childOfForm.length; j++) {
+    fieldsetInForm.removeAttribute('disabled');
+  }
+  // childOfForm.removeAttribute('disabled');
   inputAddress.placeholder = getCoordinateX() + ', ' + getCoordinateY();
 
   for (var i = 0; i < AMOUNT; i++) {
@@ -313,6 +339,7 @@ var makeActive = function () {
     // createCard(pins[i]);
   }
 };
+
 /* запускает функцию makeActive когда клавиша мышки отпущена*/
 document.addEventListener('DOMContentLoaded', function () {
   mainPin.addEventListener('mouseup', makeActive);
