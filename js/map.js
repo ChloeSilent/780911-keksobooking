@@ -259,7 +259,7 @@ var mainPin = document.querySelector('.map__pin--main');
 var formAd = document.querySelector('.ad-form');
 var childOfForm = document.querySelector('.ad-form').children;
 // var selectInForm = document.querySelector('select');
-var fieldsetInForm = document.querySelector('fieldset');
+var fieldsetInForm = formAd.querySelectorAll('fieldset');
 // var inputInForm = document.querySelector('input');
 // var textareaInForm = document.querySelector('textarea');
 // var buttonSubmit = document.querySelector('.ad-form__submit');
@@ -285,9 +285,9 @@ var mapImage = wherePutPin.getBoundingClientRect();
 var makeDisabled = function () {
   wherePutPin.classList.add('map--faded');
   inputAddress.placeholder = FIRST_COORDINATE + ', ' + SECOND_COORDINATE;
-  for (var i = 0; i <= childOfForm.length; i++) {
-    fieldsetInForm.setAttribute('disabled', true);
-  }
+  fieldsetInForm.forEach(function (node) {
+    node.setAttribute('disabled', true);
+  });
 };
 
 // document.addEventListener('DOMContentLoaded', makeDisabled);
@@ -326,10 +326,12 @@ var getCoordinateY = function () {
 var makeActive = function () {
   wherePutPin.classList.remove('map--faded');
   formAd.classList.remove('ad-form--disabled');
-  for (var j = 0; j <= childOfForm.length; j++) {
-    fieldsetInForm.removeAttribute('disabled');
-  }
-  // childOfForm.removeAttribute('disabled');
+  // for (var j = 0; j <= childOfForm.length; j++) {
+  //   fieldsetInForm.removeAttribute('disabled');
+  // }
+  fieldsetInForm.forEach(function (node) {
+    node.removeAttribute('disabled');
+  });
   inputAddress.placeholder = getCoordinateX() + ', ' + getCoordinateY();
 
   for (var i = 0; i < AMOUNT; i++) {
