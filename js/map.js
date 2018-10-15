@@ -348,5 +348,23 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 /* --------------------------------module4-task2---------------------------- */
+var selectType = document.querySelector('#type');
+var priceInput = document.querySelector('#price');
+
+var TYPE_PRICE = {
+  Дворец: 0,
+  Квартира: 1000,
+  Дом: 5000,
+  Бунгало: 10000
+};
+
+var setPriceForNight = function () {
+  var selectedOption = selectType.options[selectType.selectedIndex].text;
+  // alert('strUser is ' + strUser);
+  var priceForNight = TYPE_PRICE[selectedOption];
+  priceInput.value = priceForNight;
+
+};
 
 
+ selectType.addEventListener('mouseup', setPriceForNight);
