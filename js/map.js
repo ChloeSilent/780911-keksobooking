@@ -292,14 +292,16 @@ var makeDisabled = function () {
 
 // document.addEventListener('DOMContentLoaded', makeDisabled);
 makeDisabled();
+var halfOfWidthPin = 31;
+var pinHeight = 81;
 /* вычисляет координату по оси Х для главного пина, адаптировано под расширение окна путем вычета координат карты */
 var getCoordinateX = function () {
-  var firstCoordinate = bodyRect.left - mapImage.left + window.scrollX;
+  var firstCoordinate = bodyRect.left - mapImage.left + window.scrollX + halfOfWidthPin;
   return firstCoordinate;
 };
 /* вычисляет координату по оси Y для главного пина*/
 var getCoordinateY = function () {
-  var secondCoordinate = bodyRect.top + window.scrollY;
+  var secondCoordinate = bodyRect.top + window.scrollY + pinHeight;
   return secondCoordinate;
 };
 /* активация карты(убирается класс .map--faded) и делает все инпуты, филдсеты, баттоны активными.
