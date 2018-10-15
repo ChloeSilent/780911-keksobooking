@@ -352,6 +352,8 @@ document.addEventListener('DOMContentLoaded', function () {
 /* --------------------------------module4-task2---------------------------- */
 var selectType = document.querySelector('#type');
 var priceInput = document.querySelector('#price');
+var checkInInput = document.querySelector('#timein');
+var checkOutInput = document.querySelector('#timeout');
 
 var TYPE_PRICE = {
   Дворец: 0,
@@ -359,7 +361,7 @@ var TYPE_PRICE = {
   Дом: 5000,
   Бунгало: 10000
 };
-
+/* устанавливает цену за 1 ночь в зависимости от типа жилья */
 var setPriceForNight = function () {
   var selectedOption = selectType.options[selectType.selectedIndex].text;
   // alert('strUser is ' + strUser);
@@ -368,5 +370,12 @@ var setPriceForNight = function () {
 
 };
 
+/* устанавливает цену за 1 ночь в зависимости от типа жилья */
 
- selectType.addEventListener('mouseup', setPriceForNight);
+var setCheckOut = function () {
+  // var selectedOption = checkInInput.options[checkInInput.selectedIndex].text;
+  checkOutInput.selectedIndex = checkInInput.selectedIndex;
+};
+
+selectType.addEventListener('mouseup', setPriceForNight);
+checkInInput.addEventListener('mouseup', setCheckOut);
