@@ -325,6 +325,7 @@ var getCoordinateY = function () {
 //     // createCard(pins[i]);
 //   }
 // };
+
 var makeActive = function () {
   wherePutPin.classList.remove('map--faded');
   formAd.classList.remove('ad-form--disabled');
@@ -336,19 +337,31 @@ var makeActive = function () {
   });
   inputAddress.placeholder = getCoordinateX() + ', ' + getCoordinateY();
 
-  for (var i = 0; i < AMOUNT; i++) {
-    pins[i] = createObject(i);
-    // createPhotosAsDom(createObject(i));
-    createAndPutOnePin(pins[i]);
-    // createCard(pins[i]);
-  }
 };
 
 /* запускает функцию makeActive когда клавиша мышки отпущена*/
 document.addEventListener('DOMContentLoaded', function () {
-  mainPin.addEventListener('mouseup', makeActive);
-});
+  var foo = true;
 
+  mainPin.addEventListener('mouseup', makeActive);
+
+  mainPin.addEventListener('mouseup', function () {
+    if (foo === true) {
+      for (var i = 0; i < AMOUNT; i++) {
+        pins[i] = createObject(i);
+        // createPhotosAsDom(createObject(i));
+        createAndPutOnePin(pins[i]);
+      // createCard(pins[i]);
+      }
+
+    }
+  });
+
+  mainPin.addEventListener('mouseup', function () {
+    foo = false;
+
+  });
+});
 /* --------------------------------module4-task2---------------------------- */
 var selectType = document.querySelector('#type');
 var priceInput = document.querySelector('#price');
