@@ -312,6 +312,3 @@ document.addEventListener('DOMContentLoaded', function () {
   mainPin.addEventListener('mouseup', makeActive);
 });
 
-
-
-
