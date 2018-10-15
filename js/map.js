@@ -356,10 +356,10 @@ var checkInInput = document.querySelector('#timein');
 var checkOutInput = document.querySelector('#timeout');
 
 var TYPE_PRICE = {
-  Дворец: 0,
+  Бунгало: 0,
   Квартира: 1000,
   Дом: 5000,
-  Бунгало: 10000
+  Дворец: 10000
 };
 /* устанавливает цену за 1 ночь в зависимости от типа жилья */
 var setPriceForNight = function () {
