@@ -379,7 +379,7 @@ var setPriceForNight = function () {
   var selectedOption = selectType.options[selectType.selectedIndex].text;
   // alert('strUser is ' + strUser);
   var priceForNight = TYPE_PRICE[selectedOption];
-  priceInput.value = priceForNight;
+  priceInput.placeholder = priceForNight;
 
 };
 
