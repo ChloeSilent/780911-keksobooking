@@ -297,11 +297,16 @@ var pinHeight = 81;
 /* вычисляет координату по оси Х для главного пина, адаптировано под расширение окна путем вычета координат карты */
 var getCoordinateX = function () {
   var firstCoordinate = bodyRect.left - mapImage.left + window.scrollX + halfOfWidthPin;
+
   return firstCoordinate;
 };
 /* вычисляет координату по оси Y для главного пина*/
 var getCoordinateY = function () {
-  var secondCoordinate = bodyRect.top + window.scrollY + pinHeight;
+  // var secondCoordinate = bodyRect.top + window.scrollY + pinHeight;
+  var secondCoordinate = Math.abs(bodyRect.top) + pinHeight;
+  // console.log("bodyRect.top is " + bodyRect.top);
+  // console.log("window.scrollY is " + window.scrollY);
+  // console.log();
   return secondCoordinate;
 };
 /* активация карты(убирается класс .map--faded) и делает все инпуты, филдсеты, баттоны активными.
