@@ -340,7 +340,7 @@ var makeActive = function () {
   fieldsetInForm.forEach(function (node) {
     node.removeAttribute('disabled');
   });
-  inputAddress.placeholder = getCoordinateX() + ', ' + getCoordinateY();
+  inputAddress.value = getCoordinateX() + ', ' + getCoordinateY();
 
 };
 
