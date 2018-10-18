@@ -88,8 +88,6 @@ var shuffle = function (array) {
     clonedArray[i] = clonedArray[j];
     clonedArray[j] = x;
   }
-  // console.log('featuresArray is ');
-  // console.log(featuresArray);
   return clonedArray;
 };
 
@@ -275,7 +273,7 @@ var makeDisabled = function () {
 };
 
 makeDisabled();
-var halfOfWidthPin = 31;
+var halfOfWidthPin = 33;
 var pinHeight = 81;
 
 /* вычисляет координату по оси Х для главного пина, адаптировано под расширение окна путем вычета координат карты */
@@ -318,7 +316,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   mainPin.addEventListener('mouseup', function () {
     foo = false;
-
   });
 });
 
@@ -400,7 +397,7 @@ mainPin.addEventListener('mousedown', function (evt) {
     document.removeEventListener('mouseup', onMouseUp);
     window.yLine = mainPin.offsetTop - window.shift.y;
     window.xLine = mainPin.offsetLeft - window.shift.x;
-    inputAddress.value = window.xLine + ', ' + window.yLine;
+    inputAddress.value = (window.xLine + halfOfWidthPin) + ', ' + (window.yLine + pinHeight);
 
   };
 
@@ -415,11 +412,11 @@ mainPin.addEventListener('mousedown', function (evt) {
   document.addEventListener('mousemove', onMouseMove);
   document.addEventListener('mouseup', onMouseUp);
 
-      /* провверка на вылезание за края*/
-      if (window.xLine > 1165 || window.xLine < -31 || window.yLine > 630 || window.yLine < 130) {
-        mainPin.removeEventListener('mousemove', onMouseMove);
-        console.log('ggggggggggggg');
-      }
+  /* провверка на вылезание за края*/
+  if (window.xLine > 1165 || window.xLine < -31 || window.yLine > 630 || window.yLine < 130) {
+    mainPin.removeEventListener('mousemove', onMouseMove);
+    // console.log('ggggggggggggg');
+  }
 });
 
 
