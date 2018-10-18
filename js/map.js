@@ -360,3 +360,66 @@ selectType.addEventListener('mouseup', setPriceForNight);
 
 checkInInput.addEventListener('mouseup', setCheckIn);
 checkOutInput.addEventListener('mouseup', setCheckOut);
+
+/* module5-task1*/
+// Файл ove-pin.js
+
+mainPin.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+
+  var startCoords = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
+
+  var dragged = false;
+
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+
+    window.shift = {
+      x: startCoords.x - moveEvt.clientX,
+      y: startCoords.y - moveEvt.clientY
+    };
+
+    startCoords = {
+      x: moveEvt.clientX,
+      y: moveEvt.clientY
+    };
+
+    mainPin.style.top = (mainPin.offsetTop - window.shift.y) + 'px';
+    mainPin.style.left = (mainPin.offsetLeft - window.shift.x) + 'px';
+
+
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+    window.yLine = mainPin.offsetTop - window.shift.y;
+    window.xLine = mainPin.offsetLeft - window.shift.x;
+    inputAddress.value = window.xLine + ', ' + window.yLine;
+
+  };
+
+  if (dragged) {
+    var onClickPreventDefault = function (e) {
+      e.preventDefault();
+      mainPin.removeEventListener('click', onClickPreventDefault);
+    };
+    mainPin.addEventListener('click', onClickPreventDefault);
+  }
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+
+      /* провверка на вылезание за края*/
+      if (window.xLine > 1165 || window.xLine < -31 || window.yLine > 630 || window.yLine < 130) {
+        mainPin.removeEventListener('mousemove', onMouseMove);
+        console.log('ggggggggggggg');
+      }
+});
+
+
