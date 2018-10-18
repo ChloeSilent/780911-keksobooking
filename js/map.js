@@ -337,7 +337,7 @@ var setPriceForNight = function () {
   // alert('strUser is ' + strUser);
   var priceForNight = TYPE_PRICE[selectedOption];
   priceInput.placeholder = priceForNight;
-
+  priceInput.min = priceForNight;
 };
 
 /* устанавливает время выезда и въезда */
