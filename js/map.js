@@ -392,7 +392,11 @@ checkInInput.addEventListener('mouseup', setCheckIn);
 checkOutInput.addEventListener('mouseup', setCheckOut);
 amountRoomsSelect.addEventListener('mouseup', setAmountOfGuests);
 /* -------------------------------------------------module5-task1---------------------------------------------------*/
-// Файл move-pin.js
+// МОДУЛЬ move-pin.js
+var TOPY = 130;
+var BOTTOMY = 630;
+var LEFTX = -31;
+var RIGHTX = 1165;
 
 mainPin.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
@@ -445,60 +449,25 @@ mainPin.addEventListener('mousedown', function (evt) {
   /* провверка на вылезание за края*/
 
   var checkBoundariesForPin = function (shift) {
-    // moveEvt.preventDefault();
-    // // mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
-    // // mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
-    // var shift = {
-    //   x: startCoords.x - moveEvt.clientX,
-    //   y: startCoords.y - moveEvt.clientY
-    // };
-    var topY = 130;
-    var bottomY = 630;
-    var leftX = -31;
-    var rightX = 1165;
 
     var currentCoordiant = {
       x: mainPin.offsetLeft - shift.x,
       y: mainPin.offsetTop - shift.y
     };
-    if (currentCoordiant.x > rightX) {
-      mainPin.style.left = (rightX - 5) + 'px';
-    } else if (currentCoordiant.x < leftX) {
-      mainPin.style.left = (leftX + 5) + 'px';
-    } else if (currentCoordiant.y > bottomY) {
-      mainPin.style.top = (bottomY - 5) + 'px';
-    } else if (currentCoordiant.y < topY) {
-      mainPin.style.top = (topY - 5) + 'px';
+    if (currentCoordiant.x > RIGHTX) {
+      mainPin.style.left = (RIGHTX - 5) + 'px';
+    } else if (currentCoordiant.x < LEFTX) {
+      mainPin.style.left = (LEFTX + 5) + 'px';
+    } else if (currentCoordiant.y > BOTTOMY) {
+      mainPin.style.top = (BOTTOMY - 5) + 'px';
+    } else if (currentCoordiant.y < TOPY) {
+      mainPin.style.top = (TOPY - 5) + 'px';
     }
   };
-  //   if (currentCoordiant.x > rightX) {
-  //     currentCoordiant.x = rightX;
-  //   } else if (currentCoordiant.x < leftX) {
-  //     currentCoordiant.x = leftX;
-  //   } else if (currentCoordiant.y > bottomY) {
-  //     currentCoordiant.y = bottomY;
-  //   } else if (currentCoordiant.y < topY) {
-  //     currentCoordiant.y = topY;
-  //   }
-  // };
 
   document.addEventListener('mousemove', onMouseMove);
-  // document.addEventListener('mousemove', checkBoundariesForPin);
+
   document.addEventListener('mouseup', onMouseUp);
-  // if (window.xLine > 1165 || window.xLine < -31 || window.yLine > 630 || window.yLine < 130) {
-  //   mainPin.style.top = (mainPin.offsetTop - window.shift.y) + 'px';
-  //   mainPin.style.left = (mainPin.offsetLeft - window.shift.x) + 'px';
-  //    mainPin.removeEventListener('mousemove', onMouseMove);
-  //    console.log('ggggggggggggg');
-  // }
-  // if (mainPin.style.left > 1000) {
-  //   // mainPin.style.left = '1165px';
-  //   console.log('mainPin.style.left = 1165px');
-  //   mainPin.removeEventListener('mousemove', onMouseMove);
-  // } else if (mainPin.style.left < 100) {
-  //   // mainPin.style.left = '-33px';
-  //   console.log('mainPin.style.left = -33px');
-  //   mainPin.removeEventListener('mousemove', onMouseMove);
-  // }
+
 });
 
