@@ -423,7 +423,7 @@ mainPin.addEventListener('mousedown', function (evt) {
     var yLine = mainPin.offsetTop - shift.y;
     var xLine = mainPin.offsetLeft - shift.x;
     inputAddress.value = (xLine + halfOfWidthPin) + ', ' + (yLine + pinHeight);
-
+    checkBoundariesForPin(shift);
   };
 
   var onMouseUp = function (upEvt) {
@@ -444,14 +444,14 @@ mainPin.addEventListener('mousedown', function (evt) {
   }
   /* провверка на вылезание за края*/
 
-  var checkBoundariesForPin = function (moveEvt) {
-    moveEvt.preventDefault();
-    // mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
-    // mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
-    var shift = {
-      x: startCoords.x - moveEvt.clientX,
-      y: startCoords.y - moveEvt.clientY
-    };
+  var checkBoundariesForPin = function (shift) {
+    // moveEvt.preventDefault();
+    // // mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
+    // // mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
+    // var shift = {
+    //   x: startCoords.x - moveEvt.clientX,
+    //   y: startCoords.y - moveEvt.clientY
+    // };
     var topY = 130;
     var bottomY = 630;
     var leftX = -31;
@@ -483,7 +483,7 @@ mainPin.addEventListener('mousedown', function (evt) {
   // };
 
   document.addEventListener('mousemove', onMouseMove);
-  document.addEventListener('mousemove', checkBoundariesForPin);
+  // document.addEventListener('mousemove', checkBoundariesForPin);
   document.addEventListener('mouseup', onMouseUp);
   // if (window.xLine > 1165 || window.xLine < -31 || window.yLine > 630 || window.yLine < 130) {
   //   mainPin.style.top = (mainPin.offsetTop - window.shift.y) + 'px';
