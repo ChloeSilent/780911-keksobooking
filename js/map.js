@@ -34,7 +34,7 @@ var MIN_AMOUT_ROOMS = 1;
 var MAX_AMOUT_ROOMS = 5;
 
 var CHECKIN = ['12:00', '13:00', '14:00'];
-var CHECKOUT = CHECKIN;
+// var CHECKOUT = CHECKIN;
 
 var FEATURES = ['--wifi', '--dishwasher', '--parking', '--washer', '--elevator', '--conditioner'];
 // var FEATURESTYLE = 'popup__feature popup__feature'; // РАСКОДИРОВАТЬ
@@ -56,15 +56,15 @@ var PIN_WIDTH = 50;
 var PX = 'px';
 
 /* ПЕРЕМЕННЫЕ*/
-var newArray = [];
-newArray.length = AMOUNT;
+var arrayofOffers = [];
+arrayofOffers.length = AMOUNT;
 var pins = [];
 /* переменные пина*/
-var wherePutPin = document.querySelector('.map');
+var mapElement = document.querySelector('.map');
 var templatePin = document.body.querySelector('#pin');
-var pin = templatePin.content.querySelector('.map__pin');
+var mainPinElement = templatePin.content.querySelector('.map__pin');
 var fragment = document.createDocumentFragment();
-// var newArray = Array(AMOUNT);
+// var arrayofOffers(arrayLength);
 /* переменные карточки*/
 // var wherePutCard = document.querySelector('.map__filters-container'); // РАСКОДИРОВАТЬ
 // var templateCard = document.body.querySelector('#card').content.querySelector('.map__card'); // РАСКОДИРОВАТЬ
@@ -93,7 +93,7 @@ var shuffle = function (array) {
 
 /* возвращает рандомно из массива значение*/
 var getFromArray = function (array) {
-  return array[getRandom(0, array.length)];
+  return array[getRandom(0, array.length - 1)];
 };
 
 /* создает адрес для изображения из начала(адрес) номера файла(совпадет с i) и конца, обозначающего формат файла*/
@@ -101,14 +101,14 @@ var createImageSource = function (i, address, formatEnd) {
   return address + (i + 1) + formatEnd;
 };
 /* создает массив фото и перемешивает их */
-/* создает из массива(который рандомно перемешивается функцией shuffle) другой массив, посредством указания его длины*/
+/* создает из массива(который рандомно перемешивается функцией shuffle) другой массив,
+потом там есть переменная number - это рандомное число в промежутке от 0 до длины массива - 1. Потом полученный
+массив обрезается тем, что ему задана длина и те элементы индекс который больше числа number не будут больше в массиве*/
 var createNewArrayfromExistOne = function (array) {
 
   var list = shuffle(array);
-  var number = getRandom(0, list.length);
+  var number = getRandom(0, list.length - 1);
   list.length = number;
-  // console.log('popupFeauturesList is ');
-  // console.log(popupFeauturesList);
 
   return list;
 };
@@ -147,7 +147,7 @@ var createObject = function (i) {
       'rooms': getRandom(MIN_AMOUT_ROOMS, MAX_AMOUT_ROOMS),
       'guests': getRandom(1, Math.floor(Math.random() * 10)), // возвращает радномно число из из функции getRandom от 1 до любого округленного радомного
       'checkin': getFromArray(CHECKIN),
-      'checkout': getFromArray(CHECKOUT),
+      'checkout': '',
       'features': createNewArrayfromExistOne(FEATURES),
       'description': '',
       'photos': shuffle(createdPhotosArray)
@@ -165,7 +165,7 @@ var createObject = function (i) {
 /* создает один пин как элемент DOM и помещает его на карту */
 var createAndPutOnePin = function (element) {
   // element = createObject(i);
-  var pinClone = pin.cloneNode(true);
+  var pinClone = mainPinElement.cloneNode(true);
 
   pinClone.style.left = element.location.x - PIN_WIDTH + PX;
   pinClone.style.top = element.location.y - PIN_HEIGHT + PX;
@@ -173,7 +173,7 @@ var createAndPutOnePin = function (element) {
   pinClone.querySelector('img').alt = element.offer.avatar;
 
   fragment.appendChild(pinClone);
-  wherePutPin.appendChild(fragment);
+  mapElement.appendChild(fragment);
 };
 
 /* создает новые li на основе массива features у элемента*/
@@ -214,7 +214,7 @@ var createAndPutOnePin = function (element) {
 //   cardClone.querySelector('.popup__text--price').textContent = element.offer.price + '₽/ночь';
 //   cardClone.querySelector('.popup__type').textContent = element.offer.type;
 //   cardClone.querySelector('.popup__text--capacity').textContent = element.offer.rooms + ' комнаты для ' + element.offer.guests + ' гостей';
-//   cardClone.querySelector('.popup__text--time').textContent = 'Заезд после ' + element.offer.checkin + ', выезд до ' + element.offer.checkout;
+//   cardClone.querySelector('.popup__text--time').textContent = 'Заезд после ' + element.offer.checkin + ', выезд до ' + element.offer.checkin;
 //   /* удаляет дефолтные li */
 //   var ListFeatures = cardClone.querySelector('.popup__features');
 //   while (ListFeatures.firstChild) {
@@ -260,12 +260,12 @@ var inputAddress = document.querySelector('#address');
 var FIRST_COORDINATE = 570;
 var SECOND_COORDINATE = 375;
 var bodyRect = mainPin.getBoundingClientRect();
-var mapImage = wherePutPin.getBoundingClientRect();
+var mapImage = mapElement.getBoundingClientRect();
 
 /* делает все инпуты, филдсеты, баттоны неактивными, делает неактивной карту */
 
 var makeDisabled = function () {
-  wherePutPin.classList.add('map--faded');
+  mapElement.classList.add('map--faded');
   inputAddress.placeholder = FIRST_COORDINATE + ', ' + SECOND_COORDINATE;
   fieldsetInForm.forEach(function (node) {
     node.setAttribute('disabled', true);
@@ -290,13 +290,17 @@ var getCoordinateY = function () {
 /* активация карты(убирается класс .map--faded) и делает все инпуты, филдсеты, баттоны активными.
 Вычислет координаты главного пина, создает пины объявлений */
 var makeActive = function () {
-  wherePutPin.classList.remove('map--faded');
+  mapElement.classList.remove('map--faded');
   formAd.classList.remove('ad-form--disabled');
   fieldsetInForm.forEach(function (node) {
     node.removeAttribute('disabled');
   });
   inputAddress.value = getCoordinateX() + ', ' + getCoordinateY();
-
+  var foo = false;
+  for (var i = 0; i < AMOUNT; i++) {
+    createAndPutOnePin(pins[i]);
+    pins[i] = createObject(i);
+  }
 };
 
 /* запускает функцию makeActive когда клавиша мышки отпущена*/
@@ -305,10 +309,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
   mainPin.addEventListener('mouseup', makeActive);
 
+  // mainPin.addEventListener('mouseup', function () {
+  //   if (foo === true) {
+  //     for (var i = 0; i < AMOUNT; i++) {
+  //       pins[i] = createObject(i);
+  //       createAndPutOnePin(pins[i]);
+  //     }
+  //   }
+  // });
+
   mainPin.addEventListener('mouseup', function () {
     if (foo === true) {
       for (var i = 0; i < AMOUNT; i++) {
         pins[i] = createObject(i);
+      }
+    }
+  });
+  mainPin.addEventListener('mouseup', function () {
+    if (foo === true) {
+      for (var i = 0; i < AMOUNT; i++) {
         createAndPutOnePin(pins[i]);
       }
     }
