@@ -334,6 +334,7 @@ var TYPE_PRICE = {
   Дом: 5000,
   Дворец: 10000
 };
+
 /* устанавливает цену за 1 ночь в зависимости от типа жилья */
 var setPriceForNight = function () {
   var selectedOption = selectType.options[selectType.selectedIndex].text;
@@ -344,8 +345,6 @@ var setPriceForNight = function () {
 };
 
 /* устанавливает время выезда и въезда */
-
-
 var setCheckIn = function () {
   checkOutInput.selectedIndex = checkInInput.selectedIndex;
   // checkOutInput.preventDefault();
@@ -392,7 +391,7 @@ selectType.addEventListener('mouseup', setPriceForNight);
 checkInInput.addEventListener('mouseup', setCheckIn);
 checkOutInput.addEventListener('mouseup', setCheckOut);
 amountRoomsSelect.addEventListener('mouseup', setAmountOfGuests);
-/* module5-task1*/
+/* -------------------------------------------------module5-task1---------------------------------------------------*/
 // Файл move-pin.js
 
 mainPin.addEventListener('mousedown', function (evt) {
@@ -408,7 +407,7 @@ mainPin.addEventListener('mousedown', function (evt) {
   var onMouseMove = function (moveEvt) {
     moveEvt.preventDefault();
 
-    window.shift = {
+    var shift = {
       x: startCoords.x - moveEvt.clientX,
       y: startCoords.y - moveEvt.clientY
     };
@@ -418,9 +417,12 @@ mainPin.addEventListener('mousedown', function (evt) {
       y: moveEvt.clientY
     };
 
-    mainPin.style.top = (mainPin.offsetTop - window.shift.y) + 'px';
-    mainPin.style.left = (mainPin.offsetLeft - window.shift.x) + 'px';
+    mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
+    mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
 
+    var yLine = mainPin.offsetTop - shift.y;
+    var xLine = mainPin.offsetLeft - shift.x;
+    inputAddress.value = (xLine + halfOfWidthPin) + ', ' + (yLine + pinHeight);
 
   };
 
@@ -429,9 +431,7 @@ mainPin.addEventListener('mousedown', function (evt) {
 
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
-    window.yLine = mainPin.offsetTop - window.shift.y;
-    window.xLine = mainPin.offsetLeft - window.shift.x;
-    inputAddress.value = (window.xLine + halfOfWidthPin) + ', ' + (window.yLine + pinHeight);
+
 
   };
 
@@ -442,11 +442,49 @@ mainPin.addEventListener('mousedown', function (evt) {
     };
     mainPin.addEventListener('click', onClickPreventDefault);
   }
+  /* провверка на вылезание за края*/
+
+  var checkBoundariesForPin = function (moveEvt) {
+    moveEvt.preventDefault();
+    // mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
+    // mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
+    var shift = {
+      x: startCoords.x - moveEvt.clientX,
+      y: startCoords.y - moveEvt.clientY
+    };
+    var topY = 130;
+    var bottomY = 630;
+    var leftX = -31;
+    var rightX = 1165;
+
+    var currentCoordiant = {
+      x: mainPin.offsetLeft - shift.x,
+      y: mainPin.offsetTop - shift.y
+    };
+    if (currentCoordiant.x > rightX) {
+      mainPin.style.left = (rightX - 5) + 'px';
+    } else if (currentCoordiant.x < leftX) {
+      mainPin.style.left = (leftX + 5) + 'px';
+    } else if (currentCoordiant.y > bottomY) {
+      mainPin.style.top = (bottomY - 5) + 'px';
+    } else if (currentCoordiant.y < topY) {
+      mainPin.style.top = (topY - 5) + 'px';
+    }
+  };
+  //   if (currentCoordiant.x > rightX) {
+  //     currentCoordiant.x = rightX;
+  //   } else if (currentCoordiant.x < leftX) {
+  //     currentCoordiant.x = leftX;
+  //   } else if (currentCoordiant.y > bottomY) {
+  //     currentCoordiant.y = bottomY;
+  //   } else if (currentCoordiant.y < topY) {
+  //     currentCoordiant.y = topY;
+  //   }
+  // };
 
   document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mousemove', checkBoundariesForPin);
   document.addEventListener('mouseup', onMouseUp);
-
-  /* провверка на вылезание за края*/
   // if (window.xLine > 1165 || window.xLine < -31 || window.yLine > 630 || window.yLine < 130) {
   //   mainPin.style.top = (mainPin.offsetTop - window.shift.y) + 'px';
   //   mainPin.style.left = (mainPin.offsetLeft - window.shift.x) + 'px';
@@ -463,3 +501,4 @@ mainPin.addEventListener('mousedown', function (evt) {
   //   mainPin.removeEventListener('mousemove', onMouseMove);
   // }
 });
+
