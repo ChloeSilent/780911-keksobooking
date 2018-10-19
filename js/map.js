@@ -326,7 +326,7 @@ var checkInInput = document.querySelector('#timein');
 var checkOutInput = document.querySelector('#timeout');
 var amountRoomsSelect = document.querySelector('#room_number');
 var amountGuestsSelect = document.querySelector('#capacity');
-var optionGuests = amountGuestsSelect.querySelector('option');
+// var optionGuests = amountGuestsSelect.querySelector('option');
 var allOptionGuests = amountGuestsSelect.querySelectorAll('option');
 var TYPE_PRICE = {
   Бунгало: 0,
@@ -370,8 +370,7 @@ var setAmountOfGuests = function () {
     });
     allOptionGuests[1].removeAttribute('disabled');
     allOptionGuests[2].removeAttribute('disabled');
-  }
-  else if (amountRoomsSelect.value === '3') {
+  } else if (amountRoomsSelect.value === '3') {
     amountGuestsSelect.value = 3;
     allOptionGuests.forEach(function (node) {
       node.setAttribute('disabled', true);
@@ -379,8 +378,7 @@ var setAmountOfGuests = function () {
     allOptionGuests[0].removeAttribute('disabled');
     allOptionGuests[1].removeAttribute('disabled');
     allOptionGuests[2].removeAttribute('disabled');
-  }
-  else if (amountRoomsSelect.value === '100') {
+  } else if (amountRoomsSelect.value === '100') {
     amountGuestsSelect.value = 0;
     allOptionGuests.forEach(function (node) {
       node.setAttribute('disabled', true);
