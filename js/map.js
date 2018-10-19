@@ -324,7 +324,10 @@ var selectType = document.querySelector('#type');
 var priceInput = document.querySelector('#price');
 var checkInInput = document.querySelector('#timein');
 var checkOutInput = document.querySelector('#timeout');
-
+var amountRoomsSelect = document.querySelector('#room_number');
+var amountGuestsSelect = document.querySelector('#capacity');
+var optionGuests = amountGuestsSelect.querySelector('option');
+var allOptionGuests = amountGuestsSelect.querySelectorAll('option');
 var TYPE_PRICE = {
   Бунгало: 0,
   Квартира: 1000,
@@ -352,14 +355,47 @@ var setCheckOut = function () {
   // checkInInput.preventDefault();
 };
 
+/* устанавливает кол-во гостей от кол-ва комнат*/
+var setAmountOfGuests = function () {
+  if (amountRoomsSelect.value === '1') {
+    amountGuestsSelect.value = 1;
+    allOptionGuests.forEach(function (node) {
+      node.setAttribute('disabled', true);
+    });
+    allOptionGuests[2].removeAttribute('disabled');
+  } else if (amountRoomsSelect.value === '2') {
+    amountGuestsSelect.value = 2;
+    allOptionGuests.forEach(function (node) {
+      node.setAttribute('disabled', true);
+    });
+    allOptionGuests[1].removeAttribute('disabled');
+    allOptionGuests[2].removeAttribute('disabled');
+  }
+  else if (amountRoomsSelect.value === '3') {
+    amountGuestsSelect.value = 3;
+    allOptionGuests.forEach(function (node) {
+      node.setAttribute('disabled', true);
+    });
+    allOptionGuests[0].removeAttribute('disabled');
+    allOptionGuests[1].removeAttribute('disabled');
+    allOptionGuests[2].removeAttribute('disabled');
+  }
+  else if (amountRoomsSelect.value === '100') {
+    amountGuestsSelect.value = 0;
+    allOptionGuests.forEach(function (node) {
+      node.setAttribute('disabled', true);
+      allOptionGuests[3].removeAttribute('disabled');
+    });
+  }
+
+};
 
 selectType.addEventListener('mouseup', setPriceForNight);
-
 checkInInput.addEventListener('mouseup', setCheckIn);
 checkOutInput.addEventListener('mouseup', setCheckOut);
-
+amountRoomsSelect.addEventListener('mouseup', setAmountOfGuests);
 /* module5-task1*/
-// Файл ove-pin.js
+// Файл move-pin.js
 
 mainPin.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
@@ -413,10 +449,19 @@ mainPin.addEventListener('mousedown', function (evt) {
   document.addEventListener('mouseup', onMouseUp);
 
   /* провверка на вылезание за края*/
-  if (window.xLine > 1165 || window.xLine < -31 || window.yLine > 630 || window.yLine < 130) {
-    mainPin.removeEventListener('mousemove', onMouseMove);
-    // console.log('ggggggggggggg');
-  }
+  // if (window.xLine > 1165 || window.xLine < -31 || window.yLine > 630 || window.yLine < 130) {
+  //   mainPin.style.top = (mainPin.offsetTop - window.shift.y) + 'px';
+  //   mainPin.style.left = (mainPin.offsetLeft - window.shift.x) + 'px';
+  //    mainPin.removeEventListener('mousemove', onMouseMove);
+  //    console.log('ggggggggggggg');
+  // }
+  // if (mainPin.style.left > 1000) {
+  //   // mainPin.style.left = '1165px';
+  //   console.log('mainPin.style.left = 1165px');
+  //   mainPin.removeEventListener('mousemove', onMouseMove);
+  // } else if (mainPin.style.left < 100) {
+  //   // mainPin.style.left = '-33px';
+  //   console.log('mainPin.style.left = -33px');
+  //   mainPin.removeEventListener('mousemove', onMouseMove);
+  // }
 });
-
-
