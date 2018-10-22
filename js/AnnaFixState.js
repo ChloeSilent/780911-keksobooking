@@ -271,7 +271,6 @@ var makeDisabled = function () {
   });
 };
 
-
 var halfOfWidthPin = 33;
 var pinHeight = 81;
 
@@ -296,32 +295,37 @@ var makeActive = function () {
   });
   inputAddress.value = getCoordinateX() + ', ' + getCoordinateY();
 
-  var makePins = function () {
-    for (var i = 0; i < AMOUNT; i++) {
-      pins[i] = createObject(i);
-    }
-  };
-
-  var putPinsOnMap = function () {
-    for (var i = 0; i < AMOUNT; i++) {
-      createAndPutOnePin(pins[i]);
-    }
-
-  };
-
-  var createAndPutPins = function () {
-    makePins();
-    putPinsOnMap();
-  };
-  createAndPutPins();
 };
 
+// var makePins = function () {
+//   for (var i = 0; i < AMOUNT; i++) {
+//     pins[i] = createObject(i);
+//   }
+// };
+
+// var putPinsOnMap = function () {
+//   for (var i = 0; i < AMOUNT; i++) {
+//     createAndPutOnePin(pins[i]);
+//   }
+
+// };
+
+// var createAndPutPins = function () {
+//   makePins();
+//   putPinsOnMap();
+// };
+
+/* вызовы всех функций*/
+// mainPin.addEventListener('onmouseup', createAndPutPins);
 makeDisabled();
-mainPin.addEventListener('mouseup', makeActive);
-
-
-// mainPin.addEventListener('mousedown', createAndPutPins);
-
+var onMainPinMouseUp = function (evt) {
+  // createAndPutPins(evt);
+  makeActive(evt); // устанавливает все слушатели
+  // document.removeEventListener('onmouseup', onMainPinMouseUp);
+  // mainPin.removeEventListener('onmouseup', createAndPutPins);
+};
+mainPin.addEventListener('onmouseup', onMainPinMouseUp);
+// mainPin.removeEventListener('onmouseup', createAndPutPins);
 /* --------------------------------module4-task2---------------------------- */
 var selectType = document.querySelector('#type');
 var priceInput = document.querySelector('#price');

@@ -320,8 +320,26 @@ var createAndPutPins = function () {
 
 /* запуск всех функций модуля */
 makeDisabled();
-document.addEventListener('mouseup', makeActive);
-document.addEventListener('mouseup', createAndPutPins);
+mainPin.addEventListener('mouseup', makeActive);
+var clicks = 0;
+mainPin.onclick = function () {
+  clicks += 1;
+  if (clicks <= 1) {
+    createAndPutPins();
+  }
+};
+
+// mainPin.addEventListener('mouseup', createAndPutPins);
+
+var onMainPinMouseUp = function (evt) {
+  // createAndPutPins(evt);
+  makeActive(evt); // устанавливает все слушатели
+  // document.removeEventListener('onmouseup', onMainPinMouseUp);
+  // mainPin.removeEventListener('onmouseup', createAndPutPins);
+};
+mainPin.addEventListener('onmouseup', onMainPinMouseUp);
+// mainPin.removeEventListener('onmouseup', createAndPutPins);
+
 /* --------------------------------module4-task2---------------------------- */
 var selectType = document.querySelector('#type');
 var priceInput = document.querySelector('#price');
@@ -429,8 +447,8 @@ mainPin.addEventListener('mousedown', function (evt) {
     };
     mainPin.addEventListener('click', onClickPreventDefault);
   }
-  /* провверка на вылезание за края*/
 
+  /* проверка на вылезание за края*/
   var checkBoundariesForPin = function (shift) {
 
     var currentCoordiant = {
@@ -452,13 +470,19 @@ mainPin.addEventListener('mousedown', function (evt) {
   document.addEventListener('mousemove', onMouseMove);
 
   document.addEventListener('mouseup', onMouseUp);
-  //   var onMainPinMouseUp = function (evt) {
-  //     drawPins(Pins);
-  //     setupListeners(evt); // устанавливает все слушатели
-  //     document.removeEventListener('onmouseup', onMainPinMouseUp);
-  //   };
-  //   mainPin.addEventListener('onmouseup', onMainPinMouseUp);
-  // });
+
 });
 
 // поставить удалитель слушателей по reset и по submit
+/* блок с удалителями слушателей на reset и submit*/
+/*
+var resetButton = document.querySelector('.ad-form__reset');
+var deleteAllHandlers = function () {
+  makeDisabled();
+  document.removeEventListener('mousemove', onMouseMove);
+  document.removeEventListener('mouseup', onMouseUp);
+  mainPin.removeEventListener('click', onClickPreventDefault);
+};
+resetButton.addEventListener('mousedown', deleteAllHandlers)
+
+*/
