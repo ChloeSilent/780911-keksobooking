@@ -251,8 +251,8 @@ var createAndPutOnePin = function (element) {
 // }
 
 
-/* ------------------------------------- module4-task1------------------------------------------------ */
-/* карта деактивируется, при клике на главн пин снимется diabled с форм и карты, задаются координаты главного пина */
+/* ---------------------------module4-task1-------------------------- */
+/* здесь отключается disabled у карты и форм и запускается создание и отрисовка маленьких пинов */
 var mainPin = document.querySelector('.map__pin--main');
 var formAd = document.querySelector('.ad-form');
 var fieldsetInForm = formAd.querySelectorAll('fieldset');
@@ -271,6 +271,7 @@ var makeDisabled = function () {
   });
 };
 
+
 var halfOfWidthPin = 33;
 var pinHeight = 81;
 
@@ -285,12 +286,9 @@ var getCoordinateY = function () {
   return secondCoordinate;
 };
 
-
 /* активация карты(убирается класс .map--faded) и делает все инпуты, филдсеты, баттоны активными.
 Вычислет координаты главного пина, создает пины объявлений */
-
 var makeActive = function () {
-  /* удаляет disabled с карты и форм*/
   mapElement.classList.remove('map--faded');
   formAd.classList.remove('ad-form--disabled');
   fieldsetInForm.forEach(function (node) {
@@ -298,30 +296,32 @@ var makeActive = function () {
   });
   inputAddress.value = getCoordinateX() + ', ' + getCoordinateY();
 
+  var makePins = function () {
+    for (var i = 0; i < AMOUNT; i++) {
+      pins[i] = createObject(i);
+    }
+  };
+
+  var putPinsOnMap = function () {
+    for (var i = 0; i < AMOUNT; i++) {
+      createAndPutOnePin(pins[i]);
+    }
+
+  };
+
+  var createAndPutPins = function () {
+    makePins();
+    putPinsOnMap();
+  };
+  createAndPutPins();
 };
 
-
-var makePins = function () {
-  for (var i = 0; i < AMOUNT; i++) {
-    pins[i] = createObject(i);
-  }
-};
-
-var putPinsOnMap = function () {
-  for (var i = 0; i < AMOUNT; i++) {
-    createAndPutOnePin(pins[i]);
-  }
-};
-
-var createAndPutPins = function () {
-  makePins();
-  putPinsOnMap();
-};
-
-/* запуск всех функций модуля */
 makeDisabled();
-document.addEventListener('mouseup', makeActive);
-document.addEventListener('mouseup', createAndPutPins);
+mainPin.addEventListener('mouseup', makeActive);
+
+
+// mainPin.addEventListener('mousedown', createAndPutPins);
+
 /* --------------------------------module4-task2---------------------------- */
 var selectType = document.querySelector('#type');
 var priceInput = document.querySelector('#price');
@@ -331,6 +331,8 @@ var amountRoomsSelect = document.querySelector('#room_number');
 var amountGuestsSelect = document.querySelector('#capacity');
 // var optionGuests = amountGuestsSelect.querySelector('option');
 var allOptionGuests = amountGuestsSelect.querySelectorAll('option');
+// var allOptionRooms = amountRoomsSelect.querySelectorAll('option');
+
 var TYPE_PRICE = {
   Бунгало: 0,
   Квартира: 1000,
@@ -341,7 +343,6 @@ var TYPE_PRICE = {
 /* устанавливает цену за 1 ночь в зависимости от типа жилья */
 var setPriceForNight = function () {
   var selectedOption = selectType.options[selectType.selectedIndex].text;
-  // alert('strUser is ' + strUser);
   var priceForNight = TYPE_PRICE[selectedOption];
   priceInput.placeholder = priceForNight;
   priceInput.min = priceForNight;
@@ -358,7 +359,6 @@ var setCheckOut = function () {
 };
 
 /* устанавливает кол-во гостей от кол-ва комнат*/
-
 var setAmountOfGuests = function () {
   var selectedOptionRoom = amountRoomsSelect.options[amountRoomsSelect.selectedIndex];
   amountGuestsSelect.value = selectedOptionRoom.value === '100' ? 0 : selectedOptionRoom.value;
@@ -368,7 +368,6 @@ var setAmountOfGuests = function () {
   });
 
 };
-/* устанавливает кол-во гостей от кол-ва комнат*/
 
 selectType.addEventListener('mouseup', setPriceForNight);
 checkInInput.addEventListener('mouseup', setCheckIn);
@@ -390,10 +389,10 @@ mainPin.addEventListener('mousedown', function (evt) {
   };
 
   var dragged = false;
-
+  /* перемещает пин, тк меняет его координаты в style top left*/
   var onMouseMove = function (moveEvt) {
     moveEvt.preventDefault();
-
+    dragged = true;
     var shift = {
       x: startCoords.x - moveEvt.clientX,
       y: startCoords.y - moveEvt.clientY
@@ -412,25 +411,23 @@ mainPin.addEventListener('mousedown', function (evt) {
     inputAddress.value = (xLine + halfOfWidthPin) + ', ' + (yLine + pinHeight);
     checkBoundariesForPin(shift);
   };
-
+  /* удаляет слушатель события перемещения пина при перемещении мышки при отпускании кнопки мыщи и заодно удаляет себя же*/
   var onMouseUp = function (upEvt) {
     upEvt.preventDefault();
-
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
-
-
   };
 
   if (dragged) {
     var onClickPreventDefault = function (e) {
       e.preventDefault();
-      mainPin.removeEventListener('click', onClickPreventDefault);
+      mainPin.removeEventListener('mousedown', onClickPreventDefault);
     };
-    mainPin.addEventListener('click', onClickPreventDefault);
+    mainPin.addEventListener('mousedown', onClickPreventDefault);
   }
-  /* провверка на вылезание за края*/
 
+  /* провверка на вылезание пина за края, если пин вылезает за края, то он останавливается, тк ему жестко задеются
+  границы в виде переменных обозначающих эти границы*/
   var checkBoundariesForPin = function (shift) {
 
     var currentCoordiant = {
@@ -450,7 +447,6 @@ mainPin.addEventListener('mousedown', function (evt) {
   };
 
   document.addEventListener('mousemove', onMouseMove);
-
   document.addEventListener('mouseup', onMouseUp);
   //   var onMainPinMouseUp = function (evt) {
   //     drawPins(Pins);
@@ -459,6 +455,16 @@ mainPin.addEventListener('mousedown', function (evt) {
   //   };
   //   mainPin.addEventListener('onmouseup', onMainPinMouseUp);
   // });
+  //   var setupListeners = function (e) {
+  //     e.preventDefault();
+  //     mainPin.addEventListener('mousedown', createAndPutPins);
+  //   };
+  //   var onMainPinMouseUp = function (e) {
+  //     createAndPutPins();
+  //     setupListeners(e); // устанавливает все слушатели
+  //     document.removeEventListener('onmouseup', onMainPinMouseUp);
+  //   };
+  //   mainPin.addEventListener('onmouseup', onMainPinMouseUp);
+  // });
+  // поставить удалитель слушателей по reset и по submit.
 });
-
-// поставить удалитель слушателей по reset и по submit
