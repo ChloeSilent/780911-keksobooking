@@ -37,13 +37,13 @@ var CHECKIN = ['12:00', '13:00', '14:00'];
 // var CHECKOUT = CHECKIN;
 
 var FEATURES = ['--wifi', '--dishwasher', '--parking', '--washer', '--elevator', '--conditioner'];
-// var FEATURESTYLE = 'popup__feature popup__feature'; // РАСКОДИРОВАТЬ
+var FEATURESTYLE = 'popup__feature popup__feature'; // РАСКОДИРОВАТЬ
 
 var PHOTOS_AMOUNT = 3;
 var PHOTO_SOURCE = 'http://o0.github.io/assets/images/tokyo/hotel';
 var JPG = '.jpg';
-// var PHOTO_PLACE_WIDTH = 45; // РАСКОДИРОВАТЬ
-// var PHOTO_PLACE_HEIGHT = 45; // РАСКОДИРОВАТЬ
+var PHOTO_PLACE_WIDTH = 45; // РАСКОДИРОВАТЬ
+var PHOTO_PLACE_HEIGHT = 45; // РАСКОДИРОВАТЬ
 
 var MIN_X = 100;
 var MAX_X = 1087;
@@ -66,9 +66,9 @@ var mainPinElement = templatePin.content.querySelector('.map__pin');
 var fragment = document.createDocumentFragment();
 // var arrayofOffers(arrayLength);
 /* переменные карточки*/
-// var wherePutCard = document.querySelector('.map__filters-container'); // РАСКОДИРОВАТЬ
-// var templateCard = document.body.querySelector('#card').content.querySelector('.map__card'); // РАСКОДИРОВАТЬ
-// var fragmentCard = document.createDocumentFragment();
+var wherePutCard = document.querySelector('.map__filters-container'); // РАСКОДИРОВАТЬ
+var templateCard = document.body.querySelector('#card').content.querySelector('.map__card'); // РАСКОДИРОВАТЬ
+var fragmentCard = document.createDocumentFragment();
 
 /* МЕТОДЫ */
 
@@ -114,13 +114,6 @@ var createNewArrayfromExistOne = function (array) {
 };
 
 /* создает массив фото и перемешивает их */
-// var createPhotosArray = function () {
-//   var photosArray = [];
-//   for (var i = 0; i < 3; i++) {
-//     photosArray[i] = PHOTO_SOURCE + (i + 1) + JPG; // минус единица в индексе элемента массива дана, тк в массиве отсчет с 0, а i в цикле начинается с 1
-//   }
-//   return photosArray;
-// };
 
 var createPhotosArray = function (arrayLength) {
   var photosArray = [];
@@ -177,79 +170,65 @@ var createAndPutOnePin = function (element) {
 };
 
 /* создает новые li на основе массива features у элемента*/
-// РАСКОДИРОВАТЬ ВЕСЬ createFeaturesAsDOM
-// var createFeaturesAsDOM = function (element) {
-//   // ar element = createObject(i);
-//   var fragmentLi = document.createDocumentFragment();
-//   for (var k = 0; k < element.offer.features.length; k++) {
-//     var newLi = document.createElement('li');
-//     newLi.className = FEATURESTYLE + element.offer.features[k];
-//     fragmentLi.appendChild(newLi);
-//   }
-//   return fragmentLi;
-// };
+
+var createFeaturesAsDOM = function (element) {
+  // ar element = createObject(i);
+  var fragmentLi = document.createDocumentFragment();
+  for (var k = 0; k < element.offer.features.length; k++) {
+    var newLi = document.createElement('li');
+    newLi.className = FEATURESTYLE + element.offer.features[k];
+    fragmentLi.appendChild(newLi);
+  }
+  return fragmentLi;
+};
 /* создает новые фото на основе массива photos у элемента*/
 // РАСКОДИРОВАТЬ ВЕСЬ createPhotosAsDom
-// var createPhotosAsDom = function (element) {
-//   var fragmentPhotos = document.createDocumentFragment();
-//   for (var m = 0; m < element.offer.photos.length; m++) {
-//     var newPhoto = document.createElement('img');
-//     newPhoto.src = element.offer.photos[m];
-//     newPhoto.className = 'popup__photo';
-//     newPhoto.alt = 'Фотография жилья';
-//     newPhoto.width = PHOTO_PLACE_WIDTH;
-//     newPhoto.height = PHOTO_PLACE_HEIGHT;
-//     fragmentPhotos.appendChild(newPhoto);
-//   }
-//   return fragmentPhotos;
-// };
+var createPhotosAsDom = function (element) {
+  var fragmentPhotos = document.createDocumentFragment();
+  for (var m = 0; m < element.offer.photos.length; m++) {
+    var newPhoto = document.createElement('img');
+    newPhoto.src = element.offer.photos[m];
+    newPhoto.className = 'popup__photo';
+    newPhoto.alt = 'Фотография жилья';
+    newPhoto.width = PHOTO_PLACE_WIDTH;
+    newPhoto.height = PHOTO_PLACE_HEIGHT;
+    fragmentPhotos.appendChild(newPhoto);
+  }
+  return fragmentPhotos;
+};
 
 /* создает карточку как DOM-элемент */
 // РАСКОДИРОВАТЬ ОТ var createCard ДО wherePutCard.appendChild(fragmentCard);
-// var createCard = function (element) {
+var createCard = function (element) {
 
-//   var cardClone = templateCard.cloneNode(true);
-//   cardClone.querySelector('.popup__title').textContent = element.offer.title;
+  var cardClone = templateCard.cloneNode(true);
+  cardClone.querySelector('.popup__title').textContent = element.offer.title;
 
-//   cardClone.querySelector('.popup__text--price').textContent = element.offer.price + '₽/ночь';
-//   cardClone.querySelector('.popup__type').textContent = element.offer.type;
-//   cardClone.querySelector('.popup__text--capacity').textContent = element.offer.rooms + ' комнаты для ' + element.offer.guests + ' гостей';
-//   cardClone.querySelector('.popup__text--time').textContent = 'Заезд после ' + element.offer.checkin + ', выезд до ' + element.offer.checkin;
-//   /* удаляет дефолтные li */
-//   var ListFeatures = cardClone.querySelector('.popup__features');
-//   while (ListFeatures.firstChild) {
-//     ListFeatures.removeChild(ListFeatures.firstChild);
-//   }
-//   cardClone.querySelector('.popup__features').appendChild(createFeaturesAsDOM(element));
-//   cardClone.querySelector('.popup__description').textContent = element.offer.description;
-//   /* удаляет дефолтные фото */
-//   var ListPhotos = cardClone.querySelector('.popup__photos');
-//   while (ListPhotos.firstChild) {
-//     ListPhotos.removeChild(ListPhotos.firstChild);
-//   }
-//   /* вставляет фото как DOM-элемент в разметку */
-//   cardClone.querySelector('.popup__photos').appendChild(createPhotosAsDom(element));
-//   cardClone.querySelector('.popup__avatar').src = element.author.avatar;
+  cardClone.querySelector('.popup__text--price').textContent = element.offer.price + '₽/ночь';
+  cardClone.querySelector('.popup__type').textContent = element.offer.type;
+  cardClone.querySelector('.popup__text--capacity').textContent = element.offer.rooms + ' комнаты для ' + element.offer.guests + ' гостей';
+  cardClone.querySelector('.popup__text--time').textContent = 'Заезд после ' + element.offer.checkin + ', выезд до ' + element.offer.checkin;
+  /* удаляет дефолтные li */
+  var ListFeatures = cardClone.querySelector('.popup__features');
+  while (ListFeatures.firstChild) {
+    ListFeatures.removeChild(ListFeatures.firstChild);
+  }
+  cardClone.querySelector('.popup__features').appendChild(createFeaturesAsDOM(element));
+  cardClone.querySelector('.popup__description').textContent = element.offer.description;
+  /* удаляет дефолтные фото */
+  var ListPhotos = cardClone.querySelector('.popup__photos');
+  while (ListPhotos.firstChild) {
+    ListPhotos.removeChild(ListPhotos.firstChild);
+  }
+  /* вставляет фото как DOM-элемент в разметку */
+  cardClone.querySelector('.popup__photos').appendChild(createPhotosAsDom(element));
+  cardClone.querySelector('.popup__avatar').src = element.author.avatar;
 
-//   fragmentCard.appendChild(cardClone);
-//   wherePutCard.appendChild(fragmentCard);
-// };
+  fragmentCard.appendChild(cardClone);
+  wherePutCard.appendChild(fragmentCard);
+};
 
 /* вызовы функций */
-
-// for (var i = 0; i < AMOUNT; i++) {
-
-//   createAndPutOnePin(i);
-//   createCard(i);
-// }
-
-
-// for (var i = 0; i < AMOUNT; i++) {
-//   pins[i] = createObject(i);
-//   createAndPutOnePin(pins[i]);
-//   createCard(pins[i]);
-// }
-
 
 /* ------------------------------------- module4-task1------------------------------------------------ */
 /* карта деактивируется, при клике на главн пин снимется diabled с форм и карты, задаются координаты главного пина */
@@ -318,6 +297,13 @@ var createAndPutPins = function () {
   putPinsOnMap();
 };
 
+var createCards = function () {
+  for (var i = 0; i < AMOUNT; i++) {
+    pins[i] = createObject(i);
+    // createAndPutOnePin(pins[i]);
+    createCard(pins[i]);
+  }
+};
 /* запуск всех функций модуля */
 makeDisabled();
 mainPin.addEventListener('mouseup', makeActive);
@@ -326,6 +312,7 @@ mainPin.onclick = function () {
   clicks += 1;
   if (clicks <= 1) {
     createAndPutPins();
+    createCards();
   }
 };
 
@@ -341,9 +328,9 @@ mainPin.addEventListener('onmouseup', onMainPinMouseUp);
 // mainPin.removeEventListener('onmouseup', createAndPutPins);
 
 /* --------------------------------module4-task2---------------------------- */
-var selectType = document.querySelector('#type');
-var priceInput = document.querySelector('#price');
-var checkInInput = document.querySelector('#timein');
+var selectTypeElement = document.querySelector('#type');
+var priceInputElement = document.querySelector('#price');
+var checkInInputElement = document.querySelector('#timein');
 var checkOutInput = document.querySelector('#timeout');
 var amountRoomsSelect = document.querySelector('#room_number');
 var amountGuestsSelect = document.querySelector('#capacity');
@@ -357,27 +344,27 @@ var TYPE_PRICE = {
 };
 
 /* устанавливает цену за 1 ночь в зависимости от типа жилья */
-var setPriceForNight = function () {
-  var selectedOption = selectType.options[selectType.selectedIndex].text;
+var onSelectTypeMouseup = function () {
+  var selectedOption = selectTypeElement.options[selectTypeElement.selectedIndex].text;
   // alert('strUser is ' + strUser);
   var priceForNight = TYPE_PRICE[selectedOption];
-  priceInput.placeholder = priceForNight;
-  priceInput.min = priceForNight;
+  priceInputElement.placeholder = priceForNight;
+  priceInputElement.min = priceForNight;
 };
 
 /* устанавливает время выезда и въезда */
-var setCheckIn = function () {
-  checkOutInput.selectedIndex = checkInInput.selectedIndex;
+var onSelectTimeInMouseUp = function () {
+  checkOutInput.selectedIndex = checkInInputElement.selectedIndex;
   // checkOutInput.preventDefault();
 };
-var setCheckOut = function () {
-  checkInInput.selectedIndex = checkOutInput.selectedIndex;
+var onSelectTimeOutMouseUp = function () {
+  checkInInputElement.selectedIndex = checkOutInput.selectedIndex;
   // checkInInput.preventDefault();
 };
 
 /* устанавливает кол-во гостей от кол-ва комнат*/
 
-var setAmountOfGuests = function () {
+var onSelectRoomNumberMouseUp = function () {
   var selectedOptionRoom = amountRoomsSelect.options[amountRoomsSelect.selectedIndex];
   amountGuestsSelect.value = selectedOptionRoom.value === '100' ? 0 : selectedOptionRoom.value;
   allOptionGuests.forEach(function (node) {
@@ -387,13 +374,14 @@ var setAmountOfGuests = function () {
 
 };
 /* устанавливает кол-во гостей от кол-ва комнат*/
+/* запуск всех функций */
 
-selectType.addEventListener('mouseup', setPriceForNight);
-checkInInput.addEventListener('mouseup', setCheckIn);
-checkOutInput.addEventListener('mouseup', setCheckOut);
-amountRoomsSelect.addEventListener('mouseup', setAmountOfGuests);
+selectTypeElement.addEventListener('mouseup', onSelectTypeMouseup);
+checkInInputElement.addEventListener('mouseup', onSelectTimeInMouseUp);
+checkOutInput.addEventListener('mouseup', onSelectTimeOutMouseUp);
+amountRoomsSelect.addEventListener('mouseup', onSelectRoomNumberMouseUp);
 /* -------------------------------------------------module5-task1---------------------------------------------------*/
-// МОДУЛЬ move-pin.js
+// МОДУЛЬ move-pin.js здесь гл пин можно двигать и заданы ограничения для его передвижения
 var TOPY = 130;
 var BOTTOMY = 630;
 var LEFTX = -31;
