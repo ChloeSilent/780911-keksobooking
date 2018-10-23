@@ -352,6 +352,28 @@ var onSelectTypeMouseup = function () {
   priceInputElement.min = priceForNight;
 };
 
+// var onInputTypeInput = function () {
+//   if (priceInputElement.validity.rangeUnderflow) {
+//     txt = "Value too small";
+//   }
+// };
+
+// priceInputElement.addEventListener('invalid', function (evt) {
+//   var target = evt.target;
+//   if (priceInputElement.validity.rangeUnderflow) {
+//     userNameInput.setCustomValidity('Имя должно состоять минимум из 2-х символов');
+//   }
+// });
+priceInputElement.addEventListener('input', function (evt) {
+  var target = evt.target;
+  if (target.validity.rangeUnderflow < priceInputElement.min) {
+    target.setCustomValidity('Стоимость жилья должна быть не ниже ' + priceInputElement.min + ' .');
+  } else {
+    target.setCustomValidity('');
+  }
+});
+
+
 /* устанавливает время выезда и въезда */
 var onSelectTimeInMouseUp = function () {
   checkOutInput.selectedIndex = checkInInputElement.selectedIndex;
