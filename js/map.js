@@ -211,7 +211,7 @@ var createCard = function (element) {
     // cardClone.classList.add('hidden');
     // cardClone.parentNode.removeChild(cardClone);
     var target = evt.target;
-    console.log('evt.target is ' + target);
+    // console.log('evt.target is ' + target);
     target.parentNode.remove();
   });
 
