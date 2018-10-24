@@ -56,19 +56,19 @@ var PIN_WIDTH = 50;
 var PX = 'px';
 
 /* ПЕРЕМЕННЫЕ*/
-var arrayofOffers = [];
-arrayofOffers.length = AMOUNT;
+// var arrayofOffers = [];
+// arrayofOffers.length = AMOUNT;
 var pins = [];
 /* переменные пина*/
 var mapElement = document.querySelector('.map');
-var templatePin = document.body.querySelector('#pin');
-var pinTemplateElement = templatePin.content.querySelector('.map__pin');
-var fragment = document.createDocumentFragment();
+var templatePinElement = document.body.querySelector('#pin');
+var pinTemplateElement = templatePinElement.content.querySelector('.map__pin');
+
 // var arrayofOffers(arrayLength);
 /* переменные карточки*/
-var wherePutCard = document.querySelector('.map__filters-container'); // РАСКОДИРОВАТЬ
-var templateCard = document.body.querySelector('#card').content.querySelector('.map__card'); // РАСКОДИРОВАТЬ
-var fragmentCard = document.createDocumentFragment();
+var mapFiltersContainerElement = document.querySelector('.map__filters-container'); // РАСКОДИРОВАТЬ
+var templateCardElement = document.body.querySelector('#card').content.querySelector('.map__card'); // РАСКОДИРОВАТЬ
+
 
 /* МЕТОДЫ */
 
@@ -177,43 +177,49 @@ var createPhotosAsDom = function (element) {
   }
   return fragmentPhotos;
 };
-
+/* функция удаляет ноды элемента */
+var removeChildrenNodes = function (list) {
+  list.removeChild(list.firstChild);
+};
 /* создает карточку как DOM-элемент */
 var createCard = function (element) {
-  var cardClone = templateCard.cloneNode(true);
+  var cardClone = templateCardElement.cloneNode(true);
   cardClone.querySelector('.popup__title').textContent = element.offer.title;
   cardClone.querySelector('.popup__text--price').textContent = element.offer.price + '₽/ночь';
   cardClone.querySelector('.popup__type').textContent = element.offer.type;
   cardClone.querySelector('.popup__text--capacity').textContent = element.offer.rooms + ' комнаты для ' + element.offer.guests + ' гостей';
   cardClone.querySelector('.popup__text--time').textContent = 'Заезд после ' + element.offer.checkin + ', выезд до ' + element.offer.checkin;
   /* удаляет дефолтные li */
-  var ListFeatures = cardClone.querySelector('.popup__features');
-  while (ListFeatures.firstChild) {
-    ListFeatures.removeChild(ListFeatures.firstChild);
+  var ListFeaturesElement = cardClone.querySelector('.popup__features');
+  while (ListFeaturesElement.firstChild) {
+    // ListFeaturesElement.removeChild(ListFeaturesElement.firstChild);
+    removeChildrenNodes(ListFeaturesElement);
   }
   cardClone.querySelector('.popup__features').appendChild(createFeaturesAsDOM(element));
   cardClone.querySelector('.popup__description').textContent = element.offer.description;
   /* удаляет дефолтные фото */
-  var ListPhotos = cardClone.querySelector('.popup__photos');
-  while (ListPhotos.firstChild) {
-    ListPhotos.removeChild(ListPhotos.firstChild);
+  var ListPhotosElement = cardClone.querySelector('.popup__photos');
+  while (ListPhotosElement.firstChild) {
+    // ListPhotosElement.removeChild(ListPhotosElement.firstChild);
+    removeChildrenNodes(ListPhotosElement);
   }
   /* вставляет фото как DOM-элемент в разметку */
   cardClone.querySelector('.popup__photos').appendChild(createPhotosAsDom(element));
   cardClone.querySelector('.popup__avatar').src = element.author.avatar;
-  var cardClose = cardClone.querySelector('.popup__close');
-  cardClose.addEventListener('click', function () {
+  var cardCloseElement = cardClone.querySelector('.popup__close');
+  cardCloseElement.addEventListener('click', function () {
     cardClone.classList.add('hidden');
   });
   // fragmentCard.appendChild(cardClone);
-  // wherePutCard.appendChild(fragmentCard);
+  // mapFiltersContainerElement.appendChild(fragmentCard);
   // console.log('I create Cards');
   return cardClone;
 };
 
 var drawOneCard = function (element) {
+  var fragmentCard = document.createDocumentFragment();
   fragmentCard.appendChild(createCard(element));
-  wherePutCard.appendChild(fragmentCard);
+  mapFiltersContainerElement.appendChild(fragmentCard);
   // console.log('I draw Cards');
 };
 
@@ -233,6 +239,7 @@ var createOnePin = function (element) {
 };
 
 var putOnePin = function (element) {
+  var fragment = document.createDocumentFragment();
   fragment.appendChild(createOnePin(element));
   mapElement.appendChild(fragment);
   // console.log('I draw PIns');
@@ -243,20 +250,20 @@ var putOnePin = function (element) {
 
 /* ------------------------------------- module4-task1------------------------------------------------ */
 /* карта деактивируется, при клике на главн пин снимется diabled с форм и карты, задаются координаты главного пина */
-var mainPin = document.querySelector('.map__pin--main');
-var formAd = document.querySelector('.ad-form');
-var fieldsetInForm = formAd.querySelectorAll('fieldset');
-var inputAddress = document.querySelector('#address');
+var mainPinElement = document.querySelector('.map__pin--main');
+var formAdElement = document.querySelector('.ad-form');
+var fieldsetInFormContainer = formAdElement.querySelectorAll('fieldset');
+var inputAddressElement = document.querySelector('#address');
 var FIRST_COORDINATE = 570;
 var SECOND_COORDINATE = 375;
-var bodyRect = mainPin.getBoundingClientRect();
+var bodyRect = mainPinElement.getBoundingClientRect();
 var mapImage = mapElement.getBoundingClientRect();
 
 /* делает все инпуты, филдсеты, баттоны неактивными, делает неактивной карту */
 var makeDisabled = function () {
   mapElement.classList.add('map--faded');
-  inputAddress.placeholder = FIRST_COORDINATE + ', ' + SECOND_COORDINATE;
-  fieldsetInForm.forEach(function (node) {
+  inputAddressElement.placeholder = FIRST_COORDINATE + ', ' + SECOND_COORDINATE;
+  fieldsetInFormContainer.forEach(function (node) {
     node.setAttribute('disabled', true);
   });
 };
@@ -282,11 +289,11 @@ var getCoordinateY = function () {
 var makeActive = function () {
   /* удаляет disabled с карты и форм*/
   mapElement.classList.remove('map--faded');
-  formAd.classList.remove('ad-form--disabled');
-  fieldsetInForm.forEach(function (node) {
+  formAdElement.classList.remove('ad-form--disabled');
+  fieldsetInFormContainer.forEach(function (node) {
     node.removeAttribute('disabled');
   });
-  inputAddress.value = getCoordinateX() + ', ' + getCoordinateY();
+  inputAddressElement.value = getCoordinateX() + ', ' + getCoordinateY();
 
 };
 
@@ -302,9 +309,9 @@ var createAndPutAllPins = function () {
 
 /* запуск всех функций модуля */
 makeDisabled();
-mainPin.addEventListener('mouseup', makeActive);
+mainPinElement.addEventListener('mouseup', makeActive);
 var clicks = 0;
-mainPin.onclick = function () {
+mainPinElement.onclick = function () {
   clicks += 1;
   if (clicks <= 1) {
     createAndPutAllPins();
@@ -314,19 +321,18 @@ mainPin.onclick = function () {
 var onMainPinMouseUp = function (evt) {
   makeActive(evt); // устанавливает все слушатели
 };
-mainPin.addEventListener('onmouseup', onMainPinMouseUp);
+mainPinElement.addEventListener('onmouseup', onMainPinMouseUp);
 
 
 /* --------------------------------module4-task2---------------------------- */
 var selectTypeElement = document.querySelector('#type');
 var priceInputElement = document.querySelector('#price');
 var checkInInputElement = document.querySelector('#timein');
-var checkOutInput = document.querySelector('#timeout');
-var amountRoomsSelect = document.querySelector('#room_number');
-var amountGuestsSelect = document.querySelector('#capacity');
-// var optionGuests = amountGuestsSelect.querySelector('option');
-var allOptionGuests = amountGuestsSelect.querySelectorAll('option');
-var submit = document.querySelector('.ad-form__submit');
+var checkOutInputElement = document.querySelector('#timeout');
+var amountRoomsSelectElement = document.querySelector('#room_number');
+var amountGuestsSelectElement = document.querySelector('#capacity');
+var allOptionGuestsContainer = amountGuestsSelectElement.querySelectorAll('option');
+var submitButtonElement = document.querySelector('.ad-form__submit');
 var TYPE_PRICE = {
   Бунгало: 0,
   Квартира: 1000,
@@ -356,20 +362,20 @@ var onPriceInput = function (evt) {
 
 /* устанавливает время выезда и въезда */
 var onSelectTimeInMouseUp = function () {
-  checkOutInput.selectedIndex = checkInInputElement.selectedIndex;
-  // checkOutInput.preventDefault();
+  checkOutInputElement.selectedIndex = checkInInputElement.selectedIndex;
+  // checkOutInputElement.preventDefault();
 };
 var onSelectTimeOutMouseUp = function () {
-  checkInInputElement.selectedIndex = checkOutInput.selectedIndex;
+  checkInInputElement.selectedIndex = checkOutInputElement.selectedIndex;
   // checkInInput.preventDefault();
 };
 
 /* устанавливает кол-во гостей от кол-ва комнат*/
 
 var onSelectRoomNumberMouseUp = function () {
-  var selectedOptionRoom = amountRoomsSelect.options[amountRoomsSelect.selectedIndex];
-  amountGuestsSelect.value = selectedOptionRoom.value === '100' ? 0 : selectedOptionRoom.value;
-  allOptionGuests.forEach(function (node) {
+  var selectedOptionRoom = amountRoomsSelectElement.options[amountRoomsSelectElement.selectedIndex];
+  amountGuestsSelectElement.value = selectedOptionRoom.value === '100' ? 0 : selectedOptionRoom.value;
+  allOptionGuestsContainer.forEach(function (node) {
 
     node.setAttribute('disabled', node.value === '100' ? 0 : (selectedOptionRoom.value < node.value));
   });
@@ -382,12 +388,12 @@ selectTypeElement.addEventListener('mouseup', onSelectTypeMouseup);
 priceInputElement.addEventListener('change', onpriceInputChange);
 priceInputElement.addEventListener('mouseup', onPriceInput);
 checkInInputElement.addEventListener('mouseup', onSelectTimeInMouseUp);
-checkOutInput.addEventListener('mouseup', onSelectTimeOutMouseUp);
-amountRoomsSelect.addEventListener('mouseup', onSelectRoomNumberMouseUp);
+checkOutInputElement.addEventListener('mouseup', onSelectTimeOutMouseUp);
+amountRoomsSelectElement.addEventListener('mouseup', onSelectRoomNumberMouseUp);
 
 /* валидация формы*/
 
-submit.addEventListener('click', function () {
+submitButtonElement.addEventListener('click', function () {
   if (priceInputElement.value < selectTypeElement.min) {
     selectTypeElement.setCustomValidity('Стоимость жилья должна быть не ниже ' + priceInputElement.min + ' .');
   }
@@ -399,7 +405,7 @@ var BOTTOMY = 630;
 var LEFTX = -31;
 var RIGHTX = 1165;
 
-mainPin.addEventListener('mousedown', function (evt) {
+mainPinElement.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
 
   var startCoords = {
@@ -422,12 +428,12 @@ mainPin.addEventListener('mousedown', function (evt) {
       y: moveEvt.clientY
     };
 
-    mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
-    mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
+    mainPinElement.style.top = (mainPinElement.offsetTop - shift.y) + 'px';
+    mainPinElement.style.left = (mainPinElement.offsetLeft - shift.x) + 'px';
 
-    var yLine = mainPin.offsetTop - shift.y;
-    var xLine = mainPin.offsetLeft - shift.x;
-    inputAddress.value = (xLine + halfOfWidthPin) + ', ' + (yLine + pinHeight);
+    var yLine = mainPinElement.offsetTop - shift.y;
+    var xLine = mainPinElement.offsetLeft - shift.x;
+    inputAddressElement.value = (xLine + halfOfWidthPin) + ', ' + (yLine + pinHeight);
     checkBoundariesForPin(shift);
   };
 
@@ -443,26 +449,26 @@ mainPin.addEventListener('mousedown', function (evt) {
   if (dragged) {
     var onClickPreventDefault = function (e) {
       e.preventDefault();
-      mainPin.removeEventListener('click', onClickPreventDefault);
+      mainPinElement.removeEventListener('click', onClickPreventDefault);
     };
-    mainPin.addEventListener('click', onClickPreventDefault);
+    mainPinElement.addEventListener('click', onClickPreventDefault);
   }
 
   /* проверка на вылезание за края*/
   var checkBoundariesForPin = function (shift) {
 
     var currentCoordiant = {
-      x: mainPin.offsetLeft - shift.x,
-      y: mainPin.offsetTop - shift.y
+      x: mainPinElement.offsetLeft - shift.x,
+      y: mainPinElement.offsetTop - shift.y
     };
     if (currentCoordiant.x > RIGHTX) {
-      mainPin.style.left = RIGHTX + 'px';
+      mainPinElement.style.left = RIGHTX + 'px';
     } else if (currentCoordiant.x < LEFTX) {
-      mainPin.style.left = LEFTX + 'px';
+      mainPinElement.style.left = LEFTX + 'px';
     } else if (currentCoordiant.y > BOTTOMY) {
-      mainPin.style.top = BOTTOMY + 'px';
+      mainPinElement.style.top = BOTTOMY + 'px';
     } else if (currentCoordiant.y < TOPY) {
-      mainPin.style.top = TOPY + 'px';
+      mainPinElement.style.top = TOPY + 'px';
     }
 
   };
