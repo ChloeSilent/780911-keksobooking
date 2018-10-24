@@ -51,7 +51,7 @@ var MAX_X = 1087;
 var MIN_Y = 130;
 var MAX_Y = 630;
 
-var PIN_HEIGHT = 70;
+var PIN_HEIGHT = 81;
 var PIN_WIDTH = 50;
 var PX = 'px';
 
@@ -268,17 +268,17 @@ var makeDisabled = function () {
   });
 };
 
-var halfOfWidthPin = 33;
-var pinHeight = 81;
+var HALF_OF_WIDTH_PIN = 33;
+// var PIN_HEIGHT = 81;
 
 /* вычисляет координату по оси Х для главного пина, адаптировано под расширение окна путем вычета координат карты */
 var getCoordinateX = function () {
-  var firstCoordinate = bodyRect.left - mapImage.left + window.scrollX + halfOfWidthPin;
+  var firstCoordinate = bodyRect.left - mapImage.left + window.scrollX + HALF_OF_WIDTH_PIN;
   return firstCoordinate;
 };
 /* вычисляет координату по оси Y для главного пина*/
 var getCoordinateY = function () {
-  var secondCoordinate = Math.abs(bodyRect.top) + pinHeight;
+  var secondCoordinate = Math.abs(bodyRect.top) + PIN_HEIGHT;
   return secondCoordinate;
 };
 
@@ -433,7 +433,7 @@ mainPinElement.addEventListener('mousedown', function (evt) {
 
     var yLine = mainPinElement.offsetTop - shift.y;
     var xLine = mainPinElement.offsetLeft - shift.x;
-    inputAddressElement.value = (xLine + halfOfWidthPin) + ', ' + (yLine + pinHeight);
+    inputAddressElement.value = (xLine + HALF_OF_WIDTH_PIN) + ', ' + (yLine + PIN_HEIGHT);
     checkBoundariesForPin(shift);
   };
 
