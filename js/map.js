@@ -62,7 +62,7 @@ var pins = [];
 /* переменные пина*/
 var mapElement = document.querySelector('.map');
 var templatePin = document.body.querySelector('#pin');
-var mainPinElement = templatePin.content.querySelector('.map__pin');
+var pinTemplateElement = templatePin.content.querySelector('.map__pin');
 var fragment = document.createDocumentFragment();
 // var arrayofOffers(arrayLength);
 /* переменные карточки*/
@@ -105,11 +105,9 @@ var createImageSource = function (i, address, formatEnd) {
 потом там есть переменная number - это рандомное число в промежутке от 0 до длины массива - 1. Потом полученный
 массив обрезается тем, что ему задана длина и те элементы индекс который больше числа number не будут больше в массиве*/
 var createNewArrayfromExistOne = function (array) {
-
   var list = shuffle(array);
   var number = getRandom(0, list.length - 1);
   list.length = number;
-
   return list;
 };
 
@@ -154,25 +152,8 @@ var createObject = function (i) {
   return element;
 };
 
-
-/* создает один пин как элемент DOM и помещает его на карту */
-var createAndPutOnePin = function (element) {
-  // element = createObject(i);
-  var pinClone = mainPinElement.cloneNode(true);
-
-  pinClone.style.left = element.location.x - PIN_WIDTH + PX;
-  pinClone.style.top = element.location.y - PIN_HEIGHT + PX;
-  pinClone.querySelector('img').src = element.author.avatar;
-  pinClone.querySelector('img').alt = element.offer.avatar;
-
-  fragment.appendChild(pinClone);
-  mapElement.appendChild(fragment);
-};
-
 /* создает новые li на основе массива features у элемента*/
-
 var createFeaturesAsDOM = function (element) {
-  // ar element = createObject(i);
   var fragmentLi = document.createDocumentFragment();
   for (var k = 0; k < element.offer.features.length; k++) {
     var newLi = document.createElement('li');
@@ -181,8 +162,8 @@ var createFeaturesAsDOM = function (element) {
   }
   return fragmentLi;
 };
+
 /* создает новые фото на основе массива photos у элемента*/
-// РАСКОДИРОВАТЬ ВЕСЬ createPhotosAsDom
 var createPhotosAsDom = function (element) {
   var fragmentPhotos = document.createDocumentFragment();
   for (var m = 0; m < element.offer.photos.length; m++) {
@@ -198,12 +179,9 @@ var createPhotosAsDom = function (element) {
 };
 
 /* создает карточку как DOM-элемент */
-// РАСКОДИРОВАТЬ ОТ var createCard ДО wherePutCard.appendChild(fragmentCard);
 var createCard = function (element) {
-
   var cardClone = templateCard.cloneNode(true);
   cardClone.querySelector('.popup__title').textContent = element.offer.title;
-
   cardClone.querySelector('.popup__text--price').textContent = element.offer.price + '₽/ночь';
   cardClone.querySelector('.popup__type').textContent = element.offer.type;
   cardClone.querySelector('.popup__text--capacity').textContent = element.offer.rooms + ' комнаты для ' + element.offer.guests + ' гостей';
@@ -223,10 +201,41 @@ var createCard = function (element) {
   /* вставляет фото как DOM-элемент в разметку */
   cardClone.querySelector('.popup__photos').appendChild(createPhotosAsDom(element));
   cardClone.querySelector('.popup__avatar').src = element.author.avatar;
-
-  fragmentCard.appendChild(cardClone);
-  wherePutCard.appendChild(fragmentCard);
+  var cardClose = cardClone.querySelector('.popup__close');
+  cardClose.addEventListener('click', function () {
+    cardClone.classList.add('hidden');
+  });
+  // fragmentCard.appendChild(cardClone);
+  // wherePutCard.appendChild(fragmentCard);
+  // console.log('I create Cards');
+  return cardClone;
 };
+
+var drawOneCard = function (element) {
+  fragmentCard.appendChild(createCard(element));
+  wherePutCard.appendChild(fragmentCard);
+  // console.log('I draw Cards');
+};
+
+/* создает один пин как элемент DOM и помещает его на карту */
+var createOnePin = function (element) {
+  var pinClone = pinTemplateElement.cloneNode(true);
+
+  pinClone.style.left = element.location.x - PIN_WIDTH + PX;
+  pinClone.style.top = element.location.y - PIN_HEIGHT + PX;
+  pinClone.querySelector('img').src = element.author.avatar;
+  pinClone.querySelector('img').alt = element.offer.avatar;
+  pinClone.addEventListener('click', drawOneCard(element));
+  //  console.log('I create Pins');
+  return pinClone;
+};
+
+var putOnePin = function (element) {
+  fragment.appendChild(createOnePin(element));
+  mapElement.appendChild(fragment);
+  // console.log('I draw PIns');
+};
+
 
 /* вызовы функций */
 
@@ -279,31 +288,16 @@ var makeActive = function () {
 
 };
 
-
-var makePins = function () {
+var createAndPutAllPins = function () {
   for (var i = 0; i < AMOUNT; i++) {
     pins[i] = createObject(i);
+    // console.log('createObject' + i + pins[i]);
+    // createOnePin(pins[i]);
+    putOnePin(pins[i]);
+    // console.log('I make all');
   }
 };
 
-var putPinsOnMap = function () {
-  for (var i = 0; i < AMOUNT; i++) {
-    createAndPutOnePin(pins[i]);
-  }
-};
-
-var createAndPutPins = function () {
-  makePins();
-  putPinsOnMap();
-};
-
-var createCards = function () {
-  for (var i = 0; i < AMOUNT; i++) {
-    pins[i] = createObject(i);
-    // createAndPutOnePin(pins[i]);
-    createCard(pins[i]);
-  }
-};
 /* запуск всех функций модуля */
 makeDisabled();
 mainPin.addEventListener('mouseup', makeActive);
@@ -311,21 +305,15 @@ var clicks = 0;
 mainPin.onclick = function () {
   clicks += 1;
   if (clicks <= 1) {
-    createAndPutPins();
-    createCards();
+    createAndPutAllPins();
   }
 };
 
-// mainPin.addEventListener('mouseup', createAndPutPins);
-
 var onMainPinMouseUp = function (evt) {
-  // createAndPutPins(evt);
   makeActive(evt); // устанавливает все слушатели
-  // document.removeEventListener('onmouseup', onMainPinMouseUp);
-  // mainPin.removeEventListener('onmouseup', createAndPutPins);
 };
 mainPin.addEventListener('onmouseup', onMainPinMouseUp);
-// mainPin.removeEventListener('onmouseup', createAndPutPins);
+
 
 /* --------------------------------module4-task2---------------------------- */
 var selectTypeElement = document.querySelector('#type');
@@ -336,6 +324,7 @@ var amountRoomsSelect = document.querySelector('#room_number');
 var amountGuestsSelect = document.querySelector('#capacity');
 // var optionGuests = amountGuestsSelect.querySelector('option');
 var allOptionGuests = amountGuestsSelect.querySelectorAll('option');
+var submit = document.querySelector('.ad-form__submit');
 var TYPE_PRICE = {
   Бунгало: 0,
   Квартира: 1000,
@@ -351,28 +340,17 @@ var onSelectTypeMouseup = function () {
   priceInputElement.placeholder = priceForNight;
   priceInputElement.min = priceForNight;
 };
-
-// var onInputTypeInput = function () {
-//   if (priceInputElement.validity.rangeUnderflow) {
-//     txt = "Value too small";
-//   }
-// };
-
-// priceInputElement.addEventListener('invalid', function (evt) {
-//   var target = evt.target;
-//   if (priceInputElement.validity.rangeUnderflow) {
-//     userNameInput.setCustomValidity('Имя должно состоять минимум из 2-х символов');
-//   }
-// });
-priceInputElement.addEventListener('input', function (evt) {
+/* устанавливает дефолтно min=1000  при смене значения в поле цена*/
+var onpriceInputChange = function () {
+  priceInputElement.min = '1000';
+};
+/* провреряет введеное заначение в поле цена и если оно меньше соответс. ему типу пишет ошибку */
+var onPriceInput = function (evt) {
   var target = evt.target;
-  if (target.validity.rangeUnderflow < priceInputElement.min) {
-    target.setCustomValidity('Стоимость жилья должна быть не ниже ' + priceInputElement.min + ' .');
-  } else {
-    target.setCustomValidity('');
+  if (target.value < selectTypeElement.min) {
+    target.setCustomValidity('Стоимость жилья должна быть не ниже ' + selectTypeElement.min + ' .');
   }
-});
-
+};
 
 /* устанавливает время выезда и въезда */
 var onSelectTimeInMouseUp = function () {
@@ -395,13 +373,23 @@ var onSelectRoomNumberMouseUp = function () {
   });
 
 };
-/* устанавливает кол-во гостей от кол-ва комнат*/
+
 /* запуск всех функций */
 
 selectTypeElement.addEventListener('mouseup', onSelectTypeMouseup);
+priceInputElement.addEventListener('change', onpriceInputChange);
+priceInputElement.addEventListener('mouseup', onPriceInput);
 checkInInputElement.addEventListener('mouseup', onSelectTimeInMouseUp);
 checkOutInput.addEventListener('mouseup', onSelectTimeOutMouseUp);
 amountRoomsSelect.addEventListener('mouseup', onSelectRoomNumberMouseUp);
+
+/* валидация формы*/
+
+submit.addEventListener('click', function () {
+  if (priceInputElement.value < selectTypeElement.min) {
+    selectTypeElement.setCustomValidity('Стоимость жилья должна быть не ниже ' + priceInputElement.min + ' .');
+  }
+});
 /* -------------------------------------------------module5-task1---------------------------------------------------*/
 // МОДУЛЬ move-pin.js здесь гл пин можно двигать и заданы ограничения для его передвижения
 var TOPY = 130;
