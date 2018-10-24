@@ -225,7 +225,9 @@ var createOnePin = function (element) {
   pinClone.style.top = element.location.y - PIN_HEIGHT + PX;
   pinClone.querySelector('img').src = element.author.avatar;
   pinClone.querySelector('img').alt = element.offer.avatar;
-  pinClone.addEventListener('click', drawOneCard(element));
+  pinClone.addEventListener('click', function () {
+    drawOneCard(element);
+  });
   //  console.log('I create Pins');
   return pinClone;
 };
