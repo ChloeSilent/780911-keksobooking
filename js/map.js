@@ -207,11 +207,14 @@ var createCard = function (element) {
   cardClone.querySelector('.popup__photos').appendChild(createPhotosAsDom(element));
   cardClone.querySelector('.popup__avatar').src = element.author.avatar;
   var cardCloseElement = cardClone.querySelector('.popup__close');
-  cardCloseElement.addEventListener('click', function () {
-    cardClone.classList.add('hidden');
+  cardCloseElement.addEventListener('click', function (evt) {
+    // cardClone.classList.add('hidden');
+    // cardClone.parentNode.removeChild(cardClone);
+    var target = evt.target;
+    console.log('evt.target is ' + target);
+    target.parentNode.remove();
   });
-  // fragmentCard.appendChild(cardClone);
-  // mapFiltersContainerElement.appendChild(fragmentCard);
+
   // console.log('I create Cards');
   return cardClone;
 };
@@ -233,6 +236,10 @@ var createOnePin = function (element) {
   pinClone.querySelector('img').alt = element.offer.avatar;
   pinClone.addEventListener('click', function () {
     drawOneCard(element);
+    var allCardContainer = mapFiltersContainerElement.querySelectorAll('.map__card').length;
+    if (allCardContainer > 1) {
+      mapFiltersContainerElement.querySelector('.map__card').remove();
+    }
   });
   //  console.log('I create Pins');
   return pinClone;
@@ -254,15 +261,15 @@ var mainPinElement = document.querySelector('.map__pin--main');
 var formAdElement = document.querySelector('.ad-form');
 var fieldsetInFormContainer = formAdElement.querySelectorAll('fieldset');
 var inputAddressElement = document.querySelector('#address');
-var FIRST_COORDINATE = 570;
-var SECOND_COORDINATE = 375;
+var DEFAULT_X = 570;
+var DEFAULT_Y = 375;
 var bodyRect = mainPinElement.getBoundingClientRect();
 var mapImage = mapElement.getBoundingClientRect();
 
 /* делает все инпуты, филдсеты, баттоны неактивными, делает неактивной карту */
 var makeDisabled = function () {
   mapElement.classList.add('map--faded');
-  inputAddressElement.placeholder = FIRST_COORDINATE + ', ' + SECOND_COORDINATE;
+  inputAddressElement.placeholder = DEFAULT_X + ', ' + DEFAULT_Y;
   fieldsetInFormContainer.forEach(function (node) {
     node.setAttribute('disabled', true);
   });
@@ -273,19 +280,17 @@ var HALF_OF_WIDTH_PIN = 33;
 
 /* вычисляет координату по оси Х для главного пина, адаптировано под расширение окна путем вычета координат карты */
 var getCoordinateX = function () {
-  var firstCoordinate = bodyRect.left - mapImage.left + window.scrollX + HALF_OF_WIDTH_PIN;
-  return firstCoordinate;
+  return bodyRect.left - mapImage.left + window.scrollX + HALF_OF_WIDTH_PIN;
+
 };
 /* вычисляет координату по оси Y для главного пина*/
 var getCoordinateY = function () {
-  var secondCoordinate = Math.abs(bodyRect.top) + PIN_HEIGHT;
-  return secondCoordinate;
-};
+  return Math.abs(bodyRect.top) + PIN_HEIGHT;
 
+};
 
 /* активация карты(убирается класс .map--faded) и делает все инпуты, филдсеты, баттоны активными.
 Вычислет координаты главного пина, создает пины объявлений */
-
 var makeActive = function () {
   /* удаляет disabled с карты и форм*/
   mapElement.classList.remove('map--faded');
@@ -310,18 +315,20 @@ var createAndPutAllPins = function () {
 /* запуск всех функций модуля */
 makeDisabled();
 mainPinElement.addEventListener('mouseup', makeActive);
-var clicks = 0;
-mainPinElement.onclick = function () {
-  clicks += 1;
-  if (clicks <= 1) {
-    createAndPutAllPins();
-  }
-};
+// var clicks = 0;
+// mainPinElement.onclick = function () {
+//   clicks += 1;
+//   if (clicks <= 1) {
+//     createAndPutAllPins();
+//   }
+// };
 
 var onMainPinMouseUp = function (evt) {
   makeActive(evt); // устанавливает все слушатели
+  createAndPutAllPins();
+  mainPinElement.removeEventListener('mouseup', onMainPinMouseUp);
 };
-mainPinElement.addEventListener('onmouseup', onMainPinMouseUp);
+mainPinElement.addEventListener('mouseup', onMainPinMouseUp);
 
 
 /* --------------------------------module4-task2---------------------------- */
