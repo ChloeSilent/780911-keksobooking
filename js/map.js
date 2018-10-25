@@ -269,6 +269,7 @@ var mapImage = mapElement.getBoundingClientRect();
 /* делает все инпуты, филдсеты, баттоны неактивными, делает неактивной карту */
 var makeDisabled = function () {
   mapElement.classList.add('map--faded');
+  formAdElement.classList.add('ad-form--disabled');
   inputAddressElement.placeholder = DEFAULT_X + ', ' + DEFAULT_Y;
   fieldsetInFormContainer.forEach(function (node) {
     node.setAttribute('disabled', true);
@@ -305,33 +306,32 @@ var makeActive = function () {
 var createAndPutAllPins = function () {
   for (var i = 0; i < AMOUNT; i++) {
     pins[i] = createObject(i);
-    // console.log('createObject' + i + pins[i]);
-    // createOnePin(pins[i]);
     putOnePin(pins[i]);
-    // console.log('I make all');
   }
 };
 
 /* запуск всех функций модуля */
 makeDisabled();
-mainPinElement.addEventListener('mouseup', makeActive);
-// var clicks = 0;
-// mainPinElement.onclick = function () {
-//   clicks += 1;
-//   if (clicks <= 1) {
-//     createAndPutAllPins();
-//   }
-// };
+// mainPinElement.addEventListener('mouseup', makeActive);
 
-var onMainPinMouseUp = function (evt) {
-  makeActive(evt); // устанавливает все слушатели
-  createAndPutAllPins();
-  mainPinElement.removeEventListener('mouseup', onMainPinMouseUp);
-};
-mainPinElement.addEventListener('mouseup', onMainPinMouseUp);
+// /* функция, которая запустится по клику по главному пину */
+// var onMainPinMouseUp = function (evt) {
+//   makeActive(evt);
+//   createAndPutAllPins();
+//   mainPinElement.removeEventListener('mouseup', onMainPinMouseUp);
+//   /* запуск всех функций */
+// selectTypeElement.addEventListener('mouseup', onSelectTypeMouseup);
+// priceInputElement.addEventListener('change', onpriceInputChange);
+// priceInputElement.addEventListener('mouseup', onPriceInput);
+// checkInInputElement.addEventListener('mouseup', onSelectTimeInMouseUp);
+// checkOutInputElement.addEventListener('mouseup', onSelectTimeOutMouseUp);
+// amountRoomsSelectElement.addEventListener('mouseup', onSelectRoomNumberMouseUp);
+// };
+// mainPinElement.addEventListener('mouseup', onMainPinMouseUp);
 
 
 /* --------------------------------module4-task2---------------------------- */
+var inputTitleElement = document.querySelector('#title');
 var selectTypeElement = document.querySelector('#type');
 var priceInputElement = document.querySelector('#price');
 var checkInInputElement = document.querySelector('#timein');
@@ -340,6 +340,7 @@ var amountRoomsSelectElement = document.querySelector('#room_number');
 var amountGuestsSelectElement = document.querySelector('#capacity');
 var allOptionGuestsContainer = amountGuestsSelectElement.querySelectorAll('option');
 var submitButtonElement = document.querySelector('.ad-form__submit');
+var resetButtonElement = document.querySelector('.ad-form__reset');
 var TYPE_PRICE = {
   Бунгало: 0,
   Квартира: 1000,
@@ -350,7 +351,6 @@ var TYPE_PRICE = {
 /* устанавливает цену за 1 ночь в зависимости от типа жилья */
 var onSelectTypeMouseup = function () {
   var selectedOption = selectTypeElement.options[selectTypeElement.selectedIndex].text;
-  // alert('strUser is ' + strUser);
   var priceForNight = TYPE_PRICE[selectedOption];
   priceInputElement.placeholder = priceForNight;
   priceInputElement.min = priceForNight;
@@ -389,22 +389,20 @@ var onSelectRoomNumberMouseUp = function () {
 
 };
 
-/* запуск всех функций */
-
-selectTypeElement.addEventListener('mouseup', onSelectTypeMouseup);
-priceInputElement.addEventListener('change', onpriceInputChange);
-priceInputElement.addEventListener('mouseup', onPriceInput);
-checkInInputElement.addEventListener('mouseup', onSelectTimeInMouseUp);
-checkOutInputElement.addEventListener('mouseup', onSelectTimeOutMouseUp);
-amountRoomsSelectElement.addEventListener('mouseup', onSelectRoomNumberMouseUp);
+// /* запуск всех функций */
+// selectTypeElement.addEventListener('mouseup', onSelectTypeMouseup);
+// priceInputElement.addEventListener('change', onpriceInputChange);
+// priceInputElement.addEventListener('mouseup', onPriceInput);
+// checkInInputElement.addEventListener('mouseup', onSelectTimeInMouseUp);
+// checkOutInputElement.addEventListener('mouseup', onSelectTimeOutMouseUp);
+// amountRoomsSelectElement.addEventListener('mouseup', onSelectRoomNumberMouseUp);
 
 /* валидация формы*/
-
-submitButtonElement.addEventListener('click', function () {
+var onSbmitButtonElementClick = function () {
   if (priceInputElement.value < selectTypeElement.min) {
     selectTypeElement.setCustomValidity('Стоимость жилья должна быть не ниже ' + priceInputElement.min + ' .');
   }
-});
+};
 /* -------------------------------------------------module5-task1---------------------------------------------------*/
 // МОДУЛЬ move-pin.js здесь гл пин можно двигать и заданы ограничения для его передвижения
 var TOPY = 130;
@@ -412,16 +410,16 @@ var BOTTOMY = 630;
 var LEFTX = -31;
 var RIGHTX = 1165;
 
-mainPinElement.addEventListener('mousedown', function (evt) {
+var onmMainPinElementMouseDown = function (evt) {
   evt.preventDefault();
-
+  /* стартовые координаты главного пина*/
   var startCoords = {
     x: evt.clientX,
     y: evt.clientY
   };
 
   var dragged = false;
-
+  /* функция перемещения главного пина*/
   var onMouseMove = function (moveEvt) {
     moveEvt.preventDefault();
 
@@ -443,14 +441,11 @@ mainPinElement.addEventListener('mousedown', function (evt) {
     inputAddressElement.value = (xLine + HALF_OF_WIDTH_PIN) + ', ' + (yLine + PIN_HEIGHT);
     checkBoundariesForPin(shift);
   };
-
+  /* отпуск клавиши мыши снимает обработчики, запускающие перемещение пина и этой же функции*/
   var onMouseUp = function (upEvt) {
     upEvt.preventDefault();
-
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
-
-
   };
 
   if (dragged) {
@@ -481,21 +476,68 @@ mainPinElement.addEventListener('mousedown', function (evt) {
   };
 
   document.addEventListener('mousemove', onMouseMove);
-
   document.addEventListener('mouseup', onMouseUp);
-
-});
-
-// поставить удалитель слушателей по reset и по submit
-/* блок с удалителями слушателей на reset и submit*/
-/*
-var resetButton = document.querySelector('.ad-form__reset');
-var deleteAllHandlers = function () {
-  makeDisabled();
-  document.removeEventListener('mousemove', onMouseMove);
-  document.removeEventListener('mouseup', onMouseUp);
-  mainPin.removeEventListener('click', onClickPreventDefault);
 };
-resetButton.addEventListener('mousedown', deleteAllHandlers)
 
-*/
+
+/* функция, которая запустится по клику по главному пину */
+var onMainPinMouseUp = function (evt) {
+  /* запуск всех функций на карте(перемещение гл пина, создание пинов, активация карты*/
+  // var onMainPinMouseUp = function (evt) {
+  // makeActive(evt);
+  // createAndPutAllPins();
+  // mainPinElement.addEventListener('mouseup', makeActive);
+  makeActive(evt);
+  createAndPutAllPins();
+  mainPinElement.addEventListener('mousedown', onmMainPinElementMouseDown);
+
+  /* запуск всех функций формы*/
+  selectTypeElement.addEventListener('mouseup', onSelectTypeMouseup);
+  priceInputElement.addEventListener('change', onpriceInputChange);
+  priceInputElement.addEventListener('mouseup', onPriceInput);
+  checkInInputElement.addEventListener('mouseup', onSelectTimeInMouseUp);
+  checkOutInputElement.addEventListener('mouseup', onSelectTimeOutMouseUp);
+  amountRoomsSelectElement.addEventListener('mouseup', onSelectRoomNumberMouseUp);
+  mainPinElement.removeEventListener('mouseup', onMainPinMouseUp);
+  submitButtonElement.addEventListener('click', onSbmitButtonElementClick);
+  resetButtonElement.addEventListener('click', onResetButtonClick);
+  submitButtonElement.addEventListener('click', onResetButtonClick);
+};
+mainPinElement.addEventListener('mouseup', onMainPinMouseUp);
+
+/* блок с удалителями слушателей на reset и submit*/
+/* функция удаляющая все слушатели, делающая все что нужно disabled и удаляющая все пины*/
+var removeAllHandlers = function () {
+  /* удаление  всех маленьких пинов*/
+  var allPinsContainer = mapElement.querySelectorAll('.map__pin').length;
+  for (var i = allPinsContainer; i >= 1; i--) { // проверка, что бы не удалить гл пин, тк он входит в этот массив
+    mapElement.removeChild(mapElement.lastChild);
+  }
+  /* снятие всех обработчиков с  формы*/
+  selectTypeElement.removeEventListener('mouseup', onSelectTypeMouseup);
+  priceInputElement.removeEventListener('change', onpriceInputChange);
+  priceInputElement.removeEventListener('mouseup', onPriceInput);
+  checkInInputElement.removeEventListener('mouseup', onSelectTimeInMouseUp);
+  checkOutInputElement.removeEventListener('mouseup', onSelectTimeOutMouseUp);
+  amountRoomsSelectElement.removeEventListener('mouseup', onSelectRoomNumberMouseUp);
+  mainPinElement.removeEventListener('mouseup', onMainPinMouseUp);
+  resetButtonElement.removeEventListener('click', onResetButtonClick);
+  submitButtonElement.removeEventListener('click', onResetButtonClick);
+};
+var setFormNew = function () {
+  /* все поля формы получают value = ''  и поэтому возвращаются к дефолтному виду*/
+  fieldsetInFormContainer.forEach(function (node) {
+    node.value = '';
+  });
+  /* координаты для главного пина в интпуте адрес и для stle самого элемента */
+  inputAddressElement.value = DEFAULT_X + ', ' + DEFAULT_Y;
+  mainPinElement.style.left = DEFAULT_X + 'px';
+  mainPinElement.style.top = DEFAULT_Y + 'px';
+
+};
+
+var onResetButtonClick = function () {
+  // makeDisabled();
+  removeAllHandlers();
+  setFormNew();
+};
