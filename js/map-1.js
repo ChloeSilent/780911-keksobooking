@@ -331,7 +331,7 @@ makeDisabled();
 
 
 /* --------------------------------module4-task2---------------------------- */
-var inputTitleElement = document.querySelector('#title');
+// var inputTitleElement = document.querySelector('#title');
 var selectTypeElement = document.querySelector('#type');
 var priceInputElement = document.querySelector('#price');
 var checkInInputElement = document.querySelector('#timein');
