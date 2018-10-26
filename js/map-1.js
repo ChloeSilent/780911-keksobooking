@@ -338,7 +338,7 @@ var checkInInputElement = document.querySelector('#timein');
 var checkOutInputElement = document.querySelector('#timeout');
 var amountRoomsSelectElement = document.querySelector('#room_number');
 var amountGuestsSelectElement = document.querySelector('#capacity');
-var allOptionGuestsContainer = amountGuestsSelectElement.querySelectorAll('option');
+// var allOptionGuestsContainer = amountGuestsSelectElement.querySelectorAll('option');
 var submitButtonElement = document.querySelector('.ad-form__submit');
 var resetButtonElement = document.querySelector('.ad-form__reset');
 var TYPE_PRICE = {
@@ -575,13 +575,15 @@ mainPinElement.addEventListener('mouseup', onMainPinMouseUp);
 /* функция удаляющая все слушатели, делающая все что нужно disabled и удаляющая все пины*/
 var removeAllHandlers = function () {
   /* удаление  всех маленьких пинов*/
-
   // if (!classList.has('map__pin map__pin--main')) { // ПОИГРАТЬСЯ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   //   continue;
-
+  // var allPinsContainer = mapElement.querySelectorAll('.map__pin').length;
+  // for (var i = allPinsContainer; i >= 1; i--) { // проверка, что бы не удалить гл пин, тк он входит в этот массив
+  //   mapElement.removeChild(mapElement.lastChild);
+  // }
   var allPinsContainer = mapElement.querySelectorAll('.map__pin').length;
   for (var i = allPinsContainer; i >= 1; i--) { // проверка, что бы не удалить гл пин, тк он входит в этот массив
-    mapElement.removeChild(mapElement.lastChild);
+    mapElement.removeChild(mapElement.querySelector('button[type="button"]'));
   }
   /* снятие всех обработчиков с  формы*/
   selectTypeElement.removeEventListener('mouseup', onSelectTypeMouseup);
