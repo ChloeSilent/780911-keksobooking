@@ -385,24 +385,22 @@ var onSelectRoomNumberMouseUp = function () {
   // allOptionGuestsContainer.forEach(function (node) {
   //   node.setAttribute('disabled', node.value === '100' ? 0 : (selectedOptionRoom.value < node.value));
   // });
-  /* эта функция чуть лучше предыдущей, но тоже не работает*/
+  /* эта функция на все опции пишет 1 гость и не для гостей*/
   // allOptionGuestsContainer.forEach(function (node) {
   //   if (selectedOptionRoom.value < node.value) {
   //     node.setAttribute('disabled', true);
   //   }
   // });
-  /* эта функция более-менее работает*/
-  // var op = amountGuestsSelectElement.getElementsByTagName('option');
-  // for (var i = 0; i < allOptionGuestsContainer.length; i++) {
-  //   if (op[i].value > selectedOptionRoom.value) {
-  //     op[i].disabled = true;
-  //   } else {
-  //     op[i].disabled = false;
-  //   }
-  //   // console.log('get option ' + i);
-  // }
 
-  /* неработающий код */
+  /* эта функция на все опции пишет 1 гость и не для гостей */
+  var select = document.querySelector('#capacity');
+  var options = select.options;
+  for (var i = 0, iLen = options.length; i < iLen; i++) {
+    if (options[i].value > selectedOptionRoom.value) {
+      options[i].disabled = true;
+    }
+  }
+  /* работающий код */
   // var op = amountGuestsSelectElement.getElementsByTagName('option');
   // switch (selectedOptionRoom.value) {
   //   case 1:
@@ -432,21 +430,21 @@ var onSelectRoomNumberMouseUp = function () {
   // }
 
   // });
-  allOptionGuestsContainer.forEach(function (node) {
-    node.setAttribute('disabled', true);
-  });
-  if (amountRoomsSelectElement.value === '1') {
-    allOptionGuestsContainer[2].removeAttribute('disabled');
-  } else if (amountRoomsSelectElement.value === '2') {
-    allOptionGuestsContainer[1].removeAttribute('disabled');
-    allOptionGuestsContainer[2].removeAttribute('disabled');
-  } else if (amountRoomsSelectElement.value === '3') {
-    allOptionGuestsContainer[0].removeAttribute('disabled');
-    allOptionGuestsContainer[1].removeAttribute('disabled');
-    allOptionGuestsContainer[2].removeAttribute('disabled');
-  } else if (amountRoomsSelectElement.value === '100') {
-    allOptionGuestsContainer[3].removeAttribute('disabled');
-  }
+  // allOptionGuestsContainer.forEach(function (node) {
+  //   node.setAttribute('disabled', true);
+  // });
+  // if (amountRoomsSelectElement.value === '1') {
+  //   allOptionGuestsContainer[2].removeAttribute('disabled');
+  // } else if (amountRoomsSelectElement.value === '2') {
+  //   allOptionGuestsContainer[1].removeAttribute('disabled');
+  //   allOptionGuestsContainer[2].removeAttribute('disabled');
+  // } else if (amountRoomsSelectElement.value === '3') {
+  //   allOptionGuestsContainer[0].removeAttribute('disabled');
+  //   allOptionGuestsContainer[1].removeAttribute('disabled');
+  //   allOptionGuestsContainer[2].removeAttribute('disabled');
+  // } else if (amountRoomsSelectElement.value === '100') {
+  //   allOptionGuestsContainer[3].removeAttribute('disabled');
+  // }
 };
 
 // /* запуск всех функций */
@@ -472,8 +470,8 @@ var onSbmitButtonElementClick = function () {
     mainElement.appendChild(fragment);
   });
 
-  if (priceInputElement.value < selectTypeElement.min) {
-    selectTypeElement.setCustomValidity('Стоимость жилья должна быть не ниже ' + priceInputElement.min + ' .');
+  if (priceInputElement.value < selectTypeElement.min) { //  вынести в отдельную ф-ю, вызывать ее на 462 строке, если она вернет false, сразу выходить (return) из onSbmitButtonElementClick
+    selectTypeElement.setCustomValidity('Стоимость жилья должна быть не ниже ' + priceInputElement.min + ' .'); // вынести в отдельную ф-ю, вызывать ее на 462 строке, если она вернет false, сразу выходить (return) из onSbmitButtonElementClick
   }
 };
 /* -------------------------------------------------module5-task1---------------------------------------------------*/
@@ -577,6 +575,10 @@ mainPinElement.addEventListener('mouseup', onMainPinMouseUp);
 /* функция удаляющая все слушатели, делающая все что нужно disabled и удаляющая все пины*/
 var removeAllHandlers = function () {
   /* удаление  всех маленьких пинов*/
+
+  // if (!classList.has('map__pin map__pin--main')) { // ПОИГРАТЬСЯ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  //   continue;
+
   var allPinsContainer = mapElement.querySelectorAll('.map__pin').length;
   for (var i = allPinsContainer; i >= 1; i--) { // проверка, что бы не удалить гл пин, тк он входит в этот массив
     mapElement.removeChild(mapElement.lastChild);
@@ -601,6 +603,7 @@ var setFormNew = function () {
   // priceInputElement.value = '';
   // checkInInputElement.value = '';
   // checkOutInputElement.value = '';
+  formAdElement.reset();
   /* координаты для главного пина в интпуте адрес и для stle самого элемента */
   inputAddressElement.value = DEFAULT_X + ', ' + DEFAULT_Y;
   mainPinElement.style.left = DEFAULT_X + 'px';
