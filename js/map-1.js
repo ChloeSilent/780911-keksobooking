@@ -359,7 +359,7 @@ var onSelectTypeMouseup = function () {
 var onpriceInputChange = function () {
   priceInputElement.min = '1000';
 };
-/* провреряет введеное заначение в поле цена и если оно меньше соответс. ему типу пишет ошибку */
+/* проверяет введеное заначение в поле цена и если оно меньше соответс. ему типу пишет ошибку */
 var onPriceInput = function (evt) {
   var target = evt.target;
   if (target.value < selectTypeElement.min) {
@@ -378,15 +378,75 @@ var onSelectTimeOutMouseUp = function () {
 };
 
 /* устанавливает кол-во гостей от кол-ва комнат*/
-
 var onSelectRoomNumberMouseUp = function () {
   var selectedOptionRoom = amountRoomsSelectElement.options[amountRoomsSelectElement.selectedIndex];
+  // var selectedOptionGuests = amountGuestsSelectElement.options[amountGuestsSelectElement.selectedIndex];
   amountGuestsSelectElement.value = selectedOptionRoom.value === '100' ? 0 : selectedOptionRoom.value;
+  // allOptionGuestsContainer.forEach(function (node) {
+  //   node.setAttribute('disabled', node.value === '100' ? 0 : (selectedOptionRoom.value < node.value));
+  // });
+  /* эта функция чуть лучше предыдущей, но тоже не работает*/
+  // allOptionGuestsContainer.forEach(function (node) {
+  //   if (selectedOptionRoom.value < node.value) {
+  //     node.setAttribute('disabled', true);
+  //   }
+  // });
+  /* эта функция более-менее работает*/
+  // var op = amountGuestsSelectElement.getElementsByTagName('option');
+  // for (var i = 0; i < allOptionGuestsContainer.length; i++) {
+  //   if (op[i].value > selectedOptionRoom.value) {
+  //     op[i].disabled = true;
+  //   } else {
+  //     op[i].disabled = false;
+  //   }
+  //   // console.log('get option ' + i);
+  // }
+
+  /* неработающий код */
+  // var op = amountGuestsSelectElement.getElementsByTagName('option');
+  // switch (selectedOptionRoom.value) {
+  //   case 1:
+  //     op[0].disabled = true;
+  //     op[1].disabled = true;
+  //     op[2].disabled = false;
+  //     op[3].disabled = true;
+  //     break;
+  //   case 2:
+  //     op[0].disabled = true;
+  //     op[1].disabled = false;
+  //     op[2].disabled = false;
+  //     op[3].disabled = true;
+  //     break;
+  //   case 3:
+  //     op[0].disabled = false;
+  //     op[1].disabled = false;
+  //     op[2].disabled = false;
+  //     op[3].disabled = true;
+  //     break;
+  //   case 100:
+  //     op[0].disabled = true;
+  //     op[1].disabled = true;
+  //     op[2].disabled = true;
+  //     op[3].disabled = false;
+  //     break;
+  // }
+
+  // });
   allOptionGuestsContainer.forEach(function (node) {
-
-    node.setAttribute('disabled', node.value === '100' ? 0 : (selectedOptionRoom.value < node.value));
+    node.setAttribute('disabled', true);
   });
-
+  if (amountRoomsSelectElement.value === '1') {
+    allOptionGuestsContainer[2].removeAttribute('disabled');
+  } else if (amountRoomsSelectElement.value === '2') {
+    allOptionGuestsContainer[1].removeAttribute('disabled');
+    allOptionGuestsContainer[2].removeAttribute('disabled');
+  } else if (amountRoomsSelectElement.value === '3') {
+    allOptionGuestsContainer[0].removeAttribute('disabled');
+    allOptionGuestsContainer[1].removeAttribute('disabled');
+    allOptionGuestsContainer[2].removeAttribute('disabled');
+  } else if (amountRoomsSelectElement.value === '100') {
+    allOptionGuestsContainer[3].removeAttribute('disabled');
+  }
 };
 
 // /* запуск всех функций */
@@ -399,6 +459,19 @@ var onSelectRoomNumberMouseUp = function () {
 
 /* валидация формы*/
 var onSbmitButtonElementClick = function () {
+  var succesMessageClone = document.querySelector('#success').cloneNode(true);
+  var errorMessageClone = document.querySelector('#error').cloneNode(true);
+  var mainElement = document.querySelector('main');
+  var fragment = document.createDocumentFragment();
+  formAdElement.addEventListener('invalid', function () {
+    fragment.appendChild(errorMessageClone);
+    mainElement.appendChild(fragment);
+  });
+  formAdElement.addEventListener('valid', function () {
+    fragment.appendChild(succesMessageClone);
+    mainElement.appendChild(fragment);
+  });
+
   if (priceInputElement.value < selectTypeElement.min) {
     selectTypeElement.setCustomValidity('Стоимость жилья должна быть не ниже ' + priceInputElement.min + ' .');
   }
@@ -410,7 +483,7 @@ var BOTTOMY = 630;
 var LEFTX = -31;
 var RIGHTX = 1165;
 
-var onmMainPinElementMouseDown = function (evt) {
+var onMainPinElementMouseDown = function (evt) {
   evt.preventDefault();
   /* стартовые координаты главного пина*/
   var startCoords = {
@@ -483,14 +556,9 @@ var onmMainPinElementMouseDown = function (evt) {
 /* функция, которая запустится по клику по главному пину */
 var onMainPinMouseUp = function (evt) {
   /* запуск всех функций на карте(перемещение гл пина, создание пинов, активация карты*/
-  // var onMainPinMouseUp = function (evt) {
-  // makeActive(evt);
-  // createAndPutAllPins();
-  // mainPinElement.addEventListener('mouseup', makeActive);
   makeActive(evt);
   createAndPutAllPins();
-  mainPinElement.addEventListener('mousedown', onmMainPinElementMouseDown);
-
+  mainPinElement.addEventListener('mousedown', onMainPinElementMouseDown);
   /* запуск всех функций формы*/
   selectTypeElement.addEventListener('mouseup', onSelectTypeMouseup);
   priceInputElement.addEventListener('change', onpriceInputChange);
@@ -501,7 +569,7 @@ var onMainPinMouseUp = function (evt) {
   mainPinElement.removeEventListener('mouseup', onMainPinMouseUp);
   submitButtonElement.addEventListener('click', onSbmitButtonElementClick);
   resetButtonElement.addEventListener('click', onResetButtonClick);
-  submitButtonElement.addEventListener('click', onResetButtonClick);
+  submitButtonElement.addEventListener('mousedown', onSubmitButtonClick);
 };
 mainPinElement.addEventListener('mouseup', onMainPinMouseUp);
 
@@ -522,7 +590,7 @@ var removeAllHandlers = function () {
   amountRoomsSelectElement.removeEventListener('mouseup', onSelectRoomNumberMouseUp);
   mainPinElement.removeEventListener('mouseup', onMainPinMouseUp);
   resetButtonElement.removeEventListener('click', onResetButtonClick);
-  submitButtonElement.removeEventListener('click', onResetButtonClick);
+  submitButtonElement.removeEventListener('mousedown', onSubmitButtonClick);
 };
 var setFormNew = function () {
   fieldsetInFormContainer.forEach(function (node) {
@@ -541,7 +609,14 @@ var setFormNew = function () {
 };
 
 var onResetButtonClick = function () {
-  // makeDisabled();
+  makeDisabled();
+  removeAllHandlers();
+  setFormNew();
+};
+
+var onSubmitButtonClick = function (e) {
+  e.preventDefault();
+  makeDisabled();
   removeAllHandlers();
   setFormNew();
 };
