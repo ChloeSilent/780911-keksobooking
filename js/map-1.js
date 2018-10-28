@@ -1,4 +1,4 @@
-/* eslint-disable eqeqeq */
+
 'use strict';
 
 /* КОНСТАНТЫ*/
@@ -34,16 +34,16 @@ var MIN_AMOUT_ROOMS = 1;
 var MAX_AMOUT_ROOMS = 5;
 
 var CHECKIN = ['12:00', '13:00', '14:00'];
-// var CHECKOUT = CHECKIN;
+
 
 var FEATURES = ['--wifi', '--dishwasher', '--parking', '--washer', '--elevator', '--conditioner'];
-var FEATURESTYLE = 'popup__feature popup__feature'; // РАСКОДИРОВАТЬ
+var FEATURESTYLE = 'popup__feature popup__feature';
 
 var PHOTOS_AMOUNT = 3;
 var PHOTO_SOURCE = 'http://o0.github.io/assets/images/tokyo/hotel';
 var JPG = '.jpg';
-var PHOTO_PLACE_WIDTH = 45; // РАСКОДИРОВАТЬ
-var PHOTO_PLACE_HEIGHT = 45; // РАСКОДИРОВАТЬ
+var PHOTO_PLACE_WIDTH = 45;
+var PHOTO_PLACE_HEIGHT = 45;
 
 var MIN_X = 100;
 var MAX_X = 1087;
@@ -56,21 +56,17 @@ var PIN_WIDTH = 50;
 var PX = 'px';
 
 /* ПЕРЕМЕННЫЕ*/
-// var arrayofOffers = [];
-// arrayofOffers.length = AMOUNT;
 var pins = [];
 /* переменные пина*/
 var mapElement = document.querySelector('.map');
 var templatePinElement = document.body.querySelector('#pin');
 var pinTemplateElement = templatePinElement.content.querySelector('.map__pin');
 
-// var arrayofOffers(arrayLength);
+
 /* переменные карточки*/
-var mapFiltersContainerElement = document.querySelector('.map__filters-container'); // РАСКОДИРОВАТЬ
-var templateCardElement = document.body.querySelector('#card').content.querySelector('.map__card'); // РАСКОДИРОВАТЬ
+var mapFiltersContainerElement = document.querySelector('.map__filters-container');
+var templateCardElement = document.body.querySelector('#card').content.querySelector('.map__card');
 
-
-/* МЕТОДЫ */
 
 /* Возвращает рандомное число между мин и макс */
 var getRandom = function (min, max) {
@@ -100,6 +96,7 @@ var getFromArray = function (array) {
 var createImageSource = function (i, address, formatEnd) {
   return address + (i + 1) + formatEnd;
 };
+
 /* создает массив фото и перемешивает их */
 /* создает из массива(который рандомно перемешивается функцией shuffle) другой массив,
 потом там есть переменная number - это рандомное число в промежутке от 0 до длины массива - 1. Потом полученный
@@ -112,7 +109,6 @@ var createNewArrayfromExistOne = function (array) {
 };
 
 /* создает массив фото и перемешивает их */
-
 var createPhotosArray = function (arrayLength) {
   var photosArray = [];
   for (var i = 0; i < arrayLength; i++) {
@@ -189,18 +185,19 @@ var createCard = function (element) {
   cardClone.querySelector('.popup__type').textContent = element.offer.type;
   cardClone.querySelector('.popup__text--capacity').textContent = element.offer.rooms + ' комнаты для ' + element.offer.guests + ' гостей';
   cardClone.querySelector('.popup__text--time').textContent = 'Заезд после ' + element.offer.checkin + ', выезд до ' + element.offer.checkin;
+
   /* удаляет дефолтные li */
   var ListFeaturesElement = cardClone.querySelector('.popup__features');
   while (ListFeaturesElement.firstChild) {
-    // ListFeaturesElement.removeChild(ListFeaturesElement.firstChild);
     removeChildrenNodes(ListFeaturesElement);
   }
+
   cardClone.querySelector('.popup__features').appendChild(createFeaturesAsDOM(element));
   cardClone.querySelector('.popup__description').textContent = element.offer.description;
+
   /* удаляет дефолтные фото */
   var ListPhotosElement = cardClone.querySelector('.popup__photos');
   while (ListPhotosElement.firstChild) {
-    // ListPhotosElement.removeChild(ListPhotosElement.firstChild);
     removeChildrenNodes(ListPhotosElement);
   }
   /* вставляет фото как DOM-элемент в разметку */
@@ -208,14 +205,12 @@ var createCard = function (element) {
   cardClone.querySelector('.popup__avatar').src = element.author.avatar;
   var cardCloseElement = cardClone.querySelector('.popup__close');
   cardCloseElement.addEventListener('click', function (evt) {
-    // cardClone.classList.add('hidden');
-    // cardClone.parentNode.removeChild(cardClone);
+
     var target = evt.target;
-    // console.log('evt.target is ' + target);
     target.parentNode.remove();
   });
 
-  // console.log('I create Cards');
+
   return cardClone;
 };
 
@@ -223,7 +218,7 @@ var drawOneCard = function (element) {
   var fragmentCard = document.createDocumentFragment();
   fragmentCard.appendChild(createCard(element));
   mapFiltersContainerElement.appendChild(fragmentCard);
-  // console.log('I draw Cards');
+
 };
 
 /* создает один пин как элемент DOM и помещает его на карту */
@@ -241,7 +236,7 @@ var createOnePin = function (element) {
       mapFiltersContainerElement.querySelector('.map__card').remove();
     }
   });
-  //  console.log('I create Pins');
+
   return pinClone;
 };
 
@@ -249,11 +244,8 @@ var putOnePin = function (element) {
   var fragment = document.createDocumentFragment();
   fragment.appendChild(createOnePin(element));
   mapElement.appendChild(fragment);
-  // console.log('I draw PIns');
 };
 
-
-/* вызовы функций */
 
 /* ------------------------------------- module4-task1------------------------------------------------ */
 /* карта деактивируется, при клике на главн пин снимется diabled с форм и карты, задаются координаты главного пина */
@@ -275,9 +267,10 @@ var makeDisabled = function () {
     node.setAttribute('disabled', true);
   });
 };
+makeDisabled();
 
 var HALF_OF_WIDTH_PIN = 33;
-// var PIN_HEIGHT = 81;
+
 
 /* вычисляет координату по оси Х для главного пина, адаптировано под расширение окна путем вычета координат карты */
 var getCoordinateX = function () {
@@ -310,35 +303,13 @@ var createAndPutAllPins = function () {
   }
 };
 
-/* запуск всех функций модуля */
-makeDisabled();
-// mainPinElement.addEventListener('mouseup', makeActive);
-
-// /* функция, которая запустится по клику по главному пину */
-// var onMainPinMouseUp = function (evt) {
-//   makeActive(evt);
-//   createAndPutAllPins();
-//   mainPinElement.removeEventListener('mouseup', onMainPinMouseUp);
-//   /* запуск всех функций */
-// selectTypeElement.addEventListener('mouseup', onSelectTypeMouseup);
-// priceInputElement.addEventListener('change', onpriceInputChange);
-// priceInputElement.addEventListener('mouseup', onPriceInput);
-// checkInInputElement.addEventListener('mouseup', onSelectTimeInMouseUp);
-// checkOutInputElement.addEventListener('mouseup', onSelectTimeOutMouseUp);
-// amountRoomsSelectElement.addEventListener('mouseup', onSelectRoomNumberMouseUp);
-// };
-// mainPinElement.addEventListener('mouseup', onMainPinMouseUp);
-
-
 /* --------------------------------module4-task2---------------------------- */
-// var inputTitleElement = document.querySelector('#title');
+
 var selectTypeElement = document.querySelector('#type');
 var priceInputElement = document.querySelector('#price');
 var checkInInputElement = document.querySelector('#timein');
 var checkOutInputElement = document.querySelector('#timeout');
 var amountRoomsSelectElement = document.querySelector('#room_number');
-var amountGuestsSelectElement = document.querySelector('#capacity');
-// var allOptionGuestsContainer = amountGuestsSelectElement.querySelectorAll('option');
 var submitButtonElement = document.querySelector('.ad-form__submit');
 var resetButtonElement = document.querySelector('.ad-form__reset');
 var TYPE_PRICE = {
@@ -370,97 +341,47 @@ var onPriceInput = function (evt) {
 /* устанавливает время выезда и въезда */
 var onSelectTimeInMouseUp = function () {
   checkOutInputElement.selectedIndex = checkInInputElement.selectedIndex;
-  // checkOutInputElement.preventDefault();
+
 };
 var onSelectTimeOutMouseUp = function () {
   checkInInputElement.selectedIndex = checkOutInputElement.selectedIndex;
-  // checkInInput.preventDefault();
+
 };
 
 /* устанавливает кол-во гостей от кол-ва комнат*/
 var onSelectRoomNumberMouseUp = function () {
-  var selectedOptionRoom = amountRoomsSelectElement.options[amountRoomsSelectElement.selectedIndex];
-  // var selectedOptionGuests = amountGuestsSelectElement.options[amountGuestsSelectElement.selectedIndex];
-  amountGuestsSelectElement.value = selectedOptionRoom.value === '100' ? 0 : selectedOptionRoom.value;
-  // allOptionGuestsContainer.forEach(function (node) {
-  //   node.setAttribute('disabled', node.value === '100' ? 0 : (selectedOptionRoom.value < node.value));
-  // });
-  /* эта функция на все опции пишет 1 гость и не для гостей*/
-  // allOptionGuestsContainer.forEach(function (node) {
-  //   if (selectedOptionRoom.value < node.value) {
-  //     node.setAttribute('disabled', true);
-  //   }
-  // });
+  var selectedOptionRoom = amountRoomsSelectElement.value;
 
-  /* эта функция на все опции пишет 1 гость и не для гостей */
-  var select = document.querySelector('#capacity');
-  var options = select.options;
-  for (var i = 0, iLen = options.length; i < iLen; i++) {
-    if (options[i].value > selectedOptionRoom.value) {
-      options[i].disabled = true;
+  var capacitySelect = document.querySelector('#capacity');
+  Array.from(capacitySelect.options).forEach(function (option) {
+
+    var capacityValue = parseInt(option.value, 10);
+    var roomsValue = parseInt(selectedOptionRoom, 10);
+
+    if (roomsValue === 100 && capacityValue !== 0) {
+      option.disabled = true;
+    } else if (roomsValue !== 100 && (capacityValue > roomsValue || capacityValue === 0)) {
+      option.disabled = true;
+    } else {
+      option.disabled = false;
     }
-  }
-  /* работающий код */
-  // var op = amountGuestsSelectElement.getElementsByTagName('option');
-  // switch (selectedOptionRoom.value) {
-  //   case 1:
-  //     op[0].disabled = true;
-  //     op[1].disabled = true;
-  //     op[2].disabled = false;
-  //     op[3].disabled = true;
-  //     break;
-  //   case 2:
-  //     op[0].disabled = true;
-  //     op[1].disabled = false;
-  //     op[2].disabled = false;
-  //     op[3].disabled = true;
-  //     break;
-  //   case 3:
-  //     op[0].disabled = false;
-  //     op[1].disabled = false;
-  //     op[2].disabled = false;
-  //     op[3].disabled = true;
-  //     break;
-  //   case 100:
-  //     op[0].disabled = true;
-  //     op[1].disabled = true;
-  //     op[2].disabled = true;
-  //     op[3].disabled = false;
-  //     break;
-  // }
 
-  // });
-  // allOptionGuestsContainer.forEach(function (node) {
-  //   node.setAttribute('disabled', true);
-  // });
-  // if (amountRoomsSelectElement.value === '1') {
-  //   allOptionGuestsContainer[2].removeAttribute('disabled');
-  // } else if (amountRoomsSelectElement.value === '2') {
-  //   allOptionGuestsContainer[1].removeAttribute('disabled');
-  //   allOptionGuestsContainer[2].removeAttribute('disabled');
-  // } else if (amountRoomsSelectElement.value === '3') {
-  //   allOptionGuestsContainer[0].removeAttribute('disabled');
-  //   allOptionGuestsContainer[1].removeAttribute('disabled');
-  //   allOptionGuestsContainer[2].removeAttribute('disabled');
-  // } else if (amountRoomsSelectElement.value === '100') {
-  //   allOptionGuestsContainer[3].removeAttribute('disabled');
-  // }
+  });
+
+
 };
 
-// /* запуск всех функций */
-// selectTypeElement.addEventListener('mouseup', onSelectTypeMouseup);
-// priceInputElement.addEventListener('change', onpriceInputChange);
-// priceInputElement.addEventListener('mouseup', onPriceInput);
-// checkInInputElement.addEventListener('mouseup', onSelectTimeInMouseUp);
-// checkOutInputElement.addEventListener('mouseup', onSelectTimeOutMouseUp);
-// amountRoomsSelectElement.addEventListener('mouseup', onSelectRoomNumberMouseUp);
-
 /* валидация формы*/
-var onSbmitButtonElementClick = function () {
+var onSbmitButtonElementClick = function (e) {
   var succesMessageClone = document.querySelector('#success').cloneNode(true);
   var errorMessageClone = document.querySelector('#error').cloneNode(true);
   var mainElement = document.querySelector('main');
   var fragment = document.createDocumentFragment();
+  e.preventDefault();
+  makeDisabled();
+  removeAllHandlers();
+  setFormNew();
+
   formAdElement.addEventListener('invalid', function () {
     fragment.appendChild(errorMessageClone);
     mainElement.appendChild(fragment);
@@ -473,6 +394,7 @@ var onSbmitButtonElementClick = function () {
   if (priceInputElement.value < selectTypeElement.min) { //  вынести в отдельную ф-ю, вызывать ее на 462 строке, если она вернет false, сразу выходить (return) из onSbmitButtonElementClick
     selectTypeElement.setCustomValidity('Стоимость жилья должна быть не ниже ' + priceInputElement.min + ' .'); // вынести в отдельную ф-ю, вызывать ее на 462 строке, если она вернет false, сразу выходить (return) из onSbmitButtonElementClick
   }
+
 };
 /* -------------------------------------------------module5-task1---------------------------------------------------*/
 // МОДУЛЬ move-pin.js здесь гл пин можно двигать и заданы ограничения для его передвижения
@@ -490,6 +412,7 @@ var onMainPinElementMouseDown = function (evt) {
   };
 
   var dragged = false;
+
   /* функция перемещения главного пина*/
   var onMouseMove = function (moveEvt) {
     moveEvt.preventDefault();
@@ -512,6 +435,7 @@ var onMainPinElementMouseDown = function (evt) {
     inputAddressElement.value = (xLine + HALF_OF_WIDTH_PIN) + ', ' + (yLine + PIN_HEIGHT);
     checkBoundariesForPin(shift);
   };
+
   /* отпуск клавиши мыши снимает обработчики, запускающие перемещение пина и этой же функции*/
   var onMouseUp = function (upEvt) {
     upEvt.preventDefault();
@@ -563,11 +487,11 @@ var onMainPinMouseUp = function (evt) {
   priceInputElement.addEventListener('mouseup', onPriceInput);
   checkInInputElement.addEventListener('mouseup', onSelectTimeInMouseUp);
   checkOutInputElement.addEventListener('mouseup', onSelectTimeOutMouseUp);
-  amountRoomsSelectElement.addEventListener('mouseup', onSelectRoomNumberMouseUp);
+  amountRoomsSelectElement.addEventListener('change', onSelectRoomNumberMouseUp);
   mainPinElement.removeEventListener('mouseup', onMainPinMouseUp);
   submitButtonElement.addEventListener('click', onSbmitButtonElementClick);
   resetButtonElement.addEventListener('click', onResetButtonClick);
-  submitButtonElement.addEventListener('mousedown', onSubmitButtonClick);
+  submitButtonElement.addEventListener('mousedown', onSbmitButtonElementClick);
 };
 mainPinElement.addEventListener('mouseup', onMainPinMouseUp);
 
@@ -575,16 +499,12 @@ mainPinElement.addEventListener('mouseup', onMainPinMouseUp);
 /* функция удаляющая все слушатели, делающая все что нужно disabled и удаляющая все пины*/
 var removeAllHandlers = function () {
   /* удаление  всех маленьких пинов*/
-  // if (!classList.has('map__pin map__pin--main')) { // ПОИГРАТЬСЯ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  //   continue;
-  // var allPinsContainer = mapElement.querySelectorAll('.map__pin').length;
-  // for (var i = allPinsContainer; i >= 1; i--) { // проверка, что бы не удалить гл пин, тк он входит в этот массив
-  //   mapElement.removeChild(mapElement.lastChild);
-  // }
-  var allPinsContainer = mapElement.querySelectorAll('.map__pin').length;
-  for (var i = allPinsContainer; i >= 1; i--) { // проверка, что бы не удалить гл пин, тк он входит в этот массив
-    mapElement.removeChild(mapElement.querySelector('button[type="button"]'));
-  }
+  var allPinsContainer = mapElement.querySelectorAll('.map__pin');
+  allPinsContainer.forEach(function (node) {
+    if (!node.classList.contains('map__pin--main')) {
+      node.remove();
+    }
+  });
   /* снятие всех обработчиков с  формы*/
   selectTypeElement.removeEventListener('mouseup', onSelectTypeMouseup);
   priceInputElement.removeEventListener('change', onpriceInputChange);
@@ -594,17 +514,12 @@ var removeAllHandlers = function () {
   amountRoomsSelectElement.removeEventListener('mouseup', onSelectRoomNumberMouseUp);
   mainPinElement.removeEventListener('mouseup', onMainPinMouseUp);
   resetButtonElement.removeEventListener('click', onResetButtonClick);
-  submitButtonElement.removeEventListener('mousedown', onSubmitButtonClick);
+  submitButtonElement.removeEventListener('mousedown', onSbmitButtonElementClick);
 };
 var setFormNew = function () {
   fieldsetInFormContainer.forEach(function (node) {
     node.value = '';
   });
-  // inputTitleElement.value = '';
-  // selectTypeElement.value = '';
-  // priceInputElement.value = '';
-  // checkInInputElement.value = '';
-  // checkOutInputElement.value = '';
   formAdElement.reset();
   /* координаты для главного пина в интпуте адрес и для stle самого элемента */
   inputAddressElement.value = DEFAULT_X + ', ' + DEFAULT_Y;
@@ -619,9 +534,9 @@ var onResetButtonClick = function () {
   setFormNew();
 };
 
-var onSubmitButtonClick = function (e) {
-  e.preventDefault();
-  makeDisabled();
-  removeAllHandlers();
-  setFormNew();
-};
+// var onSubmitButtonClick = function (e) {
+//   e.preventDefault();
+//   makeDisabled();
+//   removeAllHandlers();
+//   setFormNew();
+// };
