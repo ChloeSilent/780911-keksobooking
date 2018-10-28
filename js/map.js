@@ -58,6 +58,7 @@
     return bodyRect.left - mapImage.left + window.scrollX + HALF_OF_WIDTH_PIN;
 
   };
+
   /* вычисляет координату по оси Y для главного пина*/
   var getCoordinateY = function () {
     return Math.abs(bodyRect.top) + window.pin.PIN_HEIGHT;
@@ -174,4 +175,6 @@
     window.form.submitButtonElement.addEventListener('mousedown', window.form.onSbmitButtonElementClick);
   };
   window.mainPinElement.addEventListener('mouseup', onMainPinMouseUp);
+
+
 })();
