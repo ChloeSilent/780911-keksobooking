@@ -1,4 +1,4 @@
-/* eslint-disable eqeqeq */
+
 'use strict';
 
 /* КОНСТАНТЫ*/
@@ -34,16 +34,16 @@ var MIN_AMOUT_ROOMS = 1;
 var MAX_AMOUT_ROOMS = 5;
 
 var CHECKIN = ['12:00', '13:00', '14:00'];
-// var CHECKOUT = CHECKIN;
+
 
 var FEATURES = ['--wifi', '--dishwasher', '--parking', '--washer', '--elevator', '--conditioner'];
-var FEATURESTYLE = 'popup__feature popup__feature'; // РАСКОДИРОВАТЬ
+var FEATURESTYLE = 'popup__feature popup__feature';
 
 var PHOTOS_AMOUNT = 3;
 var PHOTO_SOURCE = 'http://o0.github.io/assets/images/tokyo/hotel';
 var JPG = '.jpg';
-var PHOTO_PLACE_WIDTH = 45; // РАСКОДИРОВАТЬ
-var PHOTO_PLACE_HEIGHT = 45; // РАСКОДИРОВАТЬ
+var PHOTO_PLACE_WIDTH = 45;
+var PHOTO_PLACE_HEIGHT = 45;
 
 var MIN_X = 100;
 var MAX_X = 1087;
@@ -56,21 +56,17 @@ var PIN_WIDTH = 50;
 var PX = 'px';
 
 /* ПЕРЕМЕННЫЕ*/
-// var arrayofOffers = [];
-// arrayofOffers.length = AMOUNT;
 var pins = [];
 /* переменные пина*/
 var mapElement = document.querySelector('.map');
 var templatePinElement = document.body.querySelector('#pin');
 var pinTemplateElement = templatePinElement.content.querySelector('.map__pin');
 
-// var arrayofOffers(arrayLength);
+
 /* переменные карточки*/
-var mapFiltersContainerElement = document.querySelector('.map__filters-container'); // РАСКОДИРОВАТЬ
-var templateCardElement = document.body.querySelector('#card').content.querySelector('.map__card'); // РАСКОДИРОВАТЬ
+var mapFiltersContainerElement = document.querySelector('.map__filters-container');
+var templateCardElement = document.body.querySelector('#card').content.querySelector('.map__card');
 
-
-/* МЕТОДЫ */
 
 /* Возвращает рандомное число между мин и макс */
 var getRandom = function (min, max) {
@@ -100,6 +96,7 @@ var getFromArray = function (array) {
 var createImageSource = function (i, address, formatEnd) {
   return address + (i + 1) + formatEnd;
 };
+
 /* создает массив фото и перемешивает их */
 /* создает из массива(который рандомно перемешивается функцией shuffle) другой массив,
 потом там есть переменная number - это рандомное число в промежутке от 0 до длины массива - 1. Потом полученный
@@ -112,7 +109,6 @@ var createNewArrayfromExistOne = function (array) {
 };
 
 /* создает массив фото и перемешивает их */
-
 var createPhotosArray = function (arrayLength) {
   var photosArray = [];
   for (var i = 0; i < arrayLength; i++) {
@@ -189,18 +185,19 @@ var createCard = function (element) {
   cardClone.querySelector('.popup__type').textContent = element.offer.type;
   cardClone.querySelector('.popup__text--capacity').textContent = element.offer.rooms + ' комнаты для ' + element.offer.guests + ' гостей';
   cardClone.querySelector('.popup__text--time').textContent = 'Заезд после ' + element.offer.checkin + ', выезд до ' + element.offer.checkin;
+
   /* удаляет дефолтные li */
   var ListFeaturesElement = cardClone.querySelector('.popup__features');
   while (ListFeaturesElement.firstChild) {
-    // ListFeaturesElement.removeChild(ListFeaturesElement.firstChild);
     removeChildrenNodes(ListFeaturesElement);
   }
+
   cardClone.querySelector('.popup__features').appendChild(createFeaturesAsDOM(element));
   cardClone.querySelector('.popup__description').textContent = element.offer.description;
+
   /* удаляет дефолтные фото */
   var ListPhotosElement = cardClone.querySelector('.popup__photos');
   while (ListPhotosElement.firstChild) {
-    // ListPhotosElement.removeChild(ListPhotosElement.firstChild);
     removeChildrenNodes(ListPhotosElement);
   }
   /* вставляет фото как DOM-элемент в разметку */
@@ -208,14 +205,12 @@ var createCard = function (element) {
   cardClone.querySelector('.popup__avatar').src = element.author.avatar;
   var cardCloseElement = cardClone.querySelector('.popup__close');
   cardCloseElement.addEventListener('click', function (evt) {
-    // cardClone.classList.add('hidden');
-    // cardClone.parentNode.removeChild(cardClone);
+
     var target = evt.target;
-    // console.log('evt.target is ' + target);
     target.parentNode.remove();
   });
 
-  // console.log('I create Cards');
+
   return cardClone;
 };
 
@@ -223,7 +218,7 @@ var drawOneCard = function (element) {
   var fragmentCard = document.createDocumentFragment();
   fragmentCard.appendChild(createCard(element));
   mapFiltersContainerElement.appendChild(fragmentCard);
-  // console.log('I draw Cards');
+
 };
 
 /* создает один пин как элемент DOM и помещает его на карту */
@@ -241,7 +236,7 @@ var createOnePin = function (element) {
       mapFiltersContainerElement.querySelector('.map__card').remove();
     }
   });
-  //  console.log('I create Pins');
+
   return pinClone;
 };
 
@@ -249,11 +244,8 @@ var putOnePin = function (element) {
   var fragment = document.createDocumentFragment();
   fragment.appendChild(createOnePin(element));
   mapElement.appendChild(fragment);
-  // console.log('I draw PIns');
 };
 
-
-/* вызовы функций */
 
 /* ------------------------------------- module4-task1------------------------------------------------ */
 /* карта деактивируется, при клике на главн пин снимется diabled с форм и карты, задаются координаты главного пина */
@@ -269,14 +261,16 @@ var mapImage = mapElement.getBoundingClientRect();
 /* делает все инпуты, филдсеты, баттоны неактивными, делает неактивной карту */
 var makeDisabled = function () {
   mapElement.classList.add('map--faded');
+  formAdElement.classList.add('ad-form--disabled');
   inputAddressElement.placeholder = DEFAULT_X + ', ' + DEFAULT_Y;
   fieldsetInFormContainer.forEach(function (node) {
     node.setAttribute('disabled', true);
   });
 };
+makeDisabled();
 
 var HALF_OF_WIDTH_PIN = 33;
-// var PIN_HEIGHT = 81;
+
 
 /* вычисляет координату по оси Х для главного пина, адаптировано под расширение окна путем вычета координат карты */
 var getCoordinateX = function () {
@@ -305,41 +299,19 @@ var makeActive = function () {
 var createAndPutAllPins = function () {
   for (var i = 0; i < AMOUNT; i++) {
     pins[i] = createObject(i);
-    // console.log('createObject' + i + pins[i]);
-    // createOnePin(pins[i]);
     putOnePin(pins[i]);
-    // console.log('I make all');
   }
 };
 
-/* запуск всех функций модуля */
-makeDisabled();
-mainPinElement.addEventListener('mouseup', makeActive);
-// var clicks = 0;
-// mainPinElement.onclick = function () {
-//   clicks += 1;
-//   if (clicks <= 1) {
-//     createAndPutAllPins();
-//   }
-// };
-
-var onMainPinMouseUp = function (evt) {
-  makeActive(evt); // устанавливает все слушатели
-  createAndPutAllPins();
-  mainPinElement.removeEventListener('mouseup', onMainPinMouseUp);
-};
-mainPinElement.addEventListener('mouseup', onMainPinMouseUp);
-
-
 /* --------------------------------module4-task2---------------------------- */
+
 var selectTypeElement = document.querySelector('#type');
 var priceInputElement = document.querySelector('#price');
 var checkInInputElement = document.querySelector('#timein');
 var checkOutInputElement = document.querySelector('#timeout');
 var amountRoomsSelectElement = document.querySelector('#room_number');
-var amountGuestsSelectElement = document.querySelector('#capacity');
-var allOptionGuestsContainer = amountGuestsSelectElement.querySelectorAll('option');
 var submitButtonElement = document.querySelector('.ad-form__submit');
+var resetButtonElement = document.querySelector('.ad-form__reset');
 var TYPE_PRICE = {
   Бунгало: 0,
   Квартира: 1000,
@@ -350,7 +322,6 @@ var TYPE_PRICE = {
 /* устанавливает цену за 1 ночь в зависимости от типа жилья */
 var onSelectTypeMouseup = function () {
   var selectedOption = selectTypeElement.options[selectTypeElement.selectedIndex].text;
-  // alert('strUser is ' + strUser);
   var priceForNight = TYPE_PRICE[selectedOption];
   priceInputElement.placeholder = priceForNight;
   priceInputElement.min = priceForNight;
@@ -359,7 +330,7 @@ var onSelectTypeMouseup = function () {
 var onpriceInputChange = function () {
   priceInputElement.min = '1000';
 };
-/* провреряет введеное заначение в поле цена и если оно меньше соответс. ему типу пишет ошибку */
+/* проверяет введеное заначение в поле цена и если оно меньше соответс. ему типу пишет ошибку */
 var onPriceInput = function (evt) {
   var target = evt.target;
   if (target.value < selectTypeElement.min) {
@@ -370,41 +341,61 @@ var onPriceInput = function (evt) {
 /* устанавливает время выезда и въезда */
 var onSelectTimeInMouseUp = function () {
   checkOutInputElement.selectedIndex = checkInInputElement.selectedIndex;
-  // checkOutInputElement.preventDefault();
+
 };
 var onSelectTimeOutMouseUp = function () {
   checkInInputElement.selectedIndex = checkOutInputElement.selectedIndex;
-  // checkInInput.preventDefault();
+
 };
 
 /* устанавливает кол-во гостей от кол-ва комнат*/
-
 var onSelectRoomNumberMouseUp = function () {
-  var selectedOptionRoom = amountRoomsSelectElement.options[amountRoomsSelectElement.selectedIndex];
-  amountGuestsSelectElement.value = selectedOptionRoom.value === '100' ? 0 : selectedOptionRoom.value;
-  allOptionGuestsContainer.forEach(function (node) {
+  var selectedOptionRoom = amountRoomsSelectElement.value;
 
-    node.setAttribute('disabled', node.value === '100' ? 0 : (selectedOptionRoom.value < node.value));
+  var capacitySelect = document.querySelector('#capacity');
+  Array.from(capacitySelect.options).forEach(function (option) {
+
+    var capacityValue = parseInt(option.value, 10);
+    var roomsValue = parseInt(selectedOptionRoom, 10);
+
+    if (roomsValue === 100 && capacityValue !== 0) {
+      option.disabled = true;
+    } else if (roomsValue !== 100 && (capacityValue > roomsValue || capacityValue === 0)) {
+      option.disabled = true;
+    } else {
+      option.disabled = false;
+    }
+
   });
+
 
 };
 
-/* запуск всех функций */
-
-selectTypeElement.addEventListener('mouseup', onSelectTypeMouseup);
-priceInputElement.addEventListener('change', onpriceInputChange);
-priceInputElement.addEventListener('mouseup', onPriceInput);
-checkInInputElement.addEventListener('mouseup', onSelectTimeInMouseUp);
-checkOutInputElement.addEventListener('mouseup', onSelectTimeOutMouseUp);
-amountRoomsSelectElement.addEventListener('mouseup', onSelectRoomNumberMouseUp);
-
 /* валидация формы*/
+var onSbmitButtonElementClick = function (e) {
+  var succesMessageClone = document.querySelector('#success').cloneNode(true);
+  var errorMessageClone = document.querySelector('#error').cloneNode(true);
+  var mainElement = document.querySelector('main');
+  var fragment = document.createDocumentFragment();
+  e.preventDefault();
+  makeDisabled();
+  removeAllHandlers();
+  setFormNew();
 
-submitButtonElement.addEventListener('click', function () {
-  if (priceInputElement.value < selectTypeElement.min) {
-    selectTypeElement.setCustomValidity('Стоимость жилья должна быть не ниже ' + priceInputElement.min + ' .');
+  formAdElement.addEventListener('invalid', function () {
+    fragment.appendChild(errorMessageClone);
+    mainElement.appendChild(fragment);
+  });
+  formAdElement.addEventListener('valid', function () {
+    fragment.appendChild(succesMessageClone);
+    mainElement.appendChild(fragment);
+  });
+
+  if (priceInputElement.value < selectTypeElement.min) { //  вынести в отдельную ф-ю, вызывать ее на 462 строке, если она вернет false, сразу выходить (return) из onSbmitButtonElementClick
+    selectTypeElement.setCustomValidity('Стоимость жилья должна быть не ниже ' + priceInputElement.min + ' .'); // вынести в отдельную ф-ю, вызывать ее на 462 строке, если она вернет false, сразу выходить (return) из onSbmitButtonElementClick
   }
-});
+
+};
 /* -------------------------------------------------module5-task1---------------------------------------------------*/
 // МОДУЛЬ move-pin.js здесь гл пин можно двигать и заданы ограничения для его передвижения
 var TOPY = 130;
@@ -412,9 +403,9 @@ var BOTTOMY = 630;
 var LEFTX = -31;
 var RIGHTX = 1165;
 
-mainPinElement.addEventListener('mousedown', function (evt) {
+var onMainPinElementMouseDown = function (evt) {
   evt.preventDefault();
-
+  /* стартовые координаты главного пина*/
   var startCoords = {
     x: evt.clientX,
     y: evt.clientY
@@ -422,6 +413,7 @@ mainPinElement.addEventListener('mousedown', function (evt) {
 
   var dragged = false;
 
+  /* функция перемещения главного пина*/
   var onMouseMove = function (moveEvt) {
     moveEvt.preventDefault();
 
@@ -444,13 +436,11 @@ mainPinElement.addEventListener('mousedown', function (evt) {
     checkBoundariesForPin(shift);
   };
 
+  /* отпуск клавиши мыши снимает обработчики, запускающие перемещение пина и этой же функции*/
   var onMouseUp = function (upEvt) {
     upEvt.preventDefault();
-
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
-
-
   };
 
   if (dragged) {
@@ -481,21 +471,72 @@ mainPinElement.addEventListener('mousedown', function (evt) {
   };
 
   document.addEventListener('mousemove', onMouseMove);
-
   document.addEventListener('mouseup', onMouseUp);
-
-});
-
-// поставить удалитель слушателей по reset и по submit
-/* блок с удалителями слушателей на reset и submit*/
-/*
-var resetButton = document.querySelector('.ad-form__reset');
-var deleteAllHandlers = function () {
-  makeDisabled();
-  document.removeEventListener('mousemove', onMouseMove);
-  document.removeEventListener('mouseup', onMouseUp);
-  mainPin.removeEventListener('click', onClickPreventDefault);
 };
-resetButton.addEventListener('mousedown', deleteAllHandlers)
 
-*/
+
+/* функция, которая запустится по клику по главному пину */
+var onMainPinMouseUp = function (evt) {
+  /* запуск всех функций на карте(перемещение гл пина, создание пинов, активация карты*/
+  makeActive(evt);
+  createAndPutAllPins();
+  mainPinElement.addEventListener('mousedown', onMainPinElementMouseDown);
+  /* запуск всех функций формы*/
+  selectTypeElement.addEventListener('mouseup', onSelectTypeMouseup);
+  priceInputElement.addEventListener('change', onpriceInputChange);
+  priceInputElement.addEventListener('mouseup', onPriceInput);
+  checkInInputElement.addEventListener('mouseup', onSelectTimeInMouseUp);
+  checkOutInputElement.addEventListener('mouseup', onSelectTimeOutMouseUp);
+  amountRoomsSelectElement.addEventListener('change', onSelectRoomNumberMouseUp);
+  mainPinElement.removeEventListener('mouseup', onMainPinMouseUp);
+  submitButtonElement.addEventListener('click', onSbmitButtonElementClick);
+  resetButtonElement.addEventListener('click', onResetButtonClick);
+  submitButtonElement.addEventListener('mousedown', onSbmitButtonElementClick);
+};
+mainPinElement.addEventListener('mouseup', onMainPinMouseUp);
+
+/* блок с удалителями слушателей на reset и submit*/
+/* функция удаляющая все слушатели, делающая все что нужно disabled и удаляющая все пины*/
+var removeAllHandlers = function () {
+  /* удаление  всех маленьких пинов*/
+  var allPinsContainer = mapElement.querySelectorAll('.map__pin');
+  allPinsContainer.forEach(function (node) {
+    if (!node.classList.contains('map__pin--main')) {
+      node.remove();
+    }
+  });
+  /* снятие всех обработчиков с  формы*/
+  selectTypeElement.removeEventListener('mouseup', onSelectTypeMouseup);
+  priceInputElement.removeEventListener('change', onpriceInputChange);
+  priceInputElement.removeEventListener('mouseup', onPriceInput);
+  checkInInputElement.removeEventListener('mouseup', onSelectTimeInMouseUp);
+  checkOutInputElement.removeEventListener('mouseup', onSelectTimeOutMouseUp);
+  amountRoomsSelectElement.removeEventListener('mouseup', onSelectRoomNumberMouseUp);
+  mainPinElement.removeEventListener('mouseup', onMainPinMouseUp);
+  resetButtonElement.removeEventListener('click', onResetButtonClick);
+  submitButtonElement.removeEventListener('mousedown', onSbmitButtonElementClick);
+};
+var setFormNew = function () {
+  fieldsetInFormContainer.forEach(function (node) {
+    node.value = '';
+  });
+  formAdElement.reset();
+  /* координаты для главного пина в интпуте адрес и для stle самого элемента */
+  inputAddressElement.value = DEFAULT_X + ', ' + DEFAULT_Y;
+  mainPinElement.style.left = DEFAULT_X + 'px';
+  mainPinElement.style.top = DEFAULT_Y + 'px';
+
+};
+
+var onResetButtonClick = function () {
+  makeDisabled();
+  removeAllHandlers();
+  setFormNew();
+};
+
+// var onSubmitButtonClick = function (e) {
+//   e.preventDefault();
+//   makeDisabled();
+//   removeAllHandlers();
+//   setFormNew();
+// };
