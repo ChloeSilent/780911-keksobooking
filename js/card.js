@@ -1,5 +1,5 @@
 'use strict';
-// card.js — модуль, который отвечает за создание карточки объявлений;
+// card.js — модуль, который отвечает за создание карточки объявлений и отрисовку ее на карте;
 
 
 (function () {
@@ -8,10 +8,8 @@
   var PHOTO_PLACE_WIDTH = 45;
   var PHOTO_PLACE_HEIGHT = 45;
 
-  /* переменные карточки*/
-
+  window.card.mapFiltersContainerElement = document.querySelector('.map__filters-container');
   var templateCardElement = document.body.querySelector('#card').content.querySelector('.map__card');
-
 
   /* создает новые li на основе массива features у элемента*/
   var createFeaturesAsDOM = function (element) {
@@ -38,11 +36,13 @@
     }
     return fragmentPhotos;
   };
+  /* удаляет дочерние ноды, пока они есть */
   var removeChildrenNodes = function (list) {
     list.removeChild(list.firstChild);
   };
+
   /* создает карточку как DOM-элемент */
-  window.createCard = function (element) {
+  var createCard = function (element) {
     var cardClone = templateCardElement.cloneNode(true);
     cardClone.querySelector('.popup__title').textContent = element.offer.title;
     cardClone.querySelector('.popup__text--price').textContent = element.offer.price + '₽/ночь';
@@ -74,8 +74,15 @@
       target.parentNode.remove();
     });
 
-
     return cardClone;
+  };
+
+  /* отрисовка одной карточки*/
+  window.card.drawOneCard = function (element) {
+    var fragmentCard = document.createDocumentFragment();
+    fragmentCard.appendChild(createCard(element));
+    window.card.mapFiltersContainerElement.appendChild(fragmentCard);
+
   };
 
 

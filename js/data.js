@@ -4,6 +4,8 @@
 
 (function () {
 
+  window.data = {};
+
   var TYPE = ['palace', 'flat', 'house', 'bungalo'];
 
   var TYPE_MATCH = {
@@ -109,7 +111,7 @@
   var createdPhotosArray = createPhotosArray(PHOTOS_AMOUNT);
 
   /* функция создающая элемент-массив. На вход принимает цифру, которая указывает кол-во создх впоследствии эл-в*/
-  window.createObject = function (i) {
+  window.data.createObject = function (i) {
 
     var element = {
       'author': {
