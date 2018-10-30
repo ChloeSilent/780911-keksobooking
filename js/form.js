@@ -30,7 +30,6 @@
   /* координаты для главного пина в интпуте адрес и для stle самого элемента */
   window.map.inputAddressElement.value = window.map.DEFAULT_X + ', ' + window.map.DEFAULT_Y;
 
-
   /* устанавливает цену за 1 ночь в зависимости от типа жилья */
   var onSelectTypeMouseup = function () {
     var selectedOption = selectTypeElement.options[selectTypeElement.selectedIndex].text;
@@ -60,7 +59,7 @@
     checkInInputElement.selectedIndex = checkOutInputElement.selectedIndex;
 
   };
-  var selectedOptionRoom = amountRoomsSelectElement.value;
+
 
   var capacitySelect = document.querySelector('#capacity');
 
@@ -68,31 +67,22 @@
   var onSelectRoomNumberMouseUp = function () {
 
     Array.from(capacitySelect.options).forEach(function (option) {
+
+      var selectedOptionRoom = amountRoomsSelectElement.value;
       option.disabled = false;
       var capacityValue = parseInt(option.value, 10);
       var roomsValue = parseInt(selectedOptionRoom, 10);
 
       if (roomsValue === 100 && capacityValue !== 0) {
         option.disabled = true;
-        console.log('100');
+        // console.log('100');
       } else if (roomsValue !== 100 && (capacityValue > roomsValue || capacityValue === 0)) {
         option.disabled = true;
-        console.log(' not 100');
+        // console.log(' not 100');
       } else {
         option.disabled = false;
-        console.log('smt else');
+        // console.log('smt else');
       }
-
-
-      // var roomSelectValue = parseInt(document.querySelector('#room_number').value, 10);
-      // var guestsSelectValue = parseInt(document.querySelector('#capacity').value, 10);
-
-      // if (roomSelectValue === 100 && roomSelectValue !== 0) {
-      //   selectTypeElement.setCustomValidity('Количество комнат не для гостей.');
-      // }
-      // if (guestsSelectValue > roomSelectValue) { //  вынести в отдельную ф-ю, вызывать ее на 462 строке, если она вернет false, сразу выходить (return) из onSubmitButtonElementClick
-      //   selectTypeElement.setCustomValidity('Количество гостей должно быть не больше ' + matchAmountOfGuests[roomSelectValue] + ' .'); // вынести в отдельную ф-ю, вызывать ее на 462 строке, если она вернет false, сразу выходить (return) из onSubmitButtonElementClick
-      // }
 
     });
 
@@ -114,24 +104,27 @@
       selectTypeElement.setCustomValidity('Стоимость жилья должна быть не ниже ' + priceInputElement.min + ' .');
     }
 
-    var roomSelectValue = parseInt(document.querySelector('#room_number').value, 10);
-    var guestsSelectValue = parseInt(document.querySelector('#capacity').value, 10);
+    var roomSelectValue = parseInt(amountRoomsSelectElement.value, 10);
+    var guestsSelectValue = parseInt(capacitySelect.value, 10);
 
     if (roomSelectValue === 100 && roomSelectValue !== 0) {
       capacitySelect.setCustomValidity('Количество комнат не для гостей.');
     }
     if (guestsSelectValue > roomSelectValue) {
       capacitySelect.setCustomValidity('Количество гостей должно быть не больше ' + matchAmountOfGuests[roomSelectValue] + ' .');
-      console.log('guestsis ' + guestsSelectValue);
-      console.log('room is ' + roomSelectValue);
+    } else {
+      capacitySelect.setCustomValidity('');
     }
-
+    // console.log('guests is ' + guestsSelectValue);
+    // console.log('room is ' + roomSelectValue);
     if (document.querySelector('.ad-form').checkValidity()) {
       window.map.makeDisabled();
       window.listeners.removeAllHandlers();
       window.listeners.setFormNew();
     }
 
+
+    /* --------------------------------------------------*/
     // e.preventDefault();
     // window.map.makeDisabled();
     // window.listeners.removeAllHandlers();
@@ -148,7 +141,6 @@
 
 
   window.form.addFormEventListeners = function () {
-    // onSelectRoomNumberMouseUp();
     selectTypeElement.addEventListener('mouseup', onSelectTypeMouseup);
     priceInputElement.addEventListener('change', onpriceInputChange);
     priceInputElement.addEventListener('mouseup', onPriceInput);
