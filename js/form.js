@@ -68,56 +68,74 @@
   var onSelectRoomNumberMouseUp = function () {
 
     Array.from(capacitySelect.options).forEach(function (option) {
+      option.disabled = false;
       var capacityValue = parseInt(option.value, 10);
       var roomsValue = parseInt(selectedOptionRoom, 10);
+
       if (roomsValue === 100 && capacityValue !== 0) {
         option.disabled = true;
+        console.log('100');
       } else if (roomsValue !== 100 && (capacityValue > roomsValue || capacityValue === 0)) {
         option.disabled = true;
+        console.log(' not 100');
       } else {
         option.disabled = false;
+        console.log('smt else');
       }
-      var roomSelectValue = parseInt(document.querySelector('#room_number').value, 10);
-      var guestsSelectValue = parseInt(document.querySelector('#capacity').value, 10);
-      if (roomSelectValue === 100 && roomSelectValue !== 0) {
-        selectTypeElement.setCustomValidity('Количество комнат не для гостей.');
-      }
-      if (guestsSelectValue > roomSelectValue) { //  вынести в отдельную ф-ю, вызывать ее на 462 строке, если она вернет false, сразу выходить (return) из onSubmitButtonElementClick
-        selectTypeElement.setCustomValidity('Количество гостей должно быть не больше ' + matchAmountOfGuests[roomSelectValue] + ' .'); // вынести в отдельную ф-ю, вызывать ее на 462 строке, если она вернет false, сразу выходить (return) из onSubmitButtonElementClick
-      }
+
+
+      // var roomSelectValue = parseInt(document.querySelector('#room_number').value, 10);
+      // var guestsSelectValue = parseInt(document.querySelector('#capacity').value, 10);
+
+      // if (roomSelectValue === 100 && roomSelectValue !== 0) {
+      //   selectTypeElement.setCustomValidity('Количество комнат не для гостей.');
+      // }
+      // if (guestsSelectValue > roomSelectValue) { //  вынести в отдельную ф-ю, вызывать ее на 462 строке, если она вернет false, сразу выходить (return) из onSubmitButtonElementClick
+      //   selectTypeElement.setCustomValidity('Количество гостей должно быть не больше ' + matchAmountOfGuests[roomSelectValue] + ' .'); // вынести в отдельную ф-ю, вызывать ее на 462 строке, если она вернет false, сразу выходить (return) из onSubmitButtonElementClick
+      // }
+
     });
 
 
   };
 
+
   /* функция, которая запукается при клике на сабмит
    проверка всех инпутов, очистка формы, дисэбл карты, удаление слушателей*/
-  var onSubmitButtonElementClick = function (e) {
+  var onSubmitButtonElementClick = function () {
     // var succesMessageClone = document.querySelector('#success').cloneNode(true);
     // var errorMessageClone = document.querySelector('#error').cloneNode(true);
     // var mainElement = document.querySelector('main');
     // var fragment = document.createDocumentFragment();
 
-    alert('click on Submit');
+    // alert('click on Submit');
 
-    if (priceInputElement.value < selectTypeElement.min) { //  вынести в отдельную ф-ю, вызывать ее на 462 строке, если она вернет false, сразу выходить (return) из onSubmitButtonElementClick
-      selectTypeElement.setCustomValidity('Стоимость жилья должна быть не ниже ' + priceInputElement.min + ' .'); // вынести в отдельную ф-ю, вызывать ее на 462 строке, если она вернет false, сразу выходить (return) из onSubmitButtonElementClick
+    if (priceInputElement.value < selectTypeElement.min) {
+      selectTypeElement.setCustomValidity('Стоимость жилья должна быть не ниже ' + priceInputElement.min + ' .');
     }
 
     var roomSelectValue = parseInt(document.querySelector('#room_number').value, 10);
     var guestsSelectValue = parseInt(document.querySelector('#capacity').value, 10);
+
     if (roomSelectValue === 100 && roomSelectValue !== 0) {
-      selectTypeElement.setCustomValidity('Количество комнат не для гостей.');
+      capacitySelect.setCustomValidity('Количество комнат не для гостей.');
     }
-    if (guestsSelectValue > roomSelectValue) { //  вынести в отдельную ф-ю, вызывать ее на 462 строке, если она вернет false, сразу выходить (return) из onSubmitButtonElementClick
-      selectTypeElement.setCustomValidity('Количество гостей должно быть не больше ' + matchAmountOfGuests[roomSelectValue] + ' .'); // вынести в отдельную ф-ю, вызывать ее на 462 строке, если она вернет false, сразу выходить (return) из onSubmitButtonElementClick
+    if (guestsSelectValue > roomSelectValue) {
+      capacitySelect.setCustomValidity('Количество гостей должно быть не больше ' + matchAmountOfGuests[roomSelectValue] + ' .');
+      console.log('guestsis ' + guestsSelectValue);
+      console.log('room is ' + roomSelectValue);
     }
 
+    if (document.querySelector('.ad-form').checkValidity()) {
+      window.map.makeDisabled();
+      window.listeners.removeAllHandlers();
+      window.listeners.setFormNew();
+    }
 
     // e.preventDefault();
-    window.map.makeDisabled();
-    window.listeners.removeAllHandlers();
-    window.listeners.setFormNew();
+    // window.map.makeDisabled();
+    // window.listeners.removeAllHandlers();
+    // window.listeners.setFormNew();
     // window.map.formAdElement.addEventListener('invalid', function () {
     //   fragment.appendChild(errorMessageClone);
     //   mainElement.appendChild(fragment);
@@ -130,12 +148,14 @@
 
 
   window.form.addFormEventListeners = function () {
+    // onSelectRoomNumberMouseUp();
     selectTypeElement.addEventListener('mouseup', onSelectTypeMouseup);
     priceInputElement.addEventListener('change', onpriceInputChange);
     priceInputElement.addEventListener('mouseup', onPriceInput);
     checkInInputElement.addEventListener('mouseup', onSelectTimeInMouseUp);
     checkOutInputElement.addEventListener('mouseup', onSelectTimeOutMouseUp);
     amountRoomsSelectElement.addEventListener('change', onSelectRoomNumberMouseUp);
+    capacitySelect.addEventListener('change', onSelectRoomNumberMouseUp);
     submitButtonElement.addEventListener('click', onSubmitButtonElementClick);
     resetButtonElement.addEventListener('click', window.listeners.onResetButtonClick);
     submitButtonElement.addEventListener('mousedown', onSubmitButtonElementClick);
@@ -148,6 +168,7 @@
     checkInInputElement.removeEventListener('mouseup', onSelectTimeInMouseUp);
     checkOutInputElement.removeEventListener('mouseup', onSelectTimeOutMouseUp);
     amountRoomsSelectElement.removeEventListener('change', onSelectRoomNumberMouseUp);
+    // capacitySelect.removeEventListener('change', onSelectRoomNumberMouseUp);
     submitButtonElement.removeEventListener('click', onSubmitButtonElementClick);
     resetButtonElement.removeEventListener('click', window.listeners.onResetButtonClick);
     submitButtonElement.removeEventListener('mousedown', onSubmitButtonElementClick);
