@@ -151,6 +151,7 @@
     submitButtonElement.addEventListener('click', onSubmitButtonElementClick);
     resetButtonElement.addEventListener('click', window.listeners.onResetButtonClick);
     submitButtonElement.addEventListener('mousedown', onSubmitButtonElementClick);
+    onSelectRoomNumberMouseUp();
   };
 
   window.form.removeFormEventListeners = function () {
