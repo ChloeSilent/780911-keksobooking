@@ -18,11 +18,17 @@
 
   /* делает все инпуты, филдсеты, баттоны неактивными, делает неактивной карту */
   window.map.makeDisabled = function () {
+
     window.pin.mapElement.classList.add('map--faded');
     window.map.formAdElement.classList.add('ad-form--disabled');
+
     window.map.inputAddressElement.placeholder = window.map.DEFAULT_X + ', ' + window.map.DEFAULT_Y;
+
+    window.map.mainPinElement.style.left = window.map.DEFAULT_X + 'px';
+    window.map.mainPinElement.style.top = window.map.DEFAULT_Y + 'px';
+
     window.map.fieldsetInFormContainer.forEach(function (node) {
-      node.setAttribute('disabled', true);
+      node.disabled = true;
     });
   };
   window.map.makeDisabled();
@@ -47,7 +53,7 @@
     window.pin.mapElement.classList.remove('map--faded');
     window.map.formAdElement.classList.remove('ad-form--disabled');
     window.map.fieldsetInFormContainer.forEach(function (node) {
-      node.removeAttribute('disabled');
+      node.disabled = false;
     });
     window.map.inputAddressElement.value = getCoordinateX() + ', ' + getCoordinateY();
 

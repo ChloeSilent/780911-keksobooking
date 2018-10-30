@@ -4,21 +4,27 @@
 
 (function () {
 
-  var FEATURESTYLE = 'popup__feature popup__feature';
+  var FEATURE_STYLE = 'popup__feature popup__feature';
   var PHOTO_PLACE_WIDTH = 45;
   var PHOTO_PLACE_HEIGHT = 45;
 
   window.card.mapFiltersContainerElement = document.querySelector('.map__filters-container');
-  var templateCardElement = document.body.querySelector('#card').content.querySelector('.map__card');
+  var templateCardElement = document.querySelector('#card').content.querySelector('.map__card');
 
   /* создает новые li на основе массива features у элемента*/
   var createFeaturesAsDOM = function (element) {
     var fragmentLi = document.createDocumentFragment();
-    for (var k = 0; k < element.offer.features.length; k++) {
+
+    element.offer.features.forEach(function (feature) {
       var newLi = document.createElement('li');
-      newLi.className = FEATURESTYLE + element.offer.features[k];
+      newLi.className = FEATURE_STYLE + feature;
       fragmentLi.appendChild(newLi);
-    }
+    });
+    // for (var k = 0; k < element.offer.features.length; k++) {
+    //   var newLi = document.createElement('li');
+    //   newLi.className = FEATURE_STYLE + element.offer.features[k];
+    //   fragmentLi.appendChild(newLi);
+    // }
     return fragmentLi;
   };
 
@@ -37,10 +43,22 @@
     return fragmentPhotos;
   };
   /* удаляет дочерние ноды, пока они есть */
+  // var removeChildrenNodes = function (list) {
+  //   list.removeChild(list.firstChild);
+  // };
+  /* эта виснет после клика по кл пину*/
+  // var removeChildrenNodes = function (list) {
+  //   var i = list.length;
+  //   while (i--) {
+  //     list[i].parentNode.removeChild(list[i]);
+  //   }
+  // };
+  /* эта виснет после клика по кл пину*/
   var removeChildrenNodes = function (list) {
-    list.removeChild(list.firstChild);
+    while (list.firstChild) {
+      list.removeChild(list.firstChild);
+    }
   };
-
   /* создает карточку как DOM-элемент */
   var createCard = function (element) {
     var cardClone = templateCardElement.cloneNode(true);

@@ -40,10 +40,10 @@
       node.value = '';
     });
     window.map.formAdElement.reset();
-    /* координаты для главного пина в интпуте адрес и для stle самого элемента */
-    window.map.inputAddressElement.value = window.map.DEFAULT_X + ', ' + window.map.DEFAULT_Y;
-    window.map.mainPinElement.style.left = window.map.DEFAULT_X + 'px';
-    window.map.mainPinElement.style.top = window.map.DEFAULT_Y + 'px';
+    // /* координаты для главного пина в интпуте адрес и для stle самого элемента */
+    // window.map.inputAddressElement.value = window.map.DEFAULT_X + ', ' + window.map.DEFAULT_Y;
+    // window.map.mainPinElement.style.left = window.map.DEFAULT_X + 'px';
+    // window.map.mainPinElement.style.top = window.map.DEFAULT_Y + 'px';
 
   };
 

@@ -27,6 +27,9 @@
     '3': '3',
     '100': 'Выберите, пожалуйста, опцию "не для гостей"'
   };
+  /* координаты для главного пина в интпуте адрес и для stle самого элемента */
+  window.map.inputAddressElement.value = window.map.DEFAULT_X + ', ' + window.map.DEFAULT_Y;
+
 
   /* устанавливает цену за 1 ночь в зависимости от типа жилья */
   var onSelectTypeMouseup = function () {
@@ -50,6 +53,7 @@
   /* устанавливает время выезда и въезда */
   var onSelectTimeInMouseUp = function () {
     checkOutInputElement.selectedIndex = checkInInputElement.selectedIndex;
+    // alert();
 
   };
   var onSelectTimeOutMouseUp = function () {
@@ -73,7 +77,14 @@
       } else {
         option.disabled = false;
       }
-
+      var roomSelectValue = parseInt(document.querySelector('#room_number').value, 10);
+      var guestsSelectValue = parseInt(document.querySelector('#capacity').value, 10);
+      if (roomSelectValue === 100 && roomSelectValue !== 0) {
+        selectTypeElement.setCustomValidity('Количество комнат не для гостей.');
+      }
+      if (guestsSelectValue > roomSelectValue) { //  вынести в отдельную ф-ю, вызывать ее на 462 строке, если она вернет false, сразу выходить (return) из onSubmitButtonElementClick
+        selectTypeElement.setCustomValidity('Количество гостей должно быть не больше ' + matchAmountOfGuests[roomSelectValue] + ' .'); // вынести в отдельную ф-ю, вызывать ее на 462 строке, если она вернет false, сразу выходить (return) из onSubmitButtonElementClick
+      }
     });
 
 
@@ -81,15 +92,16 @@
 
   /* функция, которая запукается при клике на сабмит
    проверка всех инпутов, очистка формы, дисэбл карты, удаление слушателей*/
-  var onSbmitButtonElementClick = function (e) {
-    var succesMessageClone = document.querySelector('#success').cloneNode(true);
-    var errorMessageClone = document.querySelector('#error').cloneNode(true);
-    var mainElement = document.querySelector('main');
-    var fragment = document.createDocumentFragment();
-    e.preventDefault();
+  var onSubmitButtonElementClick = function (e) {
+    // var succesMessageClone = document.querySelector('#success').cloneNode(true);
+    // var errorMessageClone = document.querySelector('#error').cloneNode(true);
+    // var mainElement = document.querySelector('main');
+    // var fragment = document.createDocumentFragment();
 
-    if (priceInputElement.value < selectTypeElement.min) { //  вынести в отдельную ф-ю, вызывать ее на 462 строке, если она вернет false, сразу выходить (return) из onSbmitButtonElementClick
-      selectTypeElement.setCustomValidity('Стоимость жилья должна быть не ниже ' + priceInputElement.min + ' .'); // вынести в отдельную ф-ю, вызывать ее на 462 строке, если она вернет false, сразу выходить (return) из onSbmitButtonElementClick
+    alert('click on Submit');
+
+    if (priceInputElement.value < selectTypeElement.min) { //  вынести в отдельную ф-ю, вызывать ее на 462 строке, если она вернет false, сразу выходить (return) из onSubmitButtonElementClick
+      selectTypeElement.setCustomValidity('Стоимость жилья должна быть не ниже ' + priceInputElement.min + ' .'); // вынести в отдельную ф-ю, вызывать ее на 462 строке, если она вернет false, сразу выходить (return) из onSubmitButtonElementClick
     }
 
     var roomSelectValue = parseInt(document.querySelector('#room_number').value, 10);
@@ -97,22 +109,23 @@
     if (roomSelectValue === 100 && roomSelectValue !== 0) {
       selectTypeElement.setCustomValidity('Количество комнат не для гостей.');
     }
-    if (guestsSelectValue > roomSelectValue) { //  вынести в отдельную ф-ю, вызывать ее на 462 строке, если она вернет false, сразу выходить (return) из onSbmitButtonElementClick
-      selectTypeElement.setCustomValidity('Количество гостей должно быть не больше ' + matchAmountOfGuests[roomSelectValue] + ' .'); // вынести в отдельную ф-ю, вызывать ее на 462 строке, если она вернет false, сразу выходить (return) из onSbmitButtonElementClick
+    if (guestsSelectValue > roomSelectValue) { //  вынести в отдельную ф-ю, вызывать ее на 462 строке, если она вернет false, сразу выходить (return) из onSubmitButtonElementClick
+      selectTypeElement.setCustomValidity('Количество гостей должно быть не больше ' + matchAmountOfGuests[roomSelectValue] + ' .'); // вынести в отдельную ф-ю, вызывать ее на 462 строке, если она вернет false, сразу выходить (return) из onSubmitButtonElementClick
     }
 
+
+    // e.preventDefault();
     window.map.makeDisabled();
     window.listeners.removeAllHandlers();
     window.listeners.setFormNew();
-
-    window.map.formAdElement.addEventListener('invalid', function () {
-      fragment.appendChild(errorMessageClone);
-      mainElement.appendChild(fragment);
-    });
-    window.map.formAdElement.addEventListener('valid', function () {
-      fragment.appendChild(succesMessageClone);
-      mainElement.appendChild(fragment);
-    });
+    // window.map.formAdElement.addEventListener('invalid', function () {
+    //   fragment.appendChild(errorMessageClone);
+    //   mainElement.appendChild(fragment);
+    // });
+    // window.map.formAdElement.addEventListener('valid', function () {
+    //   fragment.appendChild(succesMessageClone);
+    //   mainElement.appendChild(fragment);
+    // });
   };
 
 
@@ -123,9 +136,9 @@
     checkInInputElement.addEventListener('mouseup', onSelectTimeInMouseUp);
     checkOutInputElement.addEventListener('mouseup', onSelectTimeOutMouseUp);
     amountRoomsSelectElement.addEventListener('change', onSelectRoomNumberMouseUp);
-    submitButtonElement.addEventListener('click', onSbmitButtonElementClick);
+    submitButtonElement.addEventListener('click', onSubmitButtonElementClick);
     resetButtonElement.addEventListener('click', window.listeners.onResetButtonClick);
-    submitButtonElement.addEventListener('mousedown', onSbmitButtonElementClick);
+    submitButtonElement.addEventListener('mousedown', onSubmitButtonElementClick);
   };
 
   window.form.removeFormEventListeners = function () {
@@ -135,9 +148,9 @@
     checkInInputElement.removeEventListener('mouseup', onSelectTimeInMouseUp);
     checkOutInputElement.removeEventListener('mouseup', onSelectTimeOutMouseUp);
     amountRoomsSelectElement.removeEventListener('change', onSelectRoomNumberMouseUp);
-    submitButtonElement.removeEventListener('click', onSbmitButtonElementClick);
+    submitButtonElement.removeEventListener('click', onSubmitButtonElementClick);
     resetButtonElement.removeEventListener('click', window.listeners.onResetButtonClick);
-    submitButtonElement.removeEventListener('mousedown', onSbmitButtonElementClick);
+    submitButtonElement.removeEventListener('mousedown', onSubmitButtonElementClick);
   };
 
 })();
