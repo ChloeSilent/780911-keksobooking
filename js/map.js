@@ -59,13 +59,6 @@
 
   };
 
-  window.backend.dataload(function (elements) {
-    for (var i = 0; i < elements.length; i++) {
-      elements[i] = window.data.createObject(i);
-      window.pin.putOnePin(elements[i]);
-    }
-  });
-
 
   // window.map.createAndPutAllPins = function () {
   //   for (var i = 0; i < AMOUNT; i++) {

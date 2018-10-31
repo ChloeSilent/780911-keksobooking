@@ -151,21 +151,21 @@
     submitButtonElement.removeEventListener('mousedown', onSubmitButtonElementClick);
   };
 
-  var mainElement = document.querySelector('main');
-  var fragment = document.createDocumentFragment();
+  // var mainElement = document.querySelector('main');
+  // var fragment = document.createDocumentFragment();
 
-  var successHandler = function () {
-    var succesMessageClone = document.querySelector('#success').cloneNode(true);
-    fragment.appendChild(succesMessageClone);
-    mainElement.appendChild(fragment);
-  };
+  // var successHandler = function () {
+  //   var succesMessageClone = document.querySelector('#success').cloneNode(true);
+  //   fragment.appendChild(succesMessageClone);
+  //   mainElement.appendChild(fragment);
+  // };
 
-  var errorHandler = function () {
-    var errorMessageClone = document.querySelector('#error').cloneNode(true);
-    fragment.appendChild(errorMessageClone);
-    mainElement.appendChild(fragment);
-  };
+  // var errorHandler = function () {
+  //   var errorMessageClone = document.querySelector('#error').cloneNode(true);
+  //   fragment.appendChild(errorMessageClone);
+  //   mainElement.appendChild(fragment);
+  // };
 
-  window.backend.load(window.backend.URL, successHandler, errorHandler);
+  // window.backend.load(window.backend.URL, successHandler, errorHandler);
 
 })();
