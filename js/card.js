@@ -29,7 +29,7 @@
   };
 
   /* создает новые фото на основе массива photos у элемента*/
-  var createPhotosAsDom = function (element) {
+  var createFeaturesElements = function (element) {
     var fragmentPhotos = document.createDocumentFragment();
     for (var m = 0; m < element.offer.photos.length; m++) {
       var newPhoto = document.createElement('img');
@@ -83,13 +83,17 @@
       removeChildrenNodes(ListPhotosElement);
     }
     /* вставляет фото как DOM-элемент в разметку */
-    cardClone.querySelector('.popup__photos').appendChild(createPhotosAsDom(element));
+    cardClone.querySelector('.popup__photos').appendChild(createFeaturesElements(element));
     cardClone.querySelector('.popup__avatar').src = element.author.avatar;
     var cardCloseElement = cardClone.querySelector('.popup__close');
-    cardCloseElement.addEventListener('click', function (evt) {
+    // работающа функция
+    // cardCloseElement.addEventListener('click', function (evt) {
+    //   var target = evt.target;
+    //   target.parentNode.remove();
+    // функция переделана по комменту(хз работает ли)
+    cardCloseElement.addEventListener('click', function () {
+      cardClone.remove();
 
-      var target = evt.target;
-      target.parentNode.remove();
     });
 
     return cardClone;

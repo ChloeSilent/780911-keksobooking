@@ -1,3 +1,73 @@
 'use strict';
 // backend.js — модуль, который работает с сервером
 
+/* модуль, который будет загружать наши данные по сети load.js. */
+(function () {
+
+  window.backend = {};
+
+  window.backend.loadData = function (onLoadData) {
+    xhrSend('https://js.dump.academy/keksobooking/data', 'GET', onLoadData);
+  };
+  var onError = function (errorMessage) {
+
+    var templateErrorMessageElement = document.querySelector('#error').content.querySelector('.error');
+    var mainElement = document.querySelector('main');
+    var fragment = document.createDocumentFragment();
+    var errorMessageClone = templateErrorMessageElement.cloneNode(true);
+    fragment.appendChild(errorMessageClone);
+    mainElement.appendChild(fragment);
+    errorMessageClone.querySelector('.error__message').textContent = errorMessage;
+    var messageCloseElement = errorMessageClone.querySelector('.error__button');
+    var ErrorElement = document.querySelector('.error');
+
+    // });
+    var ECS_INPUT = 27;
+    var removeErrorMessage = function () {
+      errorMessageClone.remove();
+    };
+
+    var onErrorEscDown = function (evt) {
+      if (errorMessageClone && evt.keyCode === ECS_INPUT) {
+        errorMessageClone.remove();
+        // evt.preventDefault(); // останавливает всплытие события
+        // evt.stopPropagation();
+      }
+    };
+
+    messageCloseElement.addEventListener('click', removeErrorMessage);
+    document.addEventListener('keydown', onErrorEscDown);
+    ErrorElement.addEventListener('click', removeErrorMessage);
+  };
+
+  var xhrSend = function (url, method, onSuccess) {
+    var xhr = new XMLHttpRequest();
+    xhr.timeout = 10000; // 10s
+    var onLoad = function () {
+      if (xhr.status === 200) {
+        onSuccess(xhr.response);
+      } else {
+        onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+      }
+
+    };
+
+    var onTimeOutData = function () {
+      onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+    };
+
+    var onErrorData = function () {
+      onError('Произошла ошибка соединения');
+    };
+
+    xhr.addEventListener('load', onLoad);
+    xhr.addEventListener('error', onErrorData);
+    xhr.addEventListener('timeout', onTimeOutData);
+    xhr.responseType = 'json';
+    xhr.open(method, url); //  куда пойдет запрос на сервер
+    xhr.send(); // отправка запроса
+    // onError();
+  };
+
+
+})();

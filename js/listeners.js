@@ -9,7 +9,8 @@
   var onMainPinMouseUp = function (evt) {
     /* запуск всех функций на карте(перемещение гл пина, создание пинов, активация карты*/
     window.map.makeActive(evt);
-    window.map.createAndPutAllPins();
+    // window.map.createAndPutAllPins();
+    window.backend.loadData(window.map.createPins);
     window.movePin.addFormEventListeners();
     window.form.addFormEventListeners();
     window.map.mainPinElement.removeEventListener('mouseup', onMainPinMouseUp);
