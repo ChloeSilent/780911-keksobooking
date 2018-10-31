@@ -9,9 +9,11 @@
   var onMainPinMouseUp = function (evt) {
     /* запуск всех функций на карте(перемещение гл пина, создание пинов, активация карты*/
     window.map.makeActive(evt);
-    window.map.createAndPutAllPins();
+    // window.map.createAndPutAllPins();
+    window.backend.dataload();
     window.movePin.addFormEventListeners();
     window.form.addFormEventListeners();
+    window.backend.dataload();
     window.map.mainPinElement.removeEventListener('mouseup', onMainPinMouseUp);
   };
 

@@ -1,28 +1,41 @@
 'use strict';
 // backend.js — модуль, который работает с сервером
 
-// модуль, который будет загружать наши данные по сети load.js.
+/* модуль, который будет загружать наши данные по сети load.js. */
 (function () {
+
   window.backend = {};
-  var URL = 'https://js.dump.academy/keksobooking/data';
-  window.backend.load = function (onSuccess, onError) {
+
+  window.backend.load = function (url, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
-    xhr.responseType = 'json';
-    xhr.addEventListener('load', function () {
+    window.backend.dataload = function () {
+
+      window.backend.URL = 'https://js.dump.academy/keksobooking/data';
+      xhr.timeout = 1000;
+      xhr.responseType = 'json';
+
       if (xhr.status === 200) {
         onSuccess(xhr.response);
       } else {
-        onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+        onError('Cтатус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
-    });
-    xhr.addEventListener('error', function () {
+    };
+
+    var errorLoadData = function () {
       onError('Произошла ошибка соединения');
-    });
-    xhr.addEventListener('timeout', function () {
+    };
+
+    var timeoutLoadData = function () {
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
-    });
-    xhr.timeout = 10000; // 10s
-    xhr.open('GET', URL);
+    };
+
+    xhr.addEventListener('load', window.backend.dataload);
+    xhr.addEventListener('error', errorLoadData);
+    xhr.addEventListener('timeout', timeoutLoadData);
+
+    xhr.open('GET', window.backend.URL);
     xhr.send();
   };
+
+
 })();

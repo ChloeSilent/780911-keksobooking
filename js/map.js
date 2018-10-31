@@ -13,8 +13,8 @@
 
   window.map.DEFAULT_X = 570;
   window.map.DEFAULT_Y = 375;
-  var AMOUNT = 8;
-  var pins = [];
+  // var AMOUNT = 8;
+  // var pins = [];
 
   /* делает все инпуты, филдсеты, баттоны неактивными, делает неактивной карту */
   window.map.makeDisabled = function () {
@@ -59,11 +59,19 @@
 
   };
 
-  window.map.createAndPutAllPins = function () {
-    for (var i = 0; i < AMOUNT; i++) {
-      pins[i] = window.data.createObject(i);
-      window.pin.putOnePin(pins[i]);
+  window.backend.dataload(function (elements) {
+    for (var i = 0; i < elements.length; i++) {
+      elements[i] = window.data.createObject(i);
+      window.pin.putOnePin(elements[i]);
     }
-  };
+  });
+
+
+  // window.map.createAndPutAllPins = function () {
+  //   for (var i = 0; i < AMOUNT; i++) {
+  //     pins[i] = window.data.createObject(i);
+  //     window.pin.putOnePin(pins[i]);
+  //   }
+  // };
 
 })();

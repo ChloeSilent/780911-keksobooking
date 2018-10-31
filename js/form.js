@@ -93,12 +93,6 @@
   /* функция, которая запукается при клике на сабмит
    проверка всех инпутов, очистка формы, дисэбл карты, удаление слушателей*/
   var onSubmitButtonElementClick = function () {
-    // var succesMessageClone = document.querySelector('#success').cloneNode(true);
-    // var errorMessageClone = document.querySelector('#error').cloneNode(true);
-    // var mainElement = document.querySelector('main');
-    // var fragment = document.createDocumentFragment();
-
-    // alert('click on Submit');
 
     if (priceInputElement.value < selectTypeElement.min) {
       selectTypeElement.setCustomValidity('Стоимость жилья должна быть не ниже ' + priceInputElement.min + ' .');
@@ -125,18 +119,8 @@
 
 
     /* --------------------------------------------------*/
-    // e.preventDefault();
-    // window.map.makeDisabled();
-    // window.listeners.removeAllHandlers();
-    // window.listeners.setFormNew();
-    // window.map.formAdElement.addEventListener('invalid', function () {
-    //   fragment.appendChild(errorMessageClone);
-    //   mainElement.appendChild(fragment);
-    // });
-    // window.map.formAdElement.addEventListener('valid', function () {
-    //   fragment.appendChild(succesMessageClone);
-    //   mainElement.appendChild(fragment);
-    // });
+
+    // evt.preventDefault();
   };
 
 
@@ -169,17 +153,19 @@
 
   var mainElement = document.querySelector('main');
   var fragment = document.createDocumentFragment();
+
   var successHandler = function () {
     var succesMessageClone = document.querySelector('#success').cloneNode(true);
     fragment.appendChild(succesMessageClone);
     mainElement.appendChild(fragment);
   };
+
   var errorHandler = function () {
     var errorMessageClone = document.querySelector('#error').cloneNode(true);
     fragment.appendChild(errorMessageClone);
     mainElement.appendChild(fragment);
   };
 
-  window.backend.load(successHandler, errorHandler);
+  window.backend.load(window.backend.URL, successHandler, errorHandler);
 
 })();
