@@ -6,22 +6,34 @@
 
   window.backend = {};
 
-  var URL = 'https://js.dump.academy/keksobooking/data';
-  var xhr = new XMLHttpRequest(); // Это объект созданный функцией конструктором(всегда через new)
-  // console.log(xhr);
-
-  xhr.addEventListener('load', function () { // обработчик всегда раньше open и sent
-    var elements = JSON.parse(xhr.responseText);
-    for (var i = 0; i < elements.length; i++) {
-
-      window.pin.putOnePin(elements[i]);
-    }
-    // console.log(xhr.status + ' ' + xhr.statusText);
-  });
+  window.backend.loadData = function (onLoadData) {
 
 
-  xhr.open('GET', URL); //  куда пойдет запрос на сервер
-  xhr.send(); // отправка запроса
+    xhrSend('https://js.dump.academy/keksobooking/data', 'GET', onLoadData);
 
+  };
+
+  var xhrSend = function (url, method, onSuccess) {
+    var xhr = new XMLHttpRequest(); // Это объект созданный функцией конструктором(всегда через new)
+
+
+    var onLoad = function () {
+
+      // обработчик всегда раньше open и sent
+
+      onSuccess(xhr.response);
+
+    };
+
+
+    xhr.addEventListener('load', onLoad);
+
+    xhr.responseType = 'json';
+    xhr.open(method, url); //  куда пойдет запрос на сервер
+    xhr.send(); // отправка запроса
+  };
+
+
+  // window.backend.loadData();
 
 })();
