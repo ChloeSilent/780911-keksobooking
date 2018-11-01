@@ -29,6 +29,12 @@
         node.remove();
       }
     });
+    /* удаление карточек если они есть */
+    var cardElement = document.querySelector('.map__card');
+    if (cardElement) {
+      cardElement.remove();
+    }
+
     /* снятие всех обработчиков с  формы*/
     window.form.removeFormEventListeners();
     window.map.mainPinElement.removeEventListener('mouseup', onMainPinMouseUp);
