@@ -21,7 +21,6 @@
     var messageCloseElement = errorMessageClone.querySelector('.error__button');
     var ErrorElement = document.querySelector('.error');
 
-    // });
     var ECS_INPUT = 27;
     var removeErrorMessage = function () {
       errorMessageClone.remove();
@@ -42,10 +41,16 @@
 
   var xhrSend = function (url, method, onSuccess) {
     var xhr = new XMLHttpRequest();
+
     xhr.timeout = 10000; // 10s
     var onLoad = function () {
       if (xhr.status === 200) {
-        onSuccess(xhr.response);
+        // onSuccess(xhr.response); // изнач строчка(дальше до onSuccess(window.backend.pinsData); - можно удалять это копия массива)
+        // window.backend.pinsData = xhr.response.map(function (wizard) {
+        //   return wizard;
+        // });
+        // console.log(window.backend.pinsData);
+        onSuccess(window.backend.pinsData);
       } else {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }

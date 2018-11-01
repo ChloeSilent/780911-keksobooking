@@ -60,17 +60,16 @@
   };
 
 
-  // window.map.createAndPutAllPins = function () {
-  //   for (var i = 0; i < AMOUNT; i++) {
-  //     pins[i] = window.data.createObject(i);
-  //     window.pin.putOnePin(pins[i]);
-  //   }
-  // };
-
   window.map.createPins = function (pins) {
-    for (var i = 0; i < pins.length; i++) {
 
+    for (var i = 0; i < pins.length; i++) {
       window.pin.putOnePin(pins[i]);
     }
+  };
+
+  window.map.onLoadPins = function (data) {
+    var pinData = data.slice(5);
+    window.map.pins = data;
+    window.map.createPins(pinData);
   };
 })();
