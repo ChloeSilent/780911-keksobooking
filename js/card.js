@@ -4,7 +4,7 @@
 
 (function () {
 
-  var FEATURE_STYLE = 'popup__feature popup__feature';
+  var FEATURE_STYLE = 'popup__feature popup__feature--';
   var PHOTO_PLACE_WIDTH = 45;
   var PHOTO_PLACE_HEIGHT = 45;
 
@@ -53,7 +53,6 @@
   //     list[i].parentNode.removeChild(list[i]);
   //   }
   // };
-  /* эта виснет после клика по кл пину*/
   var removeChildrenNodes = function (list) {
     while (list.firstChild) {
       list.removeChild(list.firstChild);
