@@ -36,7 +36,7 @@
 
   var CHECKIN = ['12:00', '13:00', '14:00'];
 
-  var FEATURES = ['--wifi', '--dishwasher', '--parking', '--washer', '--elevator', '--conditioner'];
+  var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 
   var PHOTOS_AMOUNT = 3;
   var PHOTO_SOURCE = 'http://o0.github.io/assets/images/tokyo/hotel';
