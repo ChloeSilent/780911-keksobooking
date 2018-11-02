@@ -16,6 +16,7 @@
   var housingPriceSelectElement = filtersFormElement.querySelector('#housing-price');
   var housingRoomsSelectElement = filtersFormElement.querySelector('#housing-rooms');
   var housingGuestsSelectElement = filtersFormElement.querySelector('#housing-guests');
+  // var housingFeaturesContainer = filtersFormElement.querySelectorAll('.map__checkbox:checked');
   var DEFAULT_FILTER = 'any';
 
 
@@ -61,6 +62,25 @@
 
   };
 
+  var filterFeature = function (pin) {
+    var featuresList = Array.from(document.querySelector('.map__filters').querySelectorAll('.map__checkbox:checked'));
+
+    if (featuresList) {
+      for (var i = 0; i < featuresList.length; i++) {
+        return pin.offer.features.includes(featuresList[i]);
+      }
+      // featuresList.forEach(function (item) {
+      //   console.log(item.value);
+      //   console.log(pin.offer.features);
+      //   // return pin.offer.features.includes(item.value);
+
+      // });
+      // return item.value;
+    } else {
+      return true;
+    }
+  };
+
   var otherFunction = function (function1) { // сюда передавать уже данные, в остальных функциях только аргументы!!!
     return function () {
       function1(window.backend.pinsData);
@@ -72,8 +92,8 @@
     window.map.pinsRemove();
     window.map.cardsRemove();
     // console.clear();
-    // console.log(pinsData.filter(filterType));
-    // return pinsData.filter(filterType).filter(filterPrice).filter(filterRoom);
+    filterFeature();
+
     window.map.createPins(pinsData.filter(filterType).filter(filterPrice).filter(filterRoom).filter(filterGuest).slice(0, 5));
     return pinsData.filter(filterType).filter(filterPrice).filter(filterRoom).filter(filterGuest);
   };

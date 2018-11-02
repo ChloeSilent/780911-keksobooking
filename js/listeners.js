@@ -25,7 +25,6 @@
     window.map.pinsRemove();
     /* удаление карточек если они есть */
     window.map.cardsRemove();
-
     /* снятие всех обработчиков с  формы*/
     window.form.removeFormEventListeners();
     window.map.mainPinElement.removeEventListener('mouseup', onMainPinMouseUp);

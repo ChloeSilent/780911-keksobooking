@@ -114,10 +114,12 @@
       window.map.makeDisabled();
       window.listeners.removeAllHandlers();
       window.listeners.setFormNew();
+      window.backend.uploadData(window.backend.onSuccessUpLoad);
     }
 
 
     // evt.preventDefault();
+
   };
 
 
