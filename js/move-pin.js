@@ -43,7 +43,7 @@
 
       var yLine = mainPin.offsetTop - shift.y;
       var xLine = mainPin.offsetLeft - shift.x;
-      window.map.inputAddressElement.value = (xLine + window.map.HALF_OF_WIDTH_PIN) + ', ' + (yLine + window.pin.PIN_HEIGHT);
+      window.form.inputAddressElement.value = (xLine + window.map.HALF_OF_WIDTH_PIN) + ', ' + (yLine + window.pin.PIN_HEIGHT);
       checkBoundariesForPin(shift);
     };
 

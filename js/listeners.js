@@ -33,12 +33,12 @@
 
 
   window.listeners.setFormNew = function () {
-    window.map.fieldsetInFormContainer.forEach(function (node) {
+    window.form.fieldsetInFormContainer.forEach(function (node) {
       node.value = '';
     });
-    window.map.formAdElement.reset();
+    window.form.formAdElement.reset();
     // /* координаты для главного пина в интпуте адрес и для stle самого элемента */
-    // window.map.inputAddressElement.value = window.map.DEFAULT_X + ', ' + window.map.DEFAULT_Y;
+    // window.form.inputAddressElement.value = window.map.DEFAULT_X + ', ' + window.map.DEFAULT_Y;
     // window.map.mainPinElement.style.left = window.map.DEFAULT_X + 'px';
     // window.map.mainPinElement.style.top = window.map.DEFAULT_Y + 'px';
 
@@ -48,6 +48,7 @@
     window.map.makeDisabled();
     window.listeners.removeAllHandlers();
     window.listeners.setFormNew();
+    window.form.makeFormDisabled();
   };
 
 })();

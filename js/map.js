@@ -5,9 +5,8 @@
   window.map = {};
 
   window.map.mainPinElement = document.querySelector('.map__pin--main');
-  window.map.formAdElement = document.querySelector('.ad-form');
-  window.map.fieldsetInFormContainer = window.map.formAdElement.querySelectorAll('fieldset');
-  window.map.inputAddressElement = document.querySelector('#address');
+
+  
   var bodyRect = window.map.mainPinElement.getBoundingClientRect();
   var mapImage = window.pin.mapElement.getBoundingClientRect();
 
@@ -21,16 +20,9 @@
   window.map.makeDisabled = function () {
 
     window.pin.mapElement.classList.add('map--faded');
-    window.map.formAdElement.classList.add('ad-form--disabled');
-
-    window.map.inputAddressElement.placeholder = window.map.DEFAULT_X + ', ' + window.map.DEFAULT_Y;
-
     window.map.mainPinElement.style.left = window.map.DEFAULT_X + 'px';
     window.map.mainPinElement.style.top = window.map.DEFAULT_Y + 'px';
 
-    window.map.fieldsetInFormContainer.forEach(function (node) {
-      node.disabled = true;
-    });
   };
   window.map.makeDisabled();
 
@@ -54,12 +46,12 @@
 
 
   /* вычисляет координату по оси Х для главного пина, адаптировано под расширение окна путем вычета координат карты */
-  var getCoordinateX = function () {
+  window.map.getCoordinateX = function () {
     return bodyRect.left - mapImage.left + window.scrollX + window.map.HALF_OF_WIDTH_PIN;
 
   };
   /* вычисляет координату по оси Y для главного пина*/
-  var getCoordinateY = function () {
+  window.map.getCoordinateY = function () {
     return Math.abs(bodyRect.top) + window.pin.PIN_HEIGHT;
 
   };
@@ -69,12 +61,7 @@
   window.map.makeActive = function () {
     /* удаляет disabled с карты и форм*/
     window.pin.mapElement.classList.remove('map--faded');
-    window.map.formAdElement.classList.remove('ad-form--disabled');
-    window.map.fieldsetInFormContainer.forEach(function (node) {
-      node.disabled = false;
-    });
-    window.map.inputAddressElement.value = getCoordinateX() + ', ' + getCoordinateY();
-
+    window.form.makeFormActive();
   };
 
 

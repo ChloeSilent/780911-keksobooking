@@ -13,6 +13,9 @@
   var amountRoomsSelectElement = document.querySelector('#room_number');
   var submitButtonElement = document.querySelector('.ad-form__submit');
   var resetButtonElement = document.querySelector('.ad-form__reset');
+  window.form.formAdElement = document.querySelector('.ad-form');
+  window.form.fieldsetInFormContainer = window.form.formAdElement.querySelectorAll('fieldset');
+  window.form.inputAddressElement = document.querySelector('#address');
 
   var TYPE_PRICE = {
     Бунгало: 0,
@@ -28,7 +31,30 @@
     '100': 'Выберите, пожалуйста, опцию "не для гостей"'
   };
   /* координаты для главного пина в интпуте адрес и для stle самого элемента */
-  window.map.inputAddressElement.value = window.map.DEFAULT_X + ', ' + window.map.DEFAULT_Y;
+  window.form.inputAddressElement.value = window.map.DEFAULT_X + ', ' + window.map.DEFAULT_Y;
+
+  /* деактивирует форму */
+  window.form.makeFormDisabled = function () {
+
+    window.form.formAdElement.classList.add('ad-form--disabled');
+
+    window.form.fieldsetInFormContainer.forEach(function (node) {
+      node.disabled = true;
+    });
+    window.form.inputAddressElement.placeholder = window.map.DEFAULT_X + ', ' + window.map.DEFAULT_Y;
+  };
+  window.form.makeFormDisabled();
+
+  /* удаляет disabled с формы*/
+  window.form.makeFormActive = function () {
+
+    window.form.formAdElement.classList.remove('ad-form--disabled');
+
+    window.form.fieldsetInFormContainer.forEach(function (node) {
+      node.disabled = false;
+    });
+    window.form.inputAddressElement.value = window.map.getCoordinateX() + ', ' + window.map.getCoordinateY();
+  };
 
   /* устанавливает цену за 1 ночь в зависимости от типа жилья */
   var onSelectTypeMouseup = function () {
@@ -112,6 +138,7 @@
 
     if (document.querySelector('.ad-form').checkValidity()) {
       window.map.makeDisabled();
+      window.form.makeFormDisabled();
       window.listeners.removeAllHandlers();
       window.listeners.setFormNew();
       window.backend.uploadData(window.backend.onSuccessUpLoad);
