@@ -86,8 +86,8 @@
   };
 
   window.map.onLoadPins = function (data) {
-    var pinData = data.slice(0, 5);
     window.map.pins = data;
+    var pinData = data.slice(0, 5);
     window.map.createPins(pinData);
   };
 })();

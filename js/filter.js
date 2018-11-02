@@ -15,7 +15,7 @@
   var housingTypeSelectElement = filtersFormElement.querySelector('#housing-type');
   var housingPriceSelectElement = filtersFormElement.querySelector('#housing-price');
   var housingRoomsSelectElement = filtersFormElement.querySelector('#housing-rooms');
-  // var housingGuestsSelectElement = filtersFormElement.querySelector('#housing-guests');
+  var housingGuestsSelectElement = filtersFormElement.querySelector('#housing-guests');
   var DEFAULT_FILTER = 'any';
 
 
@@ -41,20 +41,42 @@
 
   var filterRoom = function (pin) {
     var value = housingRoomsSelectElement.value;
-    return (value === DEFAULT_FILTER || value === pin.offer.rooms);
+    if (value === DEFAULT_FILTER) {
+      return true;
+    } else {
+      value = parseInt(housingRoomsSelectElement.value, 10);
+      return value === pin.offer.rooms;
+    }
 
   };
-  var otherFunction = function (function1) {
+
+  var filterGuest = function (pin) {
+    var value = housingGuestsSelectElement.value;
+    if (value === DEFAULT_FILTER) {
+      return pin.offer.rooms > 2;
+    } else {
+      value = parseInt(housingGuestsSelectElement.value, 10);
+      return value === pin.offer.rooms;
+    }
+
+  };
+
+  var otherFunction = function (function1) { // сюда передавать уже данные, в остальных функциях только аргументы!!!
     return function () {
       function1(window.backend.pinsData);
+      // console.log(window.backend.pinsData);
     };
   };
 
   var FilterAll = function (pinsData) {
+    window.map.pinsRemove();
+    window.map.cardsRemove();
     // console.clear();
     // console.log(wizards.filter(filterType));
-    // console.log(wizards.filter(filterType));
-    return pinsData.filter(filterType).filter(filterPrice).filter(filterRoom);
+    // console.log(pinsData.filter(filterType));
+    // return pinsData.filter(filterType).filter(filterPrice).filter(filterRoom);
+    window.map.createPins(pinsData.filter(filterType).filter(filterPrice).filter(filterRoom).filter(filterGuest).slice(0, 5));
+    return pinsData.filter(filterType).filter(filterPrice).filter(filterRoom).filter(filterGuest);
   };
 
 
