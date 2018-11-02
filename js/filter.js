@@ -65,20 +65,20 @@
   var filterFeature = function (pin) {
     var featuresList = Array.from(document.querySelector('.map__filters').querySelectorAll('.map__checkbox:checked'));
 
-    if (featuresList) {
-      for (var i = 0; i < featuresList.length; i++) {
-        return pin.offer.features.includes(featuresList[i]);
-      }
-      // featuresList.forEach(function (item) {
-      //   console.log(item.value);
-      //   console.log(pin.offer.features);
-      //   // return pin.offer.features.includes(item.value);
 
-      // });
-      // return item.value;
-    } else {
-      return true;
+    // for (var i = 0; i < featuresList.length; i++) {
+    for (var i = featuresList.length; i >= 0; i--) {
+
+      return pin.offer.features.includes(featuresList[i]);
     }
+    // featuresList.forEach(function (item) {
+    //   console.log(item.value);
+    //   console.log(pin.offer.features);
+    //   // return pin.offer.features.includes(item.value);
+
+    // });
+    // return item.value;
+
   };
 
   var otherFunction = function (function1) { // сюда передавать уже данные, в остальных функциях только аргументы!!!
@@ -94,8 +94,21 @@
     // console.clear();
     filterFeature();
 
-    window.map.createPins(pinsData.filter(filterType).filter(filterPrice).filter(filterRoom).filter(filterGuest).slice(0, 5));
-    return pinsData.filter(filterType).filter(filterPrice).filter(filterRoom).filter(filterGuest);
+    window.map
+    .createPins(pinsData
+                .filter(filterType)
+                .filter(filterPrice)
+                .filter(filterRoom)
+                .filter(filterGuest)
+                .filter(filterFeature)
+                .slice(0, 5));
+
+    return pinsData
+                .filter(filterType)
+                .filter(filterPrice)
+                .filter(filterRoom)
+                .filter(filterGuest)
+                .filter(filterFeature);
   };
 
 

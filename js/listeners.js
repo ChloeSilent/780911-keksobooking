@@ -46,9 +46,9 @@
 
   window.listeners.onResetButtonClick = function () {
     window.map.makeDisabled();
+    window.form.makeFormDisabled();
     window.listeners.removeAllHandlers();
     window.listeners.setFormNew();
-    window.form.makeFormDisabled();
   };
 
 })();

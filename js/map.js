@@ -6,7 +6,6 @@
 
   window.map.mainPinElement = document.querySelector('.map__pin--main');
 
-  
   var bodyRect = window.map.mainPinElement.getBoundingClientRect();
   var mapImage = window.pin.mapElement.getBoundingClientRect();
 

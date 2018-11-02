@@ -15,11 +15,6 @@
     xhrSend(URL['GET'], 'GET', onLoadData);
   };
 
-  window.backend.uploadData = function (onLoadData) {
-    xhrSend(URL['SEND'], 'POST', onLoadData);
-  };
-
-
   var mainElement = document.querySelector('main');
   var fragment = document.createDocumentFragment();
 
@@ -73,49 +68,56 @@
     document.addEventListener('keydown', onErrorEscDown);
     templateErrorMessageElement.addEventListener('click', removeErrorMessage);
   };
+  var xhr = new XMLHttpRequest();
+
+  xhr.timeout = 10000; // 10s
+  xhr.responseType = 'json';
+  var onTimeOutData = function () {
+    onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+  };
+
+  var onErrorData = function () {
+    onError('Произошла ошибка соединения');
+  };
+
+  xhr.addEventListener('error', onErrorData);
+  xhr.addEventListener('timeout', onTimeOutData);
+
 
   var xhrSend = function (url, method, onSuccess) {
-    var xhr = new XMLHttpRequest();
-
-    xhr.timeout = 10000; // 10s
 
     var onLoad = function () {
 
-      // if (xhr.status === 200 ) {
-      //   window.backend.pinsData = xhr.response;
-      //   onSuccess(window.backend.pinsData);
-      // } else {
-      //   onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
-      // }
-
-      if (xhr.status === 200 && method === 'GET') {
+      if (xhr.status === 200) {
         window.backend.pinsData = xhr.response;
         onSuccess(window.backend.pinsData);
-      } else if (xhr.status === 200 && method === 'POST') {
-
-        onSuccess();
       } else {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
 
     };
 
-    var onTimeOutData = function () {
-      onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
-    };
-
-    var onErrorData = function () {
-      onError('Произошла ошибка соединения');
-    };
-
     xhr.addEventListener('load', onLoad);
-    xhr.addEventListener('error', onErrorData);
-    xhr.addEventListener('timeout', onTimeOutData);
-    xhr.responseType = 'json';
+
     xhr.open(method, url); //  куда пойдет запрос на сервер
     xhr.send(); // отправка запроса
     // onError();
   };
 
+  window.backend.upload = function (data, onSuccess) {
+
+    xhr.addEventListener('load', function () {
+      if (xhr.status === 200) {
+        onSuccess(xhr.response);
+      } else {
+        onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+      }
+
+    });
+
+    xhr.open('POST', URL['SEND']);
+    xhr.send(data);
+
+  };
 
 })();

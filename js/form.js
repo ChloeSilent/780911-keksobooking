@@ -13,6 +13,7 @@
   var amountRoomsSelectElement = document.querySelector('#room_number');
   var submitButtonElement = document.querySelector('.ad-form__submit');
   var resetButtonElement = document.querySelector('.ad-form__reset');
+  var capacitySelect = document.querySelector('#capacity');
   window.form.formAdElement = document.querySelector('.ad-form');
   window.form.fieldsetInFormContainer = window.form.formAdElement.querySelectorAll('fieldset');
   window.form.inputAddressElement = document.querySelector('#address');
@@ -86,9 +87,6 @@
 
   };
 
-
-  var capacitySelect = document.querySelector('#capacity');
-
   /* устанавливает кол-во гостей от кол-ва комнат*/
   var onSelectRoomNumberMouseUp = function () {
 
@@ -115,7 +113,6 @@
 
   };
 
-
   /* функция, которая запукается при клике на сабмит
    проверка всех инпутов, очистка формы, дисэбл карты, удаление слушателей*/
   var onSubmitButtonElementClick = function () {
@@ -141,14 +138,12 @@
       window.form.makeFormDisabled();
       window.listeners.removeAllHandlers();
       window.listeners.setFormNew();
-      window.backend.uploadData(window.backend.onSuccessUpLoad);
+      window.backend.upload(new FormData(window.form.formAdElement), window.backend.onSuccessUpLoad);
     }
 
 
-    // evt.preventDefault();
-
   };
-
+  // evt.preventDefault();
 
   window.form.addFormEventListeners = function () {
     selectTypeElement.addEventListener('mouseup', onSelectTypeMouseup);
@@ -171,7 +166,6 @@
     checkInInputElement.removeEventListener('mouseup', onSelectTimeInMouseUp);
     checkOutInputElement.removeEventListener('mouseup', onSelectTimeOutMouseUp);
     amountRoomsSelectElement.removeEventListener('change', onSelectRoomNumberMouseUp);
-    // capacitySelect.removeEventListener('change', onSelectRoomNumberMouseUp);
     submitButtonElement.removeEventListener('click', onSubmitButtonElementClick);
     resetButtonElement.removeEventListener('click', window.listeners.onResetButtonClick);
     submitButtonElement.removeEventListener('mousedown', onSubmitButtonElementClick);
