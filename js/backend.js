@@ -45,11 +45,7 @@
     xhr.timeout = 10000; // 10s
     var onLoad = function () {
       if (xhr.status === 200) {
-        // onSuccess(xhr.response); // изнач строчка(дальше до onSuccess(window.backend.pinsData); - можно удалять это копия массива)
-        // window.backend.pinsData = xhr.response.map(function (wizard) {
-        //   return wizard;
-        // });
-        // console.log(window.backend.pinsData);
+        window.backend.pinsData = xhr.response;
         onSuccess(window.backend.pinsData);
       } else {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);

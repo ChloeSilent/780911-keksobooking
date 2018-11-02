@@ -18,22 +18,13 @@
 
   window.map.mainPinElement.addEventListener('mouseup', onMainPinMouseUp);
 
-
   /* блок с удалителями слушателей на reset и submit*/
-  /* функция удаляющая все слушатели, делающая все что нужно disabled и удаляющая все пины*/
+  /* функция удаляющая все слушатели, делающая все что нужно disabled и вызывающая функцию удаляющую все пины*/
   window.listeners.removeAllHandlers = function () {
     /* удаление  всех маленьких пинов*/
-    var allPinsContainer = window.pin.mapElement.querySelectorAll('.map__pin');
-    allPinsContainer.forEach(function (node) {
-      if (!node.classList.contains('map__pin--main')) {
-        node.remove();
-      }
-    });
+    window.map.pinsRemove();
     /* удаление карточек если они есть */
-    var cardElement = document.querySelector('.map__card');
-    if (cardElement) {
-      cardElement.remove();
-    }
+    window.map.cardsRemove();
 
     /* снятие всех обработчиков с  формы*/
     window.form.removeFormEventListeners();

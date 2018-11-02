@@ -14,45 +14,20 @@
   var filtersFormElement = document.querySelector('.map__filters');
   var housingTypeSelectElement = filtersFormElement.querySelector('#housing-type');
   var housingPriceSelectElement = filtersFormElement.querySelector('#housing-price');
-  // var housingRoomsSelectElement = filtersFormElement.querySelector('#housing-rooms');
+  var housingRoomsSelectElement = filtersFormElement.querySelector('#housing-rooms');
   // var housingGuestsSelectElement = filtersFormElement.querySelector('#housing-guests');
   var DEFAULT_FILTER = 'any';
 
 
   var filterType = function (pin) {
-
-
-    /* это изначальная длинная версия*/
-    // console.log(housingTypeSelectElement.value)
-    // if (housingTypeSelectElement.value === "palace") {
-    //   return pin.offer.type === "palace";
-    // } else if (housingTypeSelectElement.value === "house") {
-    //   return pin.offer.type === 'house';
-    // } else if (housingTypeSelectElement.value === "flat") {
-    //   return pin.offer.type === "flat";
-    // } else if (housingTypeSelectElement.value === "bungalo") {
-    //   return pin.offer.type === "bungalo";
-    // } else {
-    //   return true;
-    // }
-
-    /* это уже переделанная функция выше в switch case*/
-
-    // var value = housingTypeSelectElement.value;
-    // switch (value) {
-    //   case "palace":
-    //     return pin.offer.type === value;
-    //   case "house":
-    //     return pin.offer.type === value;
-    // }
-
-    /* это финальная версия*/
-    return (value === "any" || value === pin.offer.type)
+    var value = housingTypeSelectElement.value;
+    return (value === DEFAULT_FILTER || value === pin.offer.type);
   };
 
 
   var filterPrice = function (pin) {
-    switch (housingPriceSelectElement.value) {
+    var value = housingPriceSelectElement.value;
+    switch (value) {
       case 'low':
         return pin.offer.price < 10000;
       case 'middle':
@@ -64,17 +39,22 @@
     }
   };
 
+  var filterRoom = function (pin) {
+    var value = housingRoomsSelectElement.value;
+    return (value === DEFAULT_FILTER || value === pin.offer.rooms);
+
+  };
   var otherFunction = function (function1) {
     return function () {
-      function1(wizards);
+      function1(window.backend.pinsData);
     };
   };
 
-  var FilterAll = function (wizards) {
-    console.clear();
+  var FilterAll = function (pinsData) {
+    // console.clear();
     // console.log(wizards.filter(filterType));
-    console.log(wizards.filter(filterType));
-    return wizards.filter(filterType).filter(filterPrice);
+    // console.log(wizards.filter(filterType));
+    return pinsData.filter(filterType).filter(filterPrice).filter(filterRoom);
   };
 
 

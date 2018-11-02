@@ -13,6 +13,7 @@
 
   window.map.DEFAULT_X = 570;
   window.map.DEFAULT_Y = 375;
+  window.map.HALF_OF_WIDTH_PIN = 33;
   // var AMOUNT = 8;
   // var pins = [];
 
@@ -33,7 +34,24 @@
   };
   window.map.makeDisabled();
 
-  window.map.HALF_OF_WIDTH_PIN = 33;
+  /* функция удаляющая все  пины*/
+  window.map.pinsRemove = function () {
+    var allPinsContainer = window.pin.mapElement.querySelectorAll('.map__pin');
+    allPinsContainer.forEach(function (node) {
+      if (!node.classList.contains('map__pin--main')) {
+        node.remove();
+      }
+    });
+  };
+
+  /* функция удаляющая все  карточки*/
+  window.map.cardsRemove = function () {
+    var cardElement = document.querySelector('.map__card');
+    if (cardElement) {
+      cardElement.remove();
+    }
+  };
+
 
   /* вычисляет координату по оси Х для главного пина, адаптировано под расширение окна путем вычета координат карты */
   var getCoordinateX = function () {
@@ -68,7 +86,7 @@
   };
 
   window.map.onLoadPins = function (data) {
-    var pinData = data.slice(5);
+    var pinData = data.slice(0, 5);
     window.map.pins = data;
     window.map.createPins(pinData);
   };
