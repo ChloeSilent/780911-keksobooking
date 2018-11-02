@@ -53,10 +53,10 @@
   var filterGuest = function (pin) {
     var value = housingGuestsSelectElement.value;
     if (value === DEFAULT_FILTER) {
-      return pin.offer.rooms > 2;
+      return true;
     } else {
       value = parseInt(housingGuestsSelectElement.value, 10);
-      return value === pin.offer.rooms;
+      return value === pin.offer.guests;
     }
 
   };
@@ -72,7 +72,6 @@
     window.map.pinsRemove();
     window.map.cardsRemove();
     // console.clear();
-    // console.log(wizards.filter(filterType));
     // console.log(pinsData.filter(filterType));
     // return pinsData.filter(filterType).filter(filterPrice).filter(filterRoom);
     window.map.createPins(pinsData.filter(filterType).filter(filterPrice).filter(filterRoom).filter(filterGuest).slice(0, 5));

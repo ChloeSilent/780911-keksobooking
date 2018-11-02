@@ -79,7 +79,6 @@
 
 
   window.map.createPins = function (pins) {
-
     for (var i = 0; i < pins.length; i++) {
       window.pin.putOnePin(pins[i]);
     }
