@@ -52,7 +52,7 @@
   /* устанавливает время выезда и въезда */
   var onSelectTimeInMouseUp = function () {
     checkOutInputElement.selectedIndex = checkInInputElement.selectedIndex;
-    // alert();
+
 
   };
   var onSelectTimeOutMouseUp = function () {
@@ -75,13 +75,13 @@
 
       if (roomsValue === 100 && capacityValue !== 0) {
         option.disabled = true;
-        // console.log('100');
+
       } else if (roomsValue !== 100 && (capacityValue > roomsValue || capacityValue === 0)) {
         option.disabled = true;
-        // console.log(' not 100');
+
       } else {
         option.disabled = false;
-        // console.log('smt else');
+
       }
 
     });
@@ -109,16 +109,13 @@
     } else {
       capacitySelect.setCustomValidity('');
     }
-    // console.log('guests is ' + guestsSelectValue);
-    // console.log('room is ' + roomSelectValue);
+
     if (document.querySelector('.ad-form').checkValidity()) {
       window.map.makeDisabled();
       window.listeners.removeAllHandlers();
       window.listeners.setFormNew();
     }
 
-
-    /* --------------------------------------------------*/
 
     // evt.preventDefault();
   };
@@ -150,22 +147,5 @@
     resetButtonElement.removeEventListener('click', window.listeners.onResetButtonClick);
     submitButtonElement.removeEventListener('mousedown', onSubmitButtonElementClick);
   };
-
-  // var mainElement = document.querySelector('main');
-  // var fragment = document.createDocumentFragment();
-
-  // var successHandler = function () {
-  //   var succesMessageClone = document.querySelector('#success').cloneNode(true);
-  //   fragment.appendChild(succesMessageClone);
-  //   mainElement.appendChild(fragment);
-  // };
-
-  // var errorHandler = function () {
-  //   var errorMessageClone = document.querySelector('#error').cloneNode(true);
-  //   fragment.appendChild(errorMessageClone);
-  //   mainElement.appendChild(fragment);
-  // };
-
-  // window.backend.load(window.backend.URL, successHandler, errorHandler);
 
 })();
