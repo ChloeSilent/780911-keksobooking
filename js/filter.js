@@ -68,9 +68,11 @@
 
     // for (var i = 0; i < featuresList.length; i++) {
     for (var i = featuresList.length; i >= 0; i--) {
-
+console.log(pin.offer.features.includes(featuresList[i]));
       return pin.offer.features.includes(featuresList[i]);
     }
+
+    // arr.every(isPositive)
     // featuresList.forEach(function (item) {
     //   console.log(item.value);
     //   console.log(pin.offer.features);
@@ -100,14 +102,14 @@
                 .filter(filterPrice)
                 .filter(filterRoom)
                 .filter(filterGuest)
-                .filter(filterFeature)
+                // .filter(filterFeature)
                 .slice(0, 5));
 
     return pinsData
                 .filter(filterType)
                 .filter(filterPrice)
                 .filter(filterRoom)
-                .filter(filterGuest)
+                // .filter(filterGuest)
                 .filter(filterFeature);
   };
 
