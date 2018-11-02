@@ -78,10 +78,22 @@
     var xhr = new XMLHttpRequest();
 
     xhr.timeout = 10000; // 10s
+
     var onLoad = function () {
-      if (xhr.status === 200) {
+
+      // if (xhr.status === 200 ) {
+      //   window.backend.pinsData = xhr.response;
+      //   onSuccess(window.backend.pinsData);
+      // } else {
+      //   onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+      // }
+
+      if (xhr.status === 200 && method === 'GET') {
         window.backend.pinsData = xhr.response;
         onSuccess(window.backend.pinsData);
+      } else if (xhr.status === 200 && method === 'POST') {
+
+        onSuccess();
       } else {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
@@ -96,7 +108,6 @@
       onError('Произошла ошибка соединения');
     };
 
-    xhr.addEventListener('load', onLoad);
     xhr.addEventListener('load', onLoad);
     xhr.addEventListener('error', onErrorData);
     xhr.addEventListener('timeout', onTimeOutData);
