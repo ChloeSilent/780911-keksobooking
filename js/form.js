@@ -137,7 +137,7 @@
       window.map.makeDisabled();
       window.form.makeFormDisabled();
       window.listeners.removeAllHandlers();
-      window.listeners.setFormNew();
+
       window.backend.upload(new FormData(window.form.formAdElement), window.backend.onSuccessUpLoad);
     }
 

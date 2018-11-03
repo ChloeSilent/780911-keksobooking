@@ -65,14 +65,19 @@
   var filterFeature = function (pin) {
     var featuresList = Array.from(document.querySelector('.map__filters').querySelectorAll('.map__checkbox:checked'));
 
-
     // for (var i = 0; i < featuresList.length; i++) {
-    for (var i = featuresList.length; i >= 0; i--) {
-console.log(pin.offer.features.includes(featuresList[i]));
-      return pin.offer.features.includes(featuresList[i]);
-    }
+    // for (var i = featuresList.length; i >= 0; i--) {
+    // console.log('111111111111111');
+    // console.log(pin.offer.features.every(featuresList[i]));
+    // pin.offer.features.includes(featuresList[i]);
+    //   if (pin.offer.features.includes(featuresList[i])) {
+    //     return true;
+    //   } else {
+    //     return false;
+    //   }
+    // }
 
-    // arr.every(isPositive)
+
     // featuresList.forEach(function (item) {
     //   console.log(item.value);
     //   console.log(pin.offer.features);
@@ -80,13 +85,16 @@ console.log(pin.offer.features.includes(featuresList[i]));
 
     // });
     // return item.value;
+    return featuresList.every(function (it) {
+      return pin.offer.features.includes(it.value);
+    });
 
   };
 
   var otherFunction = function (function1) { // сюда передавать уже данные, в остальных функциях только аргументы!!!
     return function () {
       function1(window.backend.pinsData);
-      // console.log(window.backend.pinsData);
+  
     };
   };
 
@@ -94,23 +102,23 @@ console.log(pin.offer.features.includes(featuresList[i]));
     window.map.pinsRemove();
     window.map.cardsRemove();
     // console.clear();
-    filterFeature();
+    // filterFeature();
 
     window.map
-    .createPins(pinsData
-                .filter(filterType)
-                .filter(filterPrice)
-                .filter(filterRoom)
-                .filter(filterGuest)
-                // .filter(filterFeature)
-                .slice(0, 5));
+      .createPins(pinsData
+        .filter(filterType)
+        .filter(filterPrice)
+        .filter(filterRoom)
+        .filter(filterGuest)
+        .filter(filterFeature)
+        .slice(0, 5));
 
     return pinsData
-                .filter(filterType)
-                .filter(filterPrice)
-                .filter(filterRoom)
-                // .filter(filterGuest)
-                .filter(filterFeature);
+      .filter(filterType)
+      .filter(filterPrice)
+      .filter(filterRoom)
+      .filter(filterGuest)
+      .filter(filterFeature);
   };
 
 
