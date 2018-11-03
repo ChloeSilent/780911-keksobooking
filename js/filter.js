@@ -19,7 +19,10 @@
   var featuresList = Array.from(document.querySelector('.map__filters').querySelectorAll('.map__checkbox:checked'));
   var DEFAULT_FILTER = 'any';
 
-
+  var offerPrice = {
+    'low': 10000,
+    'high': 50000
+  };
   var filterType = function (pin) {
     var value = housingTypeSelectElement.value;
     return (value === DEFAULT_FILTER || value === pin.offer.type);
@@ -30,11 +33,14 @@
     var value = housingPriceSelectElement.value;
     switch (value) {
       case 'low':
-        return pin.offer.price < 10000;
+        // return pin.offer.price < 10000;
+        return pin.offer.price < offerPrice['low'];
       case 'middle':
-        return pin.offer.price >= 10000 && pin.offer.price < 50000;
+        // return pin.offer.price >= 10000 && pin.offer.price < 50000;
+        return pin.offer.price >= offerPrice['low'] && pin.offer.price < offerPrice['high'];
       case 'high':
-        return pin.offer.price >= 50000;
+        // return pin.offer.price >= 50000;
+        return pin.offer.price >= offerPrice['high'];
       default:
         return true;
     }
@@ -93,7 +99,8 @@
 
   var mainFilter = function (filterData) { // сюда передавать уже данные, в остальных функциях только аргументы!!!
     return function () {
-      filterData(window.backend.pinsData);
+      // filterData(window.backend.pinsData);
+      window.debounce.debounce(filterData(window.backend.pinsData));
     };
   };
 
@@ -104,13 +111,13 @@
     // filterFeature();
 
     window.map
-    .createPins(pinsData
-      .filter(filterType)
-      .filter(filterPrice)
-      .filter(filterRoom)
-      .filter(filterGuest)
-      .filter(filterFeature)
-      .slice(0, 5));
+      .createPins(pinsData
+        .filter(filterType)
+        .filter(filterPrice)
+        .filter(filterRoom)
+        .filter(filterGuest)
+        .filter(filterFeature)
+        .slice(0, 5));
 
     return pinsData
       .filter(filterType)

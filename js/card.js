@@ -20,11 +20,6 @@
       newLi.className = FEATURE_STYLE + feature;
       fragmentLi.appendChild(newLi);
     });
-    // for (var k = 0; k < element.offer.features.length; k++) {
-    //   var newLi = document.createElement('li');
-    //   newLi.className = FEATURE_STYLE + element.offer.features[k];
-    //   fragmentLi.appendChild(newLi);
-    // }
     return fragmentLi;
   };
 
@@ -42,18 +37,8 @@
     }
     return fragmentPhotos;
   };
+
   /* удаляет дочерние ноды, пока они есть */
-  // var removeChildrenNodes = function (list) {
-  //   list.removeChild(list.firstChild);
-  // };
-  /* эта виснет после клика по кл пину*/
-  // var removeChildrenNodes = function (list) {
-  //   var i = list.length;
-  //   while (i--) {
-  //     list[i].parentNode.removeChild(list[i]);
-  //   }
-  // };
-  /* эта виснет после клика по кл пину*/
   var removeChildrenNodes = function (list) {
     while (list.firstChild) {
       list.removeChild(list.firstChild);
@@ -86,11 +71,7 @@
     cardClone.querySelector('.popup__photos').appendChild(createFeaturesElements(element));
     cardClone.querySelector('.popup__avatar').src = element.author.avatar;
     var cardCloseElement = cardClone.querySelector('.popup__close');
-    // работающа функция
-    // cardCloseElement.addEventListener('click', function (evt) {
-    //   var target = evt.target;
-    //   target.parentNode.remove();
-    // функция переделана по комменту(хз работает ли)
+
     cardCloseElement.addEventListener('click', function () {
       cardClone.remove();
 

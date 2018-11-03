@@ -137,8 +137,7 @@
       window.map.makeDisabled();
       window.form.makeFormDisabled();
       window.listeners.removeAllHandlers();
-
-
+      window.listeners.setFormNew();
     }
 
 
