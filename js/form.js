@@ -13,6 +13,10 @@
   var amountRoomsSelectElement = document.querySelector('#room_number');
   var submitButtonElement = document.querySelector('.ad-form__submit');
   var resetButtonElement = document.querySelector('.ad-form__reset');
+  var capacitySelect = document.querySelector('#capacity');
+  var formAdElement = document.querySelector('.ad-form');
+  var fieldsetInFormContainer = formAdElement.querySelectorAll('fieldset');
+  var inputAddressElement = document.querySelector('#address');
 
   var TYPE_PRICE = {
     Бунгало: 0,
@@ -27,8 +31,35 @@
     '3': '3',
     '100': 'Выберите, пожалуйста, опцию "не для гостей"'
   };
-  /* координаты для главного пина в интпуте адрес и для stle самого элемента */
-  window.map.inputAddressElement.value = window.map.DEFAULT_X + ', ' + window.map.DEFAULT_Y;
+
+  var DEFAULT_PRICE = '1000';
+  var ROOMS_NOT_FOR_GUESTS = 100;
+  window.form.setAddress = function (x, y) {
+    inputAddressElement.value = x + ', ' + y;
+  };
+
+  /* деактивирует форму */
+  window.form.makeFormDisabled = function () {
+
+    formAdElement.classList.add('ad-form--disabled');
+
+    fieldsetInFormContainer.forEach(function (node) {
+      node.disabled = true;
+    });
+    inputAddressElement.placeholder = window.map.DEFAULT_X + ', ' + window.map.DEFAULT_Y;
+  };
+
+
+  /* активирует форму*/
+  window.form.makeFormActive = function () {
+
+    formAdElement.classList.remove('ad-form--disabled');
+
+    fieldsetInFormContainer.forEach(function (node) {
+      node.disabled = false;
+    });
+    window.form.setAddress(window.map.getCoordinateX(), window.map.getCoordinateY());
+  };
 
   /* устанавливает цену за 1 ночь в зависимости от типа жилья */
   var onSelectTypeMouseup = function () {
@@ -39,7 +70,7 @@
   };
   /* устанавливает дефолтно min=1000  при смене значения в поле цена*/
   var onpriceInputChange = function () {
-    priceInputElement.min = '1000';
+    priceInputElement.min = DEFAULT_PRICE;
   };
   /* проверяет введеное заначение в поле цена и если оно меньше соответс. ему типу пишет ошибку */
   var onPriceInput = function (evt) {
@@ -52,16 +83,12 @@
   /* устанавливает время выезда и въезда */
   var onSelectTimeInMouseUp = function () {
     checkOutInputElement.selectedIndex = checkInInputElement.selectedIndex;
-    // alert();
 
   };
   var onSelectTimeOutMouseUp = function () {
     checkInInputElement.selectedIndex = checkOutInputElement.selectedIndex;
 
   };
-
-
-  var capacitySelect = document.querySelector('#capacity');
 
   /* устанавливает кол-во гостей от кол-ва комнат*/
   var onSelectRoomNumberMouseUp = function () {
@@ -73,22 +100,21 @@
       var capacityValue = parseInt(option.value, 10);
       var roomsValue = parseInt(selectedOptionRoom, 10);
 
-      if (roomsValue === 100 && capacityValue !== 0) {
+      if (roomsValue === ROOMS_NOT_FOR_GUESTS && capacityValue !== 0) {
         option.disabled = true;
-        // console.log('100');
-      } else if (roomsValue !== 100 && (capacityValue > roomsValue || capacityValue === 0)) {
+
+      } else if (roomsValue !== ROOMS_NOT_FOR_GUESTS && (capacityValue > roomsValue || capacityValue === 0)) {
         option.disabled = true;
-        // console.log(' not 100');
+
       } else {
         option.disabled = false;
-        // console.log('smt else');
+
       }
 
     });
 
 
   };
-
 
   /* функция, которая запукается при клике на сабмит
    проверка всех инпутов, очистка формы, дисэбл карты, удаление слушателей*/
@@ -101,7 +127,7 @@
     var roomSelectValue = parseInt(amountRoomsSelectElement.value, 10);
     var guestsSelectValue = parseInt(capacitySelect.value, 10);
 
-    if (roomSelectValue === 100 && roomSelectValue !== 0) {
+    if (roomSelectValue === ROOMS_NOT_FOR_GUESTS && roomSelectValue !== 0) {
       capacitySelect.setCustomValidity('Количество комнат не для гостей.');
     }
     if (guestsSelectValue > roomSelectValue) {
@@ -109,20 +135,31 @@
     } else {
       capacitySelect.setCustomValidity('');
     }
-    // console.log('guests is ' + guestsSelectValue);
-    // console.log('room is ' + roomSelectValue);
-    if (document.querySelector('.ad-form').checkValidity()) {
+
+    if (formAdElement.checkValidity()) {
+      window.backend.upload(new FormData(formAdElement), window.backend.onSuccessUpLoad);
       window.map.makeDisabled();
+      window.form.makeFormDisabled();
       window.listeners.removeAllHandlers();
-      window.listeners.setFormNew();
+      setFormNew();
     }
 
-
-    /* --------------------------------------------------*/
-
-    // evt.preventDefault();
   };
 
+  var setFormNew = function () {
+    fieldsetInFormContainer.forEach(function (node) {
+      node.value = '';
+    });
+    formAdElement.reset();
+
+  };
+
+  var onResetButtonClick = function () {
+    window.map.makeDisabled();
+    window.form.makeFormDisabled();
+    window.listeners.removeAllHandlers();
+    setFormNew();
+  };
 
   window.form.addFormEventListeners = function () {
     selectTypeElement.addEventListener('mouseup', onSelectTypeMouseup);
@@ -133,7 +170,7 @@
     amountRoomsSelectElement.addEventListener('change', onSelectRoomNumberMouseUp);
     capacitySelect.addEventListener('change', onSelectRoomNumberMouseUp);
     submitButtonElement.addEventListener('click', onSubmitButtonElementClick);
-    resetButtonElement.addEventListener('click', window.listeners.onResetButtonClick);
+    resetButtonElement.addEventListener('click', onResetButtonClick);
     submitButtonElement.addEventListener('mousedown', onSubmitButtonElementClick);
     onSelectRoomNumberMouseUp();
   };
@@ -145,27 +182,12 @@
     checkInInputElement.removeEventListener('mouseup', onSelectTimeInMouseUp);
     checkOutInputElement.removeEventListener('mouseup', onSelectTimeOutMouseUp);
     amountRoomsSelectElement.removeEventListener('change', onSelectRoomNumberMouseUp);
-    // capacitySelect.removeEventListener('change', onSelectRoomNumberMouseUp);
     submitButtonElement.removeEventListener('click', onSubmitButtonElementClick);
-    resetButtonElement.removeEventListener('click', window.listeners.onResetButtonClick);
+    resetButtonElement.removeEventListener('click', onResetButtonClick);
     submitButtonElement.removeEventListener('mousedown', onSubmitButtonElementClick);
   };
 
-  // var mainElement = document.querySelector('main');
-  // var fragment = document.createDocumentFragment();
-
-  // var successHandler = function () {
-  //   var succesMessageClone = document.querySelector('#success').cloneNode(true);
-  //   fragment.appendChild(succesMessageClone);
-  //   mainElement.appendChild(fragment);
-  // };
-
-  // var errorHandler = function () {
-  //   var errorMessageClone = document.querySelector('#error').cloneNode(true);
-  //   fragment.appendChild(errorMessageClone);
-  //   mainElement.appendChild(fragment);
-  // };
-
-  // window.backend.load(window.backend.URL, successHandler, errorHandler);
-
+  /* координаты для главного пина в интпуте адрес и для stle самого элемента */
+  window.form.setAddress(window.map.DEFAULT_X, window.map.DEFAULT_Y);
+  window.form.makeFormDisabled();
 })();

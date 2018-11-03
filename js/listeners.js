@@ -9,8 +9,10 @@
   var onMainPinMouseUp = function (evt) {
     /* запуск всех функций на карте(перемещение гл пина, создание пинов, активация карты*/
     window.map.makeActive(evt);
-    // window.map.createAndPutAllPins();
-    window.backend.loadData(window.map.createPins);
+    window.backend.loadData(function (data) {
+      window.map.onLoadPins(data);
+    });
+    // window.backend.loadData(window.map.createPins);
     window.movePin.addFormEventListeners();
     window.form.addFormEventListeners();
     window.map.mainPinElement.removeEventListener('mouseup', onMainPinMouseUp);
@@ -18,40 +20,18 @@
 
   window.map.mainPinElement.addEventListener('mouseup', onMainPinMouseUp);
 
-
   /* блок с удалителями слушателей на reset и submit*/
-  /* функция удаляющая все слушатели, делающая все что нужно disabled и удаляющая все пины*/
+  /* функция удаляющая все слушатели, делающая все что нужно disabled и вызывающая функцию удаляющую все пины*/
   window.listeners.removeAllHandlers = function () {
     /* удаление  всех маленьких пинов*/
-    var allPinsContainer = window.pin.mapElement.querySelectorAll('.map__pin');
-    allPinsContainer.forEach(function (node) {
-      if (!node.classList.contains('map__pin--main')) {
-        node.remove();
-      }
-    });
+    window.map.pinsRemove();
+    /* удаление карточек если они есть */
+    window.map.cardsRemove();
     /* снятие всех обработчиков с  формы*/
     window.form.removeFormEventListeners();
     window.map.mainPinElement.removeEventListener('mouseup', onMainPinMouseUp);
     window.map.mainPinElement.addEventListener('mouseup', onMainPinMouseUp);
   };
 
-
-  window.listeners.setFormNew = function () {
-    window.map.fieldsetInFormContainer.forEach(function (node) {
-      node.value = '';
-    });
-    window.map.formAdElement.reset();
-    // /* координаты для главного пина в интпуте адрес и для stle самого элемента */
-    // window.map.inputAddressElement.value = window.map.DEFAULT_X + ', ' + window.map.DEFAULT_Y;
-    // window.map.mainPinElement.style.left = window.map.DEFAULT_X + 'px';
-    // window.map.mainPinElement.style.top = window.map.DEFAULT_Y + 'px';
-
-  };
-
-  window.listeners.onResetButtonClick = function () {
-    window.map.makeDisabled();
-    window.listeners.removeAllHandlers();
-    window.listeners.setFormNew();
-  };
 
 })();

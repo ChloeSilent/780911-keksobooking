@@ -1,7 +1,7 @@
 'use strict';
 // data.js — модуль, который создаёт объект(для пина и карточки);
 
-
+// TODO: delete unuseble code
 (function () {
 
   window.data = {};
@@ -36,7 +36,7 @@
 
   var CHECKIN = ['12:00', '13:00', '14:00'];
 
-  var FEATURES = ['--wifi', '--dishwasher', '--parking', '--washer', '--elevator', '--conditioner'];
+  var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 
   var PHOTOS_AMOUNT = 3;
   var PHOTO_SOURCE = 'http://o0.github.io/assets/images/tokyo/hotel';
@@ -55,7 +55,7 @@
   };
 
   /* перемешивает массив рандомно*/
-  var shuffle = function (array) {
+  window.data.shuffle = function (array) {
 
     var clonedArray = array.slice();
     var j;
@@ -88,7 +88,7 @@
   массив обрезается тем, что ему задана длина и те элементы индекс который больше числа number не будут больше в массиве*/
   var createNewArrayfromExistOne = function (array) {
 
-    var list = shuffle(array);
+    var list = window.data.shuffle(array);
     var number = getRandom(0, list.length - 1);
     list.length = number;
 
@@ -129,7 +129,7 @@
         'checkout': '',
         'features': createNewArrayfromExistOne(FEATURES),
         'description': '',
-        'photos': shuffle(createdPhotosArray)
+        'photos': window.data.shuffle(createdPhotosArray)
       },
 
       'location': {

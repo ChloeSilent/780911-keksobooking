@@ -16,28 +16,25 @@
 
 
   /* создает один пин как элемент DOM*/
-  var createOnePin = function (element) {
+  window.pin.createPin = function (element) {
     var pinClone = pinTemplateElement.cloneNode(true);
 
     pinClone.style.left = element.location.x - window.pin.PIN_WIDTH + PX;
     pinClone.style.top = element.location.y - window.pin.PIN_HEIGHT + PX;
-    pinClone.querySelector('img').src = element.author.avatar;
-    pinClone.querySelector('img').alt = element.offer.avatar;
+    var pinImage = pinClone.querySelector('img');
+    pinImage.src = element.author.avatar;
+    pinImage.alt = element.offer.avatar;
     pinClone.addEventListener('click', function () {
-      window.card.drawOneCard(element);
-      var allCardContainer = window.card.mapFiltersContainerElement.querySelectorAll('.map__card').length;
-      if (allCardContainer > 1) {
-        window.card.mapFiltersContainerElement.querySelector('.map__card').remove();
+
+      var oldCardElement = window.card.mapFiltersContainerElement.querySelector('.map__card');
+      if (oldCardElement) {
+        oldCardElement.remove();
       }
+      window.card.drawOneCard(element);
     });
 
     return pinClone;
   };
 
-  /* помещает один пин на карту */
-  window.pin.putOnePin = function (element) {
-    var fragment = document.createDocumentFragment();
-    fragment.appendChild(createOnePin(element));
-    window.pin.mapElement.appendChild(fragment);
-  };
+
 })();

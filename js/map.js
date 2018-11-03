@@ -5,43 +5,52 @@
   window.map = {};
 
   window.map.mainPinElement = document.querySelector('.map__pin--main');
-  window.map.formAdElement = document.querySelector('.ad-form');
-  window.map.fieldsetInFormContainer = window.map.formAdElement.querySelectorAll('fieldset');
-  window.map.inputAddressElement = document.querySelector('#address');
+
   var bodyRect = window.map.mainPinElement.getBoundingClientRect();
   var mapImage = window.pin.mapElement.getBoundingClientRect();
 
   window.map.DEFAULT_X = 570;
   window.map.DEFAULT_Y = 375;
-  // var AMOUNT = 8;
+  window.map.HALF_OF_WIDTH_PIN = 33;
+  var PINS_AMOUNT = 5;
   // var pins = [];
 
   /* делает все инпуты, филдсеты, баттоны неактивными, делает неактивной карту */
   window.map.makeDisabled = function () {
 
     window.pin.mapElement.classList.add('map--faded');
-    window.map.formAdElement.classList.add('ad-form--disabled');
-
-    window.map.inputAddressElement.placeholder = window.map.DEFAULT_X + ', ' + window.map.DEFAULT_Y;
-
     window.map.mainPinElement.style.left = window.map.DEFAULT_X + 'px';
     window.map.mainPinElement.style.top = window.map.DEFAULT_Y + 'px';
 
-    window.map.fieldsetInFormContainer.forEach(function (node) {
-      node.disabled = true;
-    });
   };
   window.map.makeDisabled();
 
-  window.map.HALF_OF_WIDTH_PIN = 33;
+  /* функция удаляющая все  пины*/
+  window.map.pinsRemove = function () {
+    var allPinsContainer = window.pin.mapElement.querySelectorAll('.map__pin');
+    allPinsContainer.forEach(function (node) {
+      if (!node.classList.contains('map__pin--main')) {
+        node.remove();
+      }
+    });
+  };
+
+  /* функция удаляющая все  карточки*/
+  window.map.cardsRemove = function () {
+    var cardElement = document.querySelector('.map__card');
+    if (cardElement) {
+      cardElement.remove();
+    }
+  };
+
 
   /* вычисляет координату по оси Х для главного пина, адаптировано под расширение окна путем вычета координат карты */
-  var getCoordinateX = function () {
+  window.map.getCoordinateX = function () {
     return bodyRect.left - mapImage.left + window.scrollX + window.map.HALF_OF_WIDTH_PIN;
 
   };
   /* вычисляет координату по оси Y для главного пина*/
-  var getCoordinateY = function () {
+  window.map.getCoordinateY = function () {
     return Math.abs(bodyRect.top) + window.pin.PIN_HEIGHT;
 
   };
@@ -51,26 +60,25 @@
   window.map.makeActive = function () {
     /* удаляет disabled с карты и форм*/
     window.pin.mapElement.classList.remove('map--faded');
-    window.map.formAdElement.classList.remove('ad-form--disabled');
-    window.map.fieldsetInFormContainer.forEach(function (node) {
-      node.disabled = false;
-    });
-    window.map.inputAddressElement.value = getCoordinateX() + ', ' + getCoordinateY();
-
+    window.form.makeFormActive();
   };
 
-
-  // window.map.createAndPutAllPins = function () {
-  //   for (var i = 0; i < AMOUNT; i++) {
-  //     pins[i] = window.data.createObject(i);
-  //     window.pin.putOnePin(pins[i]);
-  //   }
-  // };
+  /* помещает один пин на карту */
 
   window.map.createPins = function (pins) {
-    for (var i = 0; i < pins.length; i++) {
+    var fragment = document.createDocumentFragment();
 
-      window.pin.putOnePin(pins[i]);
-    }
+    pins.slice(0, PINS_AMOUNT).forEach(function (pin) {
+      fragment.appendChild(window.pin.createPin(pin));
+    });
+
+    window.pin.mapElement.appendChild(fragment);
   };
+
+  window.map.onLoadPins = function (data) {
+    window.map.pins = data;
+
+    window.map.createPins(window.map.pins);
+  };
+
 })();
