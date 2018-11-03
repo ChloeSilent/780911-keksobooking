@@ -14,9 +14,9 @@
   var submitButtonElement = document.querySelector('.ad-form__submit');
   var resetButtonElement = document.querySelector('.ad-form__reset');
   var capacitySelect = document.querySelector('#capacity');
-  window.form.formAdElement = document.querySelector('.ad-form');
-  window.form.fieldsetInFormContainer = window.form.formAdElement.querySelectorAll('fieldset');
-  window.form.inputAddressElement = document.querySelector('#address');
+  var formAdElement = document.querySelector('.ad-form');
+  var fieldsetInFormContainer = formAdElement.querySelectorAll('fieldset');
+  var inputAddressElement = document.querySelector('#address');
 
   var TYPE_PRICE = {
     Бунгало: 0,
@@ -31,30 +31,34 @@
     '3': '3',
     '100': 'Выберите, пожалуйста, опцию "не для гостей"'
   };
-  /* координаты для главного пина в интпуте адрес и для stle самого элемента */
-  window.form.inputAddressElement.value = window.map.DEFAULT_X + ', ' + window.map.DEFAULT_Y;
+
+  var DEFAULT_PRICE = '1000';
+  var ROOMS_NOT_FOR_GUESTS = 100;
+  window.form.setAddress = function (x, y) {
+    inputAddressElement.value = x + ', ' + y;
+  };
 
   /* деактивирует форму */
   window.form.makeFormDisabled = function () {
 
-    window.form.formAdElement.classList.add('ad-form--disabled');
+    formAdElement.classList.add('ad-form--disabled');
 
-    window.form.fieldsetInFormContainer.forEach(function (node) {
+    fieldsetInFormContainer.forEach(function (node) {
       node.disabled = true;
     });
-    window.form.inputAddressElement.placeholder = window.map.DEFAULT_X + ', ' + window.map.DEFAULT_Y;
+    inputAddressElement.placeholder = window.map.DEFAULT_X + ', ' + window.map.DEFAULT_Y;
   };
-  window.form.makeFormDisabled();
+
 
   /* активирует форму*/
   window.form.makeFormActive = function () {
 
-    window.form.formAdElement.classList.remove('ad-form--disabled');
+    formAdElement.classList.remove('ad-form--disabled');
 
-    window.form.fieldsetInFormContainer.forEach(function (node) {
+    fieldsetInFormContainer.forEach(function (node) {
       node.disabled = false;
     });
-    window.form.inputAddressElement.value = window.map.getCoordinateX() + ', ' + window.map.getCoordinateY();
+    window.form.setAddress(window.map.getCoordinateX(), window.map.getCoordinateY());
   };
 
   /* устанавливает цену за 1 ночь в зависимости от типа жилья */
@@ -66,7 +70,7 @@
   };
   /* устанавливает дефолтно min=1000  при смене значения в поле цена*/
   var onpriceInputChange = function () {
-    priceInputElement.min = '1000';
+    priceInputElement.min = DEFAULT_PRICE;
   };
   /* проверяет введеное заначение в поле цена и если оно меньше соответс. ему типу пишет ошибку */
   var onPriceInput = function (evt) {
@@ -96,10 +100,10 @@
       var capacityValue = parseInt(option.value, 10);
       var roomsValue = parseInt(selectedOptionRoom, 10);
 
-      if (roomsValue === 100 && capacityValue !== 0) {
+      if (roomsValue === ROOMS_NOT_FOR_GUESTS && capacityValue !== 0) {
         option.disabled = true;
 
-      } else if (roomsValue !== 100 && (capacityValue > roomsValue || capacityValue === 0)) {
+      } else if (roomsValue !== ROOMS_NOT_FOR_GUESTS && (capacityValue > roomsValue || capacityValue === 0)) {
         option.disabled = true;
 
       } else {
@@ -123,7 +127,7 @@
     var roomSelectValue = parseInt(amountRoomsSelectElement.value, 10);
     var guestsSelectValue = parseInt(capacitySelect.value, 10);
 
-    if (roomSelectValue === 100 && roomSelectValue !== 0) {
+    if (roomSelectValue === ROOMS_NOT_FOR_GUESTS && roomSelectValue !== 0) {
       capacitySelect.setCustomValidity('Количество комнат не для гостей.');
     }
     if (guestsSelectValue > roomSelectValue) {
@@ -132,17 +136,30 @@
       capacitySelect.setCustomValidity('');
     }
 
-    if (document.querySelector('.ad-form').checkValidity()) {
-      window.backend.upload(new FormData(window.form.formAdElement), window.backend.onSuccessUpLoad);
+    if (formAdElement.checkValidity()) {
+      window.backend.upload(new FormData(formAdElement), window.backend.onSuccessUpLoad);
       window.map.makeDisabled();
       window.form.makeFormDisabled();
       window.listeners.removeAllHandlers();
-      window.listeners.setFormNew();
+      setFormNew();
     }
 
+  };
+
+  var setFormNew = function () {
+    fieldsetInFormContainer.forEach(function (node) {
+      node.value = '';
+    });
+    formAdElement.reset();
 
   };
-  // evt.preventDefault();
+
+  var onResetButtonClick = function () {
+    window.map.makeDisabled();
+    window.form.makeFormDisabled();
+    window.listeners.removeAllHandlers();
+    setFormNew();
+  };
 
   window.form.addFormEventListeners = function () {
     selectTypeElement.addEventListener('mouseup', onSelectTypeMouseup);
@@ -153,7 +170,7 @@
     amountRoomsSelectElement.addEventListener('change', onSelectRoomNumberMouseUp);
     capacitySelect.addEventListener('change', onSelectRoomNumberMouseUp);
     submitButtonElement.addEventListener('click', onSubmitButtonElementClick);
-    resetButtonElement.addEventListener('click', window.listeners.onResetButtonClick);
+    resetButtonElement.addEventListener('click', onResetButtonClick);
     submitButtonElement.addEventListener('mousedown', onSubmitButtonElementClick);
     onSelectRoomNumberMouseUp();
   };
@@ -166,8 +183,11 @@
     checkOutInputElement.removeEventListener('mouseup', onSelectTimeOutMouseUp);
     amountRoomsSelectElement.removeEventListener('change', onSelectRoomNumberMouseUp);
     submitButtonElement.removeEventListener('click', onSubmitButtonElementClick);
-    resetButtonElement.removeEventListener('click', window.listeners.onResetButtonClick);
+    resetButtonElement.removeEventListener('click', onResetButtonClick);
     submitButtonElement.removeEventListener('mousedown', onSubmitButtonElementClick);
   };
 
+  /* координаты для главного пина в интпуте адрес и для stle самого элемента */
+  window.form.setAddress(window.map.DEFAULT_X, window.map.DEFAULT_Y);
+  window.form.makeFormDisabled();
 })();

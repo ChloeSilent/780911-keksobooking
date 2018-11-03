@@ -12,7 +12,7 @@
   window.map.DEFAULT_X = 570;
   window.map.DEFAULT_Y = 375;
   window.map.HALF_OF_WIDTH_PIN = 33;
-  // var AMOUNT = 5;
+  var PINS_AMOUNT = 5;
   // var pins = [];
 
   /* делает все инпуты, филдсеты, баттоны неактивными, делает неактивной карту */
@@ -63,28 +63,22 @@
     window.form.makeFormActive();
   };
 
-  // было
+  /* помещает один пин на карту */
+
   window.map.createPins = function (pins) {
-    for (var i = 0; i < pins.length; i++) {
-      window.pin.putOnePin(pins[i]);
-    }
+    var fragment = document.createDocumentFragment();
+
+    pins.slice(0, PINS_AMOUNT).forEach(function (pin) {
+      fragment.appendChild(window.pin.createPin(pin));
+    });
+
+    window.pin.mapElement.appendChild(fragment);
   };
 
   window.map.onLoadPins = function (data) {
     window.map.pins = data;
-    var pinData = data.slice(0, 5);
-    window.map.createPins(pinData);
+
+    window.map.createPins(window.map.pins);
   };
 
-  // стало
-  // window.map.createPins = function (pins) {
-  //   for (var i = 0; i < AMOUNT; i++) {
-  //     window.pin.putOnePin(pins[i]);
-  //   }
-  // };
-
-  // window.map.onLoadPins = function (data) {
-  //   window.map.pins = data;
-  //   window.map.createPins(window.map.pins);
-  // };
 })();

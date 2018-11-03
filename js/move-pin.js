@@ -6,10 +6,10 @@
 
   window.movePin = {};
 
-  var TOPY = 130;
-  var BOTTOMY = 630;
-  var LEFTX = -31;
-  var RIGHTX = 1165;
+  var TOP_Y = 130;
+  var BOTTOM_Y = 630;
+  var LEFT_X = -31;
+  var RIGHT_X = 1165;
   var mainPin = window.map.mainPinElement;
 
   /* функция передвижение главного пина*/
@@ -43,7 +43,8 @@
 
       var yLine = mainPin.offsetTop - shift.y;
       var xLine = mainPin.offsetLeft - shift.x;
-      window.form.inputAddressElement.value = (xLine + window.map.HALF_OF_WIDTH_PIN) + ', ' + (yLine + window.pin.PIN_HEIGHT);
+
+      window.form.setAddress((xLine + window.map.HALF_OF_WIDTH_PIN), (yLine + window.pin.PIN_HEIGHT));
       checkBoundariesForPin(shift);
     };
 
@@ -69,14 +70,14 @@
         x: mainPin.offsetLeft - shift.x,
         y: mainPin.offsetTop - shift.y
       };
-      if (currentCoordiant.x > RIGHTX) {
-        mainPin.style.left = RIGHTX + 'px';
-      } else if (currentCoordiant.x < LEFTX) {
-        mainPin.style.left = LEFTX + 'px';
-      } else if (currentCoordiant.y > BOTTOMY) {
-        mainPin.style.top = BOTTOMY + 'px';
-      } else if (currentCoordiant.y < TOPY) {
-        mainPin.style.top = TOPY + 'px';
+      if (currentCoordiant.x > RIGHT_X) {
+        mainPin.style.left = RIGHT_X + 'px';
+      } else if (currentCoordiant.x < LEFT_X) {
+        mainPin.style.left = LEFT_X + 'px';
+      } else if (currentCoordiant.y > BOTTOM_Y) {
+        mainPin.style.top = BOTTOM_Y + 'px';
+      } else if (currentCoordiant.y < TOP_Y) {
+        mainPin.style.top = TOP_Y + 'px';
       }
 
     };

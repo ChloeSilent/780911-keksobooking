@@ -9,10 +9,13 @@
     'SEND': 'https://js.dump.academy/keksobooking',
     'GET': 'https://js.dump.academy/keksobooking/data'
   };
-
+  var TIME_OUT = 10000;
   window.backend.loadData = function (onLoadData) {
-    // xhrSend('https://js.dump.academy/keksobooking/data', 'GET', onLoadData);
     xhrSend(URL['GET'], 'GET', onLoadData);
+  };
+
+  window.backend.upload = function (data, onSuccess) {
+    xhrSend(URL['SEND'], 'POST', onSuccess, data);
   };
 
   var mainElement = document.querySelector('main');
@@ -51,7 +54,7 @@
     mainElement.appendChild(fragment);
     errorMessageClone.querySelector('.error__message').textContent = errorMessage;
     var messageCloseElement = errorMessageClone.querySelector('.error__button');
-    // var ErrorElement = document.querySelector('.error'); раньше он стоял в строчке templateErrorMessageElement.addEventListener('click', removeErrorMessage);
+
 
     var ECS_INPUT = 27;
     var removeErrorMessage = function () {
@@ -68,30 +71,29 @@
     document.addEventListener('keydown', onErrorEscDown);
     templateErrorMessageElement.addEventListener('click', removeErrorMessage);
   };
-  var xhr = new XMLHttpRequest();
-
-  xhr.timeout = 10000; // 10s
-  xhr.responseType = 'json';
-
-  var onTimeOutData = function () {
-    onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
-  };
-
-  var onErrorData = function () {
-    onError('Произошла ошибка соединения');
-  };
-
-  xhr.addEventListener('error', onErrorData);
-  xhr.addEventListener('timeout', onTimeOutData);
 
 
-  var xhrSend = function (url, method, onSuccess) {
+  var xhrSend = function (url, method, onSuccess, data) {
+    var xhr = new XMLHttpRequest();
+
+    xhr.timeout = TIME_OUT; // 10s
+    xhr.responseType = 'json';
+
+    var onTimeOutData = function () {
+      onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+    };
+
+    var onErrorData = function () {
+      onError('Произошла ошибка соединения');
+    };
+
+    xhr.addEventListener('error', onErrorData);
+    xhr.addEventListener('timeout', onTimeOutData);
 
     var onLoad = function () {
 
       if (xhr.status === 200) {
-        window.backend.pinsData = xhr.response;
-        onSuccess(window.backend.pinsData);
+        onSuccess(xhr.response);
       } else {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
@@ -99,25 +101,8 @@
     };
 
     xhr.addEventListener('load', onLoad);
-
-    xhr.open(method, url); //  куда пойдет запрос на сервер
-    xhr.send(); // отправка запроса
-    // onError();
-  };
-
-  window.backend.upload = function (data, onSuccess) {
-
-    xhr.addEventListener('load', function () {
-      if (xhr.status === 200) {
-        onSuccess(xhr.response);
-      } else {
-        onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
-      }
-
-    });
-
-    xhr.open('POST', URL['SEND']);
-    xhr.send(data);
+    xhr.open(method, url);
+    xhr.send(method === 'POST' ? data : undefined);
 
   };
 

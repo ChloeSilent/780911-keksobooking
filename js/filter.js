@@ -16,7 +16,7 @@
   var housingPriceSelectElement = filtersFormElement.querySelector('#housing-price');
   var housingRoomsSelectElement = filtersFormElement.querySelector('#housing-rooms');
   var housingGuestsSelectElement = filtersFormElement.querySelector('#housing-guests');
-  var featuresList = Array.from(document.querySelector('.map__filters').querySelectorAll('.map__checkbox:checked'));
+  var featuresList = Array.from(document.querySelectorAll('.map__filters .map__checkbox'));
   var DEFAULT_FILTER = 'any';
 
   var offerPrice = {
@@ -33,13 +33,10 @@
     var value = housingPriceSelectElement.value;
     switch (value) {
       case 'low':
-        // return pin.offer.price < 10000;
         return pin.offer.price < offerPrice['low'];
       case 'middle':
-        // return pin.offer.price >= 10000 && pin.offer.price < 50000;
         return pin.offer.price >= offerPrice['low'] && pin.offer.price < offerPrice['high'];
       case 'high':
-        // return pin.offer.price >= 50000;
         return pin.offer.price >= offerPrice['high'];
       default:
         return true;
@@ -47,88 +44,50 @@
   };
 
   var filterRoom = function (pin) {
-    var value = housingRoomsSelectElement.value;
-    if (value === DEFAULT_FILTER) {
-      return true;
-    } else {
-      value = parseInt(housingRoomsSelectElement.value, 10);
-      return value === pin.offer.rooms;
-    }
 
+    var value = housingRoomsSelectElement.value;
+    return (value === DEFAULT_FILTER || parseInt(value, 10) === pin.offer.rooms);
   };
 
   var filterGuest = function (pin) {
     var value = housingGuestsSelectElement.value;
-    if (value === DEFAULT_FILTER) {
-      return true;
-    } else {
-      value = parseInt(housingGuestsSelectElement.value, 10);
-      return value === pin.offer.guests;
-    }
 
+    return (value === DEFAULT_FILTER || parseInt(value, 10) === pin.offer.guests);
   };
 
-  var filterFeature = function (pin) {
-
-
-    // for (var i = 0; i < featuresList.length; i++) {
-    // for (var i = featuresList.length; i >= 0; i--) {
-    // console.log('111111111111111');
-    // console.log(pin.offer.features.every(featuresList[i]));
-    // pin.offer.features.includes(featuresList[i]);
-    //   if (pin.offer.features.includes(featuresList[i])) {
-    //     return true;
-    //   } else {
-    //     return false;
-    //   }
-    // }
-
-
-    // featuresList.forEach(function (item) {
-    //   console.log(item.value);
-    //   console.log(pin.offer.features);
-    //   // return pin.offer.features.includes(item.value);
-
-    // });
-    // return item.value;
-    return featuresList.every(function (it) {
-      return pin.offer.features.includes(it.value);
+  var filterFeature = function (checkedFeatures, pin) {
+    return checkedFeatures.every(function (feature) {
+      return pin.offer.features.includes(feature.value);
     });
 
   };
 
-  var mainFilter = function (filterData) { // сюда передавать уже данные, в остальных функциях только аргументы!!!
-    return function () {
-      // filterData(window.backend.pinsData);
-      window.debounce.debounce(filterData(window.backend.pinsData));
-    };
-  };
-
-  var FilterAll = function (pinsData) {
-    window.map.pinsRemove();
-    window.map.cardsRemove();
-    // console.clear();
-    // filterFeature();
-
-    window.map
-      .createPins(pinsData
-        .filter(filterType)
-        .filter(filterPrice)
-        .filter(filterRoom)
-        .filter(filterGuest)
-        .filter(filterFeature)
-        .slice(0, 5));
+  var filterAll = function (pinsData) {
+    var checkedFeatures = featuresList.filter(function (feature) {
+      return feature.checked;
+    });
 
     return pinsData
       .filter(filterType)
       .filter(filterPrice)
       .filter(filterRoom)
       .filter(filterGuest)
-      .filter(filterFeature);
+      .filter(function (pin) {
+        return filterFeature(checkedFeatures, pin);
+      }).slice(0, 5);
+  };
+
+  var onFormChange = function () {
+
+    window.debounce(function () {
+      window.map.pinsRemove();
+      window.map.cardsRemove();
+      window.map.createPins(filterAll(window.map.pins));
+    });
   };
 
 
-  filtersFormElement.addEventListener('change', mainFilter(FilterAll));
+  filtersFormElement.addEventListener('change', onFormChange);
 
 
 })();
