@@ -34,9 +34,9 @@
     var onSuccesssEscDown = function (evt) {
       if (successMessageClone && evt.keyCode === ECS_INPUT) {
         successMessageClone.remove();
-
       }
     };
+
     document.addEventListener('keydown', onSuccesssEscDown);
     templateSuccessMessageElement.addEventListener('click', removeSuccesMessage);
 
@@ -72,6 +72,7 @@
 
   xhr.timeout = 10000; // 10s
   xhr.responseType = 'json';
+
   var onTimeOutData = function () {
     onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
   };

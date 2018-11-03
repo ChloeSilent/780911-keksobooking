@@ -16,7 +16,7 @@
   var housingPriceSelectElement = filtersFormElement.querySelector('#housing-price');
   var housingRoomsSelectElement = filtersFormElement.querySelector('#housing-rooms');
   var housingGuestsSelectElement = filtersFormElement.querySelector('#housing-guests');
-  // var housingFeaturesContainer = filtersFormElement.querySelectorAll('.map__checkbox:checked');
+  var featuresList = Array.from(document.querySelector('.map__filters').querySelectorAll('.map__checkbox:checked'));
   var DEFAULT_FILTER = 'any';
 
 
@@ -63,7 +63,7 @@
   };
 
   var filterFeature = function (pin) {
-    var featuresList = Array.from(document.querySelector('.map__filters').querySelectorAll('.map__checkbox:checked'));
+
 
     // for (var i = 0; i < featuresList.length; i++) {
     // for (var i = featuresList.length; i >= 0; i--) {
@@ -91,10 +91,9 @@
 
   };
 
-  var otherFunction = function (function1) { // сюда передавать уже данные, в остальных функциях только аргументы!!!
+  var mainFilter = function (filterData) { // сюда передавать уже данные, в остальных функциях только аргументы!!!
     return function () {
-      function1(window.backend.pinsData);
-  
+      filterData(window.backend.pinsData);
     };
   };
 
@@ -105,13 +104,13 @@
     // filterFeature();
 
     window.map
-      .createPins(pinsData
-        .filter(filterType)
-        .filter(filterPrice)
-        .filter(filterRoom)
-        .filter(filterGuest)
-        .filter(filterFeature)
-        .slice(0, 5));
+    .createPins(pinsData
+      .filter(filterType)
+      .filter(filterPrice)
+      .filter(filterRoom)
+      .filter(filterGuest)
+      .filter(filterFeature)
+      .slice(0, 5));
 
     return pinsData
       .filter(filterType)
@@ -122,7 +121,7 @@
   };
 
 
-  filtersFormElement.addEventListener('change', otherFunction(FilterAll));
+  filtersFormElement.addEventListener('change', mainFilter(FilterAll));
 
 
 })();

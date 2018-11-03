@@ -46,7 +46,7 @@
   };
   window.form.makeFormDisabled();
 
-  /* удаляет disabled с формы*/
+  /* активирует форму*/
   window.form.makeFormActive = function () {
 
     window.form.formAdElement.classList.remove('ad-form--disabled');
@@ -79,7 +79,6 @@
   /* устанавливает время выезда и въезда */
   var onSelectTimeInMouseUp = function () {
     checkOutInputElement.selectedIndex = checkInInputElement.selectedIndex;
-
 
   };
   var onSelectTimeOutMouseUp = function () {
@@ -134,11 +133,12 @@
     }
 
     if (document.querySelector('.ad-form').checkValidity()) {
+      window.backend.upload(new FormData(window.form.formAdElement), window.backend.onSuccessUpLoad);
       window.map.makeDisabled();
       window.form.makeFormDisabled();
       window.listeners.removeAllHandlers();
 
-      window.backend.upload(new FormData(window.form.formAdElement), window.backend.onSuccessUpLoad);
+
     }
 
 
