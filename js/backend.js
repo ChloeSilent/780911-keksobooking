@@ -55,7 +55,6 @@
     errorMessageClone.querySelector('.error__message').textContent = errorMessage;
     var messageCloseElement = errorMessageClone.querySelector('.error__button');
 
-
     var ECS_INPUT = 27;
     var removeErrorMessage = function () {
       errorMessageClone.remove();
@@ -71,7 +70,6 @@
     document.addEventListener('keydown', onErrorEscDown);
     templateErrorMessageElement.addEventListener('click', removeErrorMessage);
   };
-
 
   var xhrSend = function (url, method, onSuccess, data) {
     var xhr = new XMLHttpRequest();

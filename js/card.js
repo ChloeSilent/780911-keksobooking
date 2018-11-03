@@ -57,7 +57,6 @@
     var ListFeaturesElement = cardClone.querySelector('.popup__features');
     removeChildrenNodes(ListFeaturesElement);
 
-
     cardClone.querySelector('.popup__features').appendChild(createFeatures(pin));
     cardClone.querySelector('.popup__description').textContent = pin.offer.description;
 
@@ -91,6 +90,5 @@
     window.card.mapFiltersContainerElement.appendChild(fragmentCard);
 
   };
-
 
 })();
