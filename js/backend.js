@@ -41,7 +41,7 @@
     };
 
     document.addEventListener('keydown', onSuccesssEscDown);
-    templateSuccessMessageElement.addEventListener('click', removeSuccesMessage);
+    successMessageClone.addEventListener('click', removeSuccesMessage);
 
   };
 
@@ -68,7 +68,7 @@
 
     messageCloseElement.addEventListener('click', removeErrorMessage);
     document.addEventListener('keydown', onErrorEscDown);
-    templateErrorMessageElement.addEventListener('click', removeErrorMessage);
+    errorMessageClone.addEventListener('click', removeErrorMessage);
   };
 
   var xhrSend = function (url, method, onSuccess, data) {

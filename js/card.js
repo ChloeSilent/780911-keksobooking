@@ -54,16 +54,16 @@
     cardClone.querySelector('.popup__text--time').textContent = 'Заезд после ' + pin.offer.checkin + ', выезд до ' + pin.offer.checkin;
 
     /* удаляет дефолтные li */
-    var ListFeaturesElement = cardClone.querySelector('.popup__features');
-    removeChildrenNodes(ListFeaturesElement);
+    var listFeaturesElement = cardClone.querySelector('.popup__features');
+    removeChildrenNodes(listFeaturesElement);
 
     cardClone.querySelector('.popup__features').appendChild(createFeatures(pin));
     cardClone.querySelector('.popup__description').textContent = pin.offer.description;
 
     /* удаляет дефолтные фото */
-    var ListPhotosElement = cardClone.querySelector('.popup__photos');
+    var listPhotosElement = cardClone.querySelector('.popup__photos');
 
-    removeChildrenNodes(ListPhotosElement);
+    removeChildrenNodes(listPhotosElement);
 
     /* вставляет фото как DOM-элемент в разметку */
     cardClone.querySelector('.popup__photos').appendChild(createPhotos(pin));

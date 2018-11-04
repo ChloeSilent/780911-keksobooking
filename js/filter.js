@@ -9,7 +9,7 @@
 */
 
 (function () {
-  window.render = {};
+  window.filter = {};
 
   var filtersFormElement = document.querySelector('.map__filters');
   var housingTypeSelectElement = filtersFormElement.querySelector('#housing-type');
@@ -17,12 +17,38 @@
   var housingRoomsSelectElement = filtersFormElement.querySelector('#housing-rooms');
   var housingGuestsSelectElement = filtersFormElement.querySelector('#housing-guests');
   var featuresList = Array.from(document.querySelectorAll('.map__filters .map__checkbox'));
+  var filtersInFormElements = filtersFormElement.querySelectorAll('.map__filter');
   var DEFAULT_FILTER = 'any';
 
   var offerPrice = {
     'low': 10000,
     'high': 50000
   };
+
+  //  дисэйблит фильтры
+  var disableFilterForm = function () {
+
+    filtersInFormElements.forEach(function (node) {
+      node.disabled = true;
+      node.classList.add('map__filter_no_hover');
+    });
+  };
+  // активирует фильтры
+  window.filter.aktiveFilterForm = function () {
+    filtersInFormElements.forEach(function (node) {
+      node.disabled = false;
+      node.classList.remove('map__filter_no_hover');
+    });
+    filtersFormElement.addEventListener('change', onFormChange);
+  };
+  // обновляет форму
+  window.filter.setFilterFormNew = function () {
+    filtersInFormElements.forEach(function (node) {
+      node.value = '';
+    });
+    filtersFormElement.reset();
+  };
+
   var filterType = function (pin) {
     var value = housingTypeSelectElement.value;
     return (value === DEFAULT_FILTER || value === pin.offer.type);
@@ -86,8 +112,6 @@
     });
   };
 
-
-  filtersFormElement.addEventListener('change', onFormChange);
-
+  disableFilterForm();
 
 })();

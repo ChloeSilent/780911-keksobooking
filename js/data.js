@@ -73,7 +73,7 @@
   };
 
   /* возвращает рандомно из массива значение*/
-  var getFromArray = function (array) {
+  var getRandomFromArray = function (array) {
     return array[getRandom(0, array.length - 1)];
   };
 
@@ -125,7 +125,7 @@
         'type': TYPE_MATCH[TYPE[getRandom(0, TYPE.length)]],
         'rooms': getRandom(MIN_AMOUT_ROOMS, MAX_AMOUT_ROOMS),
         'guests': getRandom(1, Math.floor(Math.random() * 10)), // возвращает радномно число из из функции getRandom от 1 до любого округленного радомного
-        'checkin': getFromArray(CHECKIN),
+        'checkin': getRandomFromArray(CHECKIN),
         'checkout': '',
         'features': createNewArrayfromExistOne(FEATURES),
         'description': '',

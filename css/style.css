@@ -1248,3 +1248,54 @@ fieldset {
   outline: none;
   opacity: 0.6;
 }
+.ad-form-header__drop-zone_no_hover:hover,
+.ad-form-header__drop-zone_no_hover:focus {
+  color: #999999;
+  cursor: auto;
+}
+
+ .no_hover:hover,
+ .no_hover:hover{
+  cursor: default;
+}
+
+.no_hover input:hover,
+.no_hover select:hover,
+.no_hover textarea:hover,
+.no_hover input:focus,
+.no_hover select:focus,
+.no_hover textarea:focus {
+  border-color: #d9d9d3;
+  box-shadow: none;
+}
+
+.feature_no_hover:hover,
+.feature_no_hover:focus,
+.feature_no_hover:active {
+  box-shadow: none;
+  background-color: #fafafa;
+  cursor: default;
+}
+
+.ad-form__drop-zone_no_hover:hover,
+.ad-form__drop-zone_no_hover:focus {
+  color: #999999;
+  box-shadow: none;
+  cursor: default;
+}
+
+.ad-form__submit_no-hover:hover{
+  cursor: default;
+  border-color:  #ffaa99;
+  background-color: white;
+}
+
+.ad-form__reset_no-hover:hover{
+  cursor: default;
+
+}
+
+.map__filter_no_hover:hover,
+.map__filter_no_hover:active {
+  cursor: default;
+}

@@ -60,6 +60,7 @@
   window.map.makeActive = function () {
     /* удаляет disabled с карты и форм*/
     window.pin.mapElement.classList.remove('map--faded');
+    window.filter.aktiveFilterForm();
     window.form.makeFormActive();
   };
 
