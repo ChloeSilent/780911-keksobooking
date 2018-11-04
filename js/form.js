@@ -142,10 +142,6 @@
 
       } else if (roomsValue !== ROOMS_NOT_FOR_GUESTS && (capacityValue > roomsValue || capacityValue === 0)) {
         option.disabled = true;
-
-      } else {
-        option.disabled = false;
-
       }
 
     });
