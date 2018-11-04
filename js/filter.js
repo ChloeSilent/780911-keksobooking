@@ -21,8 +21,8 @@
   var DEFAULT_FILTER = 'any';
 
   var offerPrice = {
-    'low': 10000,
-    'high': 50000
+    'LOW': 10000,
+    'HIGHT': 50000
   };
 
   //  дисэйблит фильтры
@@ -59,11 +59,11 @@
     var value = housingPriceSelectElement.value;
     switch (value) {
       case 'low':
-        return pin.offer.price < offerPrice['low'];
+        return pin.offer.price < offerPrice['LOW'];
       case 'middle':
-        return pin.offer.price >= offerPrice['low'] && pin.offer.price < offerPrice['high'];
+        return pin.offer.price >= offerPrice['LOW'] && pin.offer.price < offerPrice['HIGH'];
       case 'high':
-        return pin.offer.price >= offerPrice['high'];
+        return pin.offer.price >= offerPrice['HIGHT'];
       default:
         return true;
     }

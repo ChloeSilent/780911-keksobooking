@@ -4,16 +4,16 @@
 
   window.map = {};
 
+  window.map.DEFAULT_X = 570;
+  window.map.DEFAULT_Y = 375;
+  window.map.HALF_OF_WIDTH_PIN = 33;
+  var PINS_AMOUNT = 5;
+
   window.map.mainPinElement = document.querySelector('.map__pin--main');
 
   var bodyRect = window.map.mainPinElement.getBoundingClientRect();
   var mapImage = window.pin.mapElement.getBoundingClientRect();
 
-  window.map.DEFAULT_X = 570;
-  window.map.DEFAULT_Y = 375;
-  window.map.HALF_OF_WIDTH_PIN = 33;
-  var PINS_AMOUNT = 5;
-  // var pins = [];
 
   /* делает все инпуты, филдсеты, баттоны неактивными, делает неактивной карту */
   window.map.makeDisabled = function () {

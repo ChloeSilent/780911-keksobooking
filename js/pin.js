@@ -6,14 +6,13 @@
 
   window.pin = {};
 
-  window.pin.mapElement = document.querySelector('.map');
-  var templatePinElement = document.body.querySelector('#pin');
-  var pinTemplateElement = templatePinElement.content.querySelector('.map__pin');
-
   window.pin.PIN_HEIGHT = 81;
   window.pin.PIN_WIDTH = 50;
   var PX = 'px';
 
+  window.pin.mapElement = document.querySelector('.map');
+  var templatePinElement = document.body.querySelector('#pin');
+  var pinTemplateElement = templatePinElement.content.querySelector('.map__pin');
 
   /* создает один пин как элемент DOM*/
   window.pin.createPin = function (element) {

@@ -12,7 +12,7 @@
     window.backend.loadData(function (data) {
       window.map.onLoadPins(data);
     });
-    // window.backend.loadData(window.map.createPins);
+
     window.movePin.addFormEventListeners();
     window.form.addFormEventListeners();
     window.map.mainPinElement.removeEventListener('mouseup', onMainPinMouseUp);

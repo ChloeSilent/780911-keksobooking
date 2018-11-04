@@ -6,14 +6,24 @@
 
   window.form = {};
 
+  var TypePrice = {
+    Бунгало: 0,
+    Квартира: 1000,
+    Дом: 5000,
+    Дворец: 10000
+  };
+
+  var DEFAULT_PRICE = '1000';
+  var ROOMS_NOT_FOR_GUESTS = 100;
+
   var selectTypeElement = document.querySelector('#type');
   var priceInputElement = document.querySelector('#price');
-  var checkInInputElement = document.querySelector('#timein');
-  var checkOutInputElement = document.querySelector('#timeout');
+  var checkSelectElement = document.querySelector('#timein');
+  var checkOutSelectElement = document.querySelector('#timeout');
   var amountRoomsSelectElement = document.querySelector('#room_number');
   var submitButtonElement = document.querySelector('.ad-form__submit');
   var resetButtonElement = document.querySelector('.ad-form__reset');
-  var capacitySelect = document.querySelector('#capacity');
+  var capacitySelectElement = document.querySelector('#capacity');
   var formAdElement = document.querySelector('.ad-form');
   var fieldsetInFormContainer = formAdElement.querySelectorAll('fieldset');
   var inputAddressElement = document.querySelector('#address');
@@ -22,13 +32,6 @@
   var featureAdFormElements = document.querySelectorAll('.feature');
   var dropZoneAdFormElement = document.querySelector('.ad-form__drop-zone');
 
-  var TYPE_PRICE = {
-    Бунгало: 0,
-    Квартира: 1000,
-    Дом: 5000,
-    Дворец: 10000
-  };
-
   var matchAmountOfGuests = {
     '1': '1',
     '2': '2',
@@ -36,8 +39,7 @@
     '100': 'Выберите, пожалуйста, опцию "не для гостей"'
   };
 
-  var DEFAULT_PRICE = '1000';
-  var ROOMS_NOT_FOR_GUESTS = 100;
+
   window.form.setAddress = function (x, y) {
     inputAddressElement.value = x + ', ' + y;
   };
@@ -99,7 +101,7 @@
   /* устанавливает цену за 1 ночь в зависимости от типа жилья */
   var onSelectTypeMouseup = function () {
     var selectedOption = selectTypeElement.options[selectTypeElement.selectedIndex].text;
-    var priceForNight = TYPE_PRICE[selectedOption];
+    var priceForNight = TypePrice[selectedOption];
     priceInputElement.placeholder = priceForNight;
     priceInputElement.min = priceForNight;
   };
@@ -117,18 +119,18 @@
 
   /* устанавливает время выезда и въезда */
   var onSelectTimeInChange = function () {
-    checkOutInputElement.selectedIndex = checkInInputElement.selectedIndex;
+    checkOutSelectElement.selectedIndex = checkSelectElement.selectedIndex;
 
   };
   var onSelectTimeOutChange = function () {
-    checkInInputElement.selectedIndex = checkOutInputElement.selectedIndex;
+    checkSelectElement.selectedIndex = checkOutSelectElement.selectedIndex;
 
   };
 
   /* устанавливает кол-во гостей от кол-ва комнат*/
   var onSelectRoomNumberChange = function () {
 
-    Array.from(capacitySelect.options).forEach(function (option) {
+    Array.from(capacitySelectElement.options).forEach(function (option) {
 
       var selectedOptionRoom = amountRoomsSelectElement.value;
       option.disabled = false;
@@ -160,15 +162,15 @@
     }
 
     var roomSelectValue = parseInt(amountRoomsSelectElement.value, 10);
-    var guestsSelectValue = parseInt(capacitySelect.value, 10);
+    var guestsSelectValue = parseInt(capacitySelectElement.value, 10);
 
     if (roomSelectValue === ROOMS_NOT_FOR_GUESTS && roomSelectValue !== 0) {
-      capacitySelect.setCustomValidity('Количество комнат не для гостей.');
+      capacitySelectElement.setCustomValidity('Количество комнат не для гостей.');
     }
     if (guestsSelectValue > roomSelectValue) {
-      capacitySelect.setCustomValidity('Количество гостей должно быть не больше ' + matchAmountOfGuests[roomSelectValue] + ' .');
+      capacitySelectElement.setCustomValidity('Количество гостей должно быть не больше ' + matchAmountOfGuests[roomSelectValue] + ' .');
     } else {
-      capacitySelect.setCustomValidity('');
+      capacitySelectElement.setCustomValidity('');
     }
 
     if (formAdElement.checkValidity()) {
@@ -202,12 +204,12 @@
     selectTypeElement.addEventListener('mouseup', onSelectTypeMouseup);
     priceInputElement.addEventListener('change', onpriceInputChange);
     priceInputElement.addEventListener('mouseup', onPriceInputMouseup);
-    // checkInInputElement.addEventListener('mouseup', onSelectTimeInChange);
-    // checkOutInputElement.addEventListener('mouseup', onSelectTimeOutChange);
-    checkInInputElement.addEventListener('change', onSelectTimeInChange);
-    checkOutInputElement.addEventListener('change', onSelectTimeOutChange);
+    // checkSelectElement.addEventListener('mouseup', onSelectTimeInChange);
+    // checkOutSelectElement.addEventListener('mouseup', onSelectTimeOutChange);
+    checkSelectElement.addEventListener('change', onSelectTimeInChange);
+    checkOutSelectElement.addEventListener('change', onSelectTimeOutChange);
     amountRoomsSelectElement.addEventListener('change', onSelectRoomNumberChange);
-    capacitySelect.addEventListener('change', onSelectRoomNumberChange);
+    capacitySelectElement.addEventListener('change', onSelectRoomNumberChange);
     resetButtonElement.addEventListener('click', onResetButtonClick);
     submitButtonElement.addEventListener('mousedown', onSubmitButtonElementMouseDown);
     onSelectRoomNumberChange();
@@ -217,10 +219,10 @@
     selectTypeElement.removeEventListener('mouseup', onSelectTypeMouseup);
     priceInputElement.removeEventListener('change', onpriceInputChange);
     priceInputElement.removeEventListener('mouseup', onPriceInputMouseup);
-    // checkInInputElement.removeEventListener('mouseup', onSelectTimeInChange);
-    // checkOutInputElement.removeEventListener('mouseup', onSelectTimeOutChange);
-    checkInInputElement.removeEventListener('change', onSelectTimeInChange);
-    checkOutInputElement.removeEventListener('change', onSelectTimeOutChange);
+    // checkSelectElement.removeEventListener('mouseup', onSelectTimeInChange);
+    // checkOutSelectElement.removeEventListener('mouseup', onSelectTimeOutChange);
+    checkSelectElement.removeEventListener('change', onSelectTimeInChange);
+    checkOutSelectElement.removeEventListener('change', onSelectTimeOutChange);
     amountRoomsSelectElement.removeEventListener('change', onSelectRoomNumberChange);
     resetButtonElement.removeEventListener('click', onResetButtonClick);
     submitButtonElement.removeEventListener('mousedown', onSubmitButtonElementMouseDown);

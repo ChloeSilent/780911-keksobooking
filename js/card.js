@@ -7,6 +7,7 @@
   var PHOTO_PLACE_WIDTH = 45;
   var PHOTO_PLACE_HEIGHT = 45;
   var ECS_INPUT = 27;
+
   window.card.mapFiltersContainerElement = document.querySelector('.map__filters-container');
   var templateCardElement = document.querySelector('#card').content.querySelector('.map__card');
 

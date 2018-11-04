@@ -5,11 +5,19 @@
 (function () {
 
   window.backend = {};
+
   var URL = {
     'SEND': 'https://js.dump.academy/keksobooking',
     'GET': 'https://js.dump.academy/keksobooking/data'
   };
+
   var TIME_OUT = 10000;
+  var ECS_INPUT = 27;
+
+
+  var mainElement = document.querySelector('main');
+  var fragment = document.createDocumentFragment();
+
   window.backend.loadData = function (onLoadData) {
     xhrSend(URL['GET'], 'GET', onLoadData);
   };
@@ -17,9 +25,6 @@
   window.backend.upload = function (data, onSuccess) {
     xhrSend(URL['SEND'], 'POST', onSuccess, data);
   };
-
-  var mainElement = document.querySelector('main');
-  var fragment = document.createDocumentFragment();
 
   /* блок с сообщениями на успшную/неуспешную ситуацию при получении/отправке данных */
   window.backend.onSuccessUpLoad = function () {
@@ -30,18 +35,25 @@
     fragment.appendChild(successMessageClone);
     mainElement.appendChild(fragment);
 
-    var ECS_INPUT = 27;
+    var removeMessageListeners = function () {
+      successMessageClone.removeEventListener('click', removeSuccesMessage);
+      document.removeEventListener('keydown', onSuccesssEscDown);
+    };
+
+
     var removeSuccesMessage = function () {
       successMessageClone.remove();
+      removeMessageListeners();
     };
     var onSuccesssEscDown = function (evt) {
       if (successMessageClone && evt.keyCode === ECS_INPUT) {
-        successMessageClone.remove();
+        removeMessageListeners();
       }
+
     };
 
-    document.addEventListener('keydown', onSuccesssEscDown);
     successMessageClone.addEventListener('click', removeSuccesMessage);
+    document.addEventListener('keydown', onSuccesssEscDown);
 
   };
 
@@ -55,16 +67,24 @@
     errorMessageClone.querySelector('.error__message').textContent = errorMessage;
     var messageCloseElement = errorMessageClone.querySelector('.error__button');
 
-    var ECS_INPUT = 27;
+    var removeMessageListeners = function () {
+      messageCloseElement.removeEventListener('click', removeErrorMessage);
+      document.removeEventListener('keydown', onErrorEscDown);
+      errorMessageClone.removeEventListener('click', removeErrorMessage);
+    };
+
     var removeErrorMessage = function () {
       errorMessageClone.remove();
+      removeMessageListeners();
     };
 
     var onErrorEscDown = function (evt) {
       if (errorMessageClone && evt.keyCode === ECS_INPUT) {
-        errorMessageClone.remove();
+        removeMessageListeners();
       }
+
     };
+
 
     messageCloseElement.addEventListener('click', removeErrorMessage);
     document.addEventListener('keydown', onErrorEscDown);
