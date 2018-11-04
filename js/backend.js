@@ -16,7 +16,7 @@
 
 
   var mainElement = document.querySelector('main');
-  var fragment = document.createDocumentFragment();
+  // var fragment = document.createDocumentFragment();
 
   window.backend.loadData = function (onLoadData) {
     xhrSend(URL['GET'], 'GET', onLoadData);
@@ -32,8 +32,10 @@
     var templateSuccessMessageElement = document.querySelector('#success').content.querySelector('.success');
     var successMessageClone = templateSuccessMessageElement.cloneNode(true);
 
-    fragment.appendChild(successMessageClone);
-    mainElement.appendChild(fragment);
+    // fragment.appendChild(successMessageClone);
+    // mainElement.appendChild(fragment);
+
+    mainElement.appendChild(successMessageClone);
 
     var removeMessageListeners = function () {
       successMessageClone.removeEventListener('click', removeSuccesMessage);
@@ -62,8 +64,9 @@
 
     var templateErrorMessageElement = document.querySelector('#error').content.querySelector('.error');
     var errorMessageClone = templateErrorMessageElement.cloneNode(true);
-    fragment.appendChild(errorMessageClone);
-    mainElement.appendChild(fragment);
+    // fragment.appendChild(errorMessageClone);
+    // mainElement.appendChild(fragment);
+    mainElement.appendChild(errorMessageClone);
     errorMessageClone.querySelector('.error__message').textContent = errorMessage;
     var messageCloseElement = errorMessageClone.querySelector('.error__button');
 
