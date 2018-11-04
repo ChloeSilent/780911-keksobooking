@@ -1299,3 +1299,9 @@ fieldset {
 .map__filter_no_hover:active {
   cursor: default;
 }
+
+.map__feature_no_hover:hover,
+.map__feature_no_hover:active {
+  cursor: default;
+  box-shadow: none;
+}

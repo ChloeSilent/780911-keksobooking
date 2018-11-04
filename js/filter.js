@@ -16,8 +16,12 @@
   var housingPriceSelectElement = filtersFormElement.querySelector('#housing-price');
   var housingRoomsSelectElement = filtersFormElement.querySelector('#housing-rooms');
   var housingGuestsSelectElement = filtersFormElement.querySelector('#housing-guests');
-  var featuresList = Array.from(document.querySelectorAll('.map__filters .map__checkbox'));
+
   var filtersInFormElements = filtersFormElement.querySelectorAll('.map__filter');
+  var featuresLabelElements = filtersFormElement.querySelectorAll('.map__feature');
+  var mapCheckboxElements = filtersFormElement.querySelectorAll('.map__checkbox');
+  // var featuresList = Array.from(document.querySelectorAll('.map__filters .map__checkbox'));
+  var featuresList = Array.from(mapCheckboxElements);
   var DEFAULT_FILTER = 'any';
 
   var offerPrice = {
@@ -27,18 +31,39 @@
 
   //  дисэйблит фильтры
   var disableFilterForm = function () {
-
+    /* убирает с селктов эффекты на ховере и ставит им дисйэбл*/
     filtersInFormElements.forEach(function (node) {
       node.disabled = true;
       node.classList.add('map__filter_no_hover');
     });
+    /* убирает с лейблов эффекты на ховере*/
+    featuresLabelElements.forEach(function (node) {
+      node.classList.add('map__feature_no_hover');
+    });
+    /* дисэйблит именно чекбоксы на мапе*/
+    mapCheckboxElements.forEach(function (node) {
+      node.disabled = true;
+    });
+
   };
+
   // активирует фильтры
   window.filter.aktiveFilterForm = function () {
+
     filtersInFormElements.forEach(function (node) {
       node.disabled = false;
       node.classList.remove('map__filter_no_hover');
     });
+
+    featuresLabelElements.forEach(function (node) {
+      node.classList.remove('map__feature_no_hover');
+    });
+
+
+    mapCheckboxElements.forEach(function (node) {
+      node.disabled = false;
+    });
+
     filtersFormElement.addEventListener('change', onFormChange);
   };
   // обновляет форму
