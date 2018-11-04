@@ -7,10 +7,10 @@
   window.form = {};
 
   var TypePrice = {
-    Бунгало: 0,
-    Квартира: 1000,
-    Дом: 5000,
-    Дворец: 10000
+    bungalo: 0,
+    flat: 1000,
+    house: 5000,
+    palace: 10000
   };
 
   var DEFAULT_PRICE = '1000';
@@ -100,7 +100,7 @@
 
   /* устанавливает цену за 1 ночь в зависимости от типа жилья */
   var onSelectTypeMouseup = function () {
-    var selectedOption = selectTypeElement.options[selectTypeElement.selectedIndex].text;
+    var selectedOption = selectTypeElement.options[selectTypeElement.selectedIndex].value;
     var priceForNight = TypePrice[selectedOption];
     priceInputElement.placeholder = priceForNight;
     priceInputElement.min = priceForNight;
@@ -109,6 +109,7 @@
   var onpriceInputChange = function () {
     priceInputElement.min = DEFAULT_PRICE;
   };
+
   /* проверяет введеное заначение в поле цена и если оно меньше соответс. ему типу пишет ошибку */
   var onPriceInputMouseup = function (evt) {
     var target = evt.target;
@@ -152,9 +153,9 @@
   /* функция, которая запукается при клике на сабмит
    проверка всех инпутов, очистка формы, дисэбл карты, удаление слушателей*/
   var onSubmitButtonElementMouseDown = function () {
-
-    if (priceInputElement.value < selectTypeElement.min) {
-      selectTypeElement.setCustomValidity('Стоимость жилья должна быть не ниже ' + priceInputElement.min + ' .');
+    /* проверка стоимости тип/цена*/
+    if (TypePrice[selectTypeElement.value] < parseInt(priceInputElement.value, 10)) {
+      priceInputElement.setCustomValidity('Стоимость жилья должна быть не ниже ' + TypePrice[selectTypeElement.value] + ' .');
     }
 
     var roomSelectValue = parseInt(amountRoomsSelectElement.value, 10);
