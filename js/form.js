@@ -139,8 +139,8 @@
 
       if (roomsValue === ROOMS_NOT_FOR_GUESTS && capacityValue !== 0) {
         option.disabled = true;
-
-      } else if (roomsValue !== ROOMS_NOT_FOR_GUESTS && (capacityValue > roomsValue || capacityValue === 0)) {
+      }
+      if (roomsValue !== ROOMS_NOT_FOR_GUESTS && (capacityValue > roomsValue || capacityValue === 0)) {
         option.disabled = true;
       }
 
@@ -167,6 +167,10 @@
       capacitySelectElement.setCustomValidity('Количество гостей должно быть не больше ' + matchAmountOfGuests[roomSelectValue] + ' .');
     } else {
       capacitySelectElement.setCustomValidity('');
+    }
+
+    if (checkOutSelectElement.selectedIndex !== checkSelectElement.selectedIndex) {
+      checkSelectElement.setCustomValidity('Время заезда и время выезда должны совпадать.');
     }
 
     if (formAdElement.checkValidity()) {

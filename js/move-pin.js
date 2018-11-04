@@ -72,11 +72,14 @@
       };
       if (currentCoordiant.x > RIGHT_X) {
         mainPin.style.left = RIGHT_X + 'px';
-      } else if (currentCoordiant.x < LEFT_X) {
+      }
+      if (currentCoordiant.x < LEFT_X) {
         mainPin.style.left = LEFT_X + 'px';
-      } else if (currentCoordiant.y > BOTTOM_Y) {
+      }
+      if (currentCoordiant.y > BOTTOM_Y) {
         mainPin.style.top = BOTTOM_Y + 'px';
-      } else if (currentCoordiant.y < TOP_Y) {
+      }
+      if (currentCoordiant.y < TOP_Y) {
         mainPin.style.top = TOP_Y + 'px';
       }
 
