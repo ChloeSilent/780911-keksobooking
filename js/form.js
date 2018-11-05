@@ -79,7 +79,24 @@
 
     formAdElement.classList.remove('ad-form--disabled');
 
-  
+    fieldsetInFormContainer.forEach(function (node) {
+      node.disabled = false;
+    });
+    inputAddressElement.placeholder = window.map.DEFAULT_X + ', ' + window.map.DEFAULT_Y;
+
+    adFormElements.forEach(function (node) {
+      node.disabled = false;
+    });
+
+    featureAdFormElements.forEach(function (node) {
+      node.disabled = false;
+    });
+
+    adFormHeaderElement.disabled = false;
+    dropZoneAdFormElement.disabled = false;
+    submitButtonElement.disabled = false;
+    resetButtonElement.disabled = false;
+  };
 
   /* устанавливает цену за 1 ночь в зависимости от типа жилья */
   var onSelectTypeMouseup = function () {

@@ -18,7 +18,7 @@
   var mainElement = document.querySelector('main');
   var templateSuccessMessageElement = document.querySelector('#success').content.querySelector('.success');
   var templateErrorMessageElement = document.querySelector('#error').content.querySelector('.error');
-
+  // var fragment = document.createDocumentFragment();
 
   window.backend.loadData = function (onLoadData) {
     xhrSend(URL['GET'], 'GET', onLoadData);
@@ -31,7 +31,11 @@
   /* блок с сообщениями на успшную/неуспешную ситуацию при получении/отправке данных */
   window.backend.onSuccessUpLoad = function () {
 
+
     var successMessageClone = templateSuccessMessageElement.cloneNode(true);
+
+    // fragment.appendChild(successMessageClone);
+    // mainElement.appendChild(fragment);
 
     mainElement.appendChild(successMessageClone);
 
@@ -61,7 +65,8 @@
   var onError = function (errorMessage) {
 
     var errorMessageClone = templateErrorMessageElement.cloneNode(true);
-
+    // fragment.appendChild(errorMessageClone);
+    // mainElement.appendChild(fragment);
     mainElement.appendChild(errorMessageClone);
     errorMessageClone.querySelector('.error__message').textContent = errorMessage;
     var messageCloseElement = errorMessageClone.querySelector('.error__button');

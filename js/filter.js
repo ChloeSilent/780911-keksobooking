@@ -26,7 +26,7 @@
 
   var offerPrice = {
     'LOW': 10000,
-    'HIGHT': 50000
+    'HIGH': 50000
   };
 
   //  дисэйблит фильтры
@@ -86,9 +86,9 @@
       case 'low':
         return pin.offer.price < offerPrice['LOW'];
       case 'middle':
-        return pin.offer.price >= 10000 && pin.offer.price < 50000;
+        return pin.offer.price >= offerPrice['LOW'] && pin.offer.price < offerPrice['HIGH'];
       case 'high':
-        return pin.offer.price >= offerPrice['HIGHT'];
+        return pin.offer.price >= offerPrice['HIGH'];
       default:
         return true;
     }

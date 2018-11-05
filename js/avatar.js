@@ -5,14 +5,71 @@
 
   window.avatar = {};
 
-  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png', 'JPG'];
+  // var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+
+
+  // var fileChooser = document.querySelector('.ad-form__field input[type=file]');
+  // var preview = document.querySelector('.ad-form-header__preview').querySelector('img');
+  // var dropZoneElement = document.querySelector('.ad-form-header__drop-zone');
+
+  // var uploadFile = function () {
+  //   var file = fileChooser.files[0];
+  //   var fileName = file.name.toLowerCase();
+
+  //   var matches = FILE_TYPES.some(function (it) {
+  //     return fileName.endsWith(it);
+  //   });
+
+  //   if (matches) {
+  //     var reader = new FileReader();
+
+  //     reader.addEventListener('load', function () {
+  //       preview.src = reader.result;
+  //     });
+
+  //     if (file) {
+  //       reader.readAsDataURL(file);
+  //     } else {
+  //       preview.src = '';
+  //     }
+  //   }
+  // };
+
+  // fileChooser.addEventListener('change', uploadFile);
+
+  // function dragenter(e) {
+  //   e.stopPropagation();
+  //   e.preventDefault();
+  // }
+
+  // function dragover(e) {
+  //   e.stopPropagation();
+  //   e.preventDefault();
+  // }
+
+  // function drop(e) {
+  //   e.stopPropagation();
+  //   e.preventDefault();
+
+  //   var dt = e.dataTransfer;
+  //   var files = dt.files;
+
+  //   uploadFile(files);
+  // }
+  // dropZoneElement.addEventListener('dragenter', dragenter, false);
+  // dropZoneElement.addEventListener('dragover', dragover, false);
+  // dropZoneElement.addEventListener('drop', drop, false);
+
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+
 
   var fileChooser = document.querySelector('.ad-form__field input[type=file]');
-  var preview = document.querySelector('.ad-form-header__preview');
+  var preview = document.querySelector('.ad-form-header__preview').querySelector('img');
+  var dropZoneElement = document.querySelector('.ad-form-header__drop-zone');
 
-  var onFileChooserChange = function () {
 
-    var file = fileChooser.files[0];
+  var uploadFile = function (file) {
+
     var fileName = file.name.toLowerCase();
 
     var matches = FILE_TYPES.some(function (it) {
@@ -24,35 +81,42 @@
 
       reader.addEventListener('load', function () {
         preview.src = reader.result;
-        // preview.setAttribute('src', e.target.result);
       });
 
-      reader.readAsDataURL(file);
+      if (file) {
+        reader.readAsDataURL(file);
+      } else {
+        preview.src = '';
+      }
     }
   };
 
-  var dragenter = function (e) {
+  fileChooser.addEventListener('change', function () {
+    uploadFile(fileChooser.files[0]);
+  }
+  );
+
+  function dragenter(e) {
     e.stopPropagation();
     e.preventDefault();
-  };
+  }
 
-  var dragover = function (e) {
+  function dragover(e) {
     e.stopPropagation();
     e.preventDefault();
-  };
+  }
 
-  var drop = function (e) {
+  function drop(e) {
     e.stopPropagation();
     e.preventDefault();
 
     var dt = e.dataTransfer;
-    var files = dt.files;
+    var file = dt.files;
 
-    onFileChooserChange(files);
-  };
-
-  fileChooser.addEventListener('change', onFileChooserChange);
-  fileChooser.addEventListener('dragenter', dragenter, false);
-  fileChooser.addEventListener('dragover', dragover, false);
-  fileChooser.addEventListener('drop', drop, false);
+    uploadFile(file);
+  }
+  
+  dropZoneElement.addEventListener('dragenter', dragenter, false);
+  dropZoneElement.addEventListener('dragover', dragover, false);
+  dropZoneElement.addEventListener('drop', drop, false);
 })();
