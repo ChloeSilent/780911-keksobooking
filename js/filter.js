@@ -20,7 +20,7 @@
   var filtersInFormElements = filtersFormElement.querySelectorAll('.map__filter');
   var featuresLabelElements = filtersFormElement.querySelectorAll('.map__feature');
   var mapCheckboxElements = filtersFormElement.querySelectorAll('.map__checkbox');
-  // var featuresList = Array.from(document.querySelectorAll('.map__filters .map__checkbox'));
+
   var featuresList = Array.from(mapCheckboxElements);
   var DEFAULT_FILTER = 'any';
 
@@ -86,7 +86,7 @@
       case 'low':
         return pin.offer.price < offerPrice['LOW'];
       case 'middle':
-        return pin.offer.price >= offerPrice['LOW'] && pin.offer.price < offerPrice['HIGH'];
+        return pin.offer.price >= 10000 && pin.offer.price < 50000;
       case 'high':
         return pin.offer.price >= offerPrice['HIGHT'];
       default:

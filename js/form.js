@@ -16,6 +16,7 @@
   var DEFAULT_PRICE = '1000';
   var ROOMS_NOT_FOR_GUESTS = 100;
 
+  var inputTitleElement = document.querySelector('#title');
   var selectTypeElement = document.querySelector('#type');
   var priceInputElement = document.querySelector('#price');
   var checkSelectElement = document.querySelector('#timein');
@@ -39,6 +40,10 @@
     '100': 'Выберите, пожалуйста, опцию "не для гостей"'
   };
 
+  var titleLength = {
+    'MIN': 30,
+    'MAX': 100
+  };
 
   window.form.setAddress = function (x, y) {
     inputAddressElement.value = x + ', ' + y;
@@ -54,19 +59,18 @@
     });
     inputAddressElement.placeholder = window.map.DEFAULT_X + ', ' + window.map.DEFAULT_Y;
 
-    adFormHeaderElement.classList.add('ad-form-header__drop-zone_no_hover');
-
     adFormElements.forEach(function (node) {
-      node.classList.add('no_hover');
+      node.disabled = true;
     });
 
     featureAdFormElements.forEach(function (node) {
-      node.classList.add('feature_no_hover');
+      node.disabled = true;
     });
 
-    dropZoneAdFormElement.classList.add('ad-form__drop-zone_no_hover');
-    submitButtonElement.classList.add('ad-form__submit_no-hover');
-    resetButtonElement.classList.add('ad-form__submit_no-hover');
+    adFormHeaderElement.disabled = true;
+    dropZoneAdFormElement.disabled = true;
+    submitButtonElement.disabled = true;
+    resetButtonElement.disabled = true;
   };
 
 
@@ -75,28 +79,7 @@
 
     formAdElement.classList.remove('ad-form--disabled');
 
-    fieldsetInFormContainer.forEach(function (node) {
-      node.disabled = false;
-    });
-    window.form.setAddress(window.map.getCoordinateX(), window.map.getCoordinateY());
-
-    adFormElements.forEach(function (node) {
-      node.classList.remove('no_hover');
-    });
-    adFormHeaderElement.classList.remove('ad-form-header__drop-zone_no_hover');
-
-    adFormElements.forEach(function (node) {
-      node.classList.remove('no_hover');
-    });
-
-    featureAdFormElements.forEach(function (node) {
-      node.classList.remove('feature_no_hover');
-    });
-
-    dropZoneAdFormElement.classList.remove('ad-form__drop-zone_no_hover');
-    submitButtonElement.classList.remove('ad-form__submit_no-hover');
-    resetButtonElement.classList.remove('ad-form__submit_no-hover');
-  };
+  
 
   /* устанавливает цену за 1 ночь в зависимости от типа жилья */
   var onSelectTypeMouseup = function () {
@@ -153,15 +136,24 @@
   /* функция, которая запукается при клике на сабмит
    проверка всех инпутов, очистка формы, дисэбл карты, удаление слушателей*/
   var onSubmitButtonElementMouseDown = function () {
+
+    /* проверка названия на ввденное количество символов */
+    if (inputTitleElement.value.length < titleLength.MIN) {
+      inputTitleElement.setCustomValidity('Минимальная длина заголовка объявления 30 символов.');
+    }
+    if (inputTitleElement.value.length > titleLength.MAX) {
+      inputTitleElement.setCustomValidity('Максимальная длина заголовка объявления 100 символов.');
+
+    }
     /* проверка стоимости тип/цена*/
-    if (TypePrice[selectTypeElement.value] < parseInt(priceInputElement.value, 10)) {
+    if (TypePrice[selectTypeElement.value] > parseInt(priceInputElement.value, 10)) {
       priceInputElement.setCustomValidity('Стоимость жилья должна быть не ниже ' + TypePrice[selectTypeElement.value] + ' .');
     }
 
     var roomSelectValue = parseInt(amountRoomsSelectElement.value, 10);
     var guestsSelectValue = parseInt(capacitySelectElement.value, 10);
-
-    if (roomSelectValue === ROOMS_NOT_FOR_GUESTS && roomSelectValue !== 0) {
+    /* проверка команат и гостей */
+    if (roomSelectValue === ROOMS_NOT_FOR_GUESTS && guestsSelectValue !== 0) {
       capacitySelectElement.setCustomValidity('Количество комнат не для гостей.');
     }
     if (guestsSelectValue > roomSelectValue) {
@@ -169,7 +161,7 @@
     } else {
       capacitySelectElement.setCustomValidity('');
     }
-
+    /* проверка время выезда и заезда */
     if (checkOutSelectElement.selectedIndex !== checkSelectElement.selectedIndex) {
       checkSelectElement.setCustomValidity('Время заезда и время выезда должны совпадать.');
     }
@@ -205,8 +197,6 @@
     selectTypeElement.addEventListener('mouseup', onSelectTypeMouseup);
     priceInputElement.addEventListener('change', onpriceInputChange);
     priceInputElement.addEventListener('mouseup', onPriceInputMouseup);
-    // checkSelectElement.addEventListener('mouseup', onSelectTimeInChange);
-    // checkOutSelectElement.addEventListener('mouseup', onSelectTimeOutChange);
     checkSelectElement.addEventListener('change', onSelectTimeInChange);
     checkOutSelectElement.addEventListener('change', onSelectTimeOutChange);
     amountRoomsSelectElement.addEventListener('change', onSelectRoomNumberChange);
@@ -220,8 +210,6 @@
     selectTypeElement.removeEventListener('mouseup', onSelectTypeMouseup);
     priceInputElement.removeEventListener('change', onpriceInputChange);
     priceInputElement.removeEventListener('mouseup', onPriceInputMouseup);
-    // checkSelectElement.removeEventListener('mouseup', onSelectTimeInChange);
-    // checkOutSelectElement.removeEventListener('mouseup', onSelectTimeOutChange);
     checkSelectElement.removeEventListener('change', onSelectTimeInChange);
     checkOutSelectElement.removeEventListener('change', onSelectTimeOutChange);
     amountRoomsSelectElement.removeEventListener('change', onSelectRoomNumberChange);

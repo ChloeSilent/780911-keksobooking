@@ -73,28 +73,6 @@
       mainPin.addEventListener('click', onClickPreventDefault);
     }
 
-    // /* проверка на вылезание за края*/
-    // var checkBoundariesForPin = function (shift) {
-
-    //   var currentCoordiant = {
-    //     x: mainPin.offsetLeft - shift.x,
-    //     y: mainPin.offsetTop - shift.y
-    //   };
-    //   if (currentCoordiant.x > RIGHT_X) {
-    //     mainPin.style.left = RIGHT_X + 'px';
-    //   }
-    //   if (currentCoordiant.x < LEFT_X) {
-    //     mainPin.style.left = LEFT_X + 'px';
-    //   }
-    //   if (currentCoordiant.y > BOTTOM_Y) {
-    //     mainPin.style.top = BOTTOM_Y + 'px';
-    //   }
-    //   if (currentCoordiant.y < TOP_Y) {
-    //     mainPin.style.top = TOP_Y + 'px';
-    //   }
-
-    // };
-
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   };

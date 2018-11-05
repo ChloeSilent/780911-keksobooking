@@ -11,10 +11,6 @@
 
   window.map.mainPinElement = document.querySelector('.map__pin--main');
 
-  var bodyRect = window.map.mainPinElement.getBoundingClientRect();
-  var mapImage = window.pin.mapElement.getBoundingClientRect();
-
-
   /* делает все инпуты, филдсеты, баттоны неактивными, делает неактивной карту */
   window.map.makeDisabled = function () {
 
@@ -41,18 +37,6 @@
     if (cardElement) {
       cardElement.remove();
     }
-  };
-
-
-  /* вычисляет координату по оси Х для главного пина, адаптировано под расширение окна путем вычета координат карты */
-  window.map.getCoordinateX = function () {
-    return bodyRect.left - mapImage.left + window.scrollX + window.map.HALF_OF_WIDTH_PIN;
-
-  };
-  /* вычисляет координату по оси Y для главного пина*/
-  window.map.getCoordinateY = function () {
-    return Math.abs(bodyRect.top) + window.pin.PIN_HEIGHT;
-
   };
 
   /* активация карты(убирается класс .map--faded) и делает все инпуты, филдсеты, баттоны активными.
