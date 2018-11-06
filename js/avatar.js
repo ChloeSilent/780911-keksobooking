@@ -111,7 +111,7 @@
 
   });
 
-  function dropdropZonePhotoAdElement(e) {
+  function onDropZonePhotoAdElement(e) {
     e.stopPropagation();
     e.preventDefault();
 
@@ -132,5 +132,5 @@
 
   dropZonePhotoAdElement.addEventListener('dragenter', dragenter, false);
   dropZonePhotoAdElement.addEventListener('dragover', dragover, false);
-  dropZonePhotoAdElement.addEventListener('drop', dropdropZonePhotoAdElement, false);
+  dropZonePhotoAdElement.addEventListener('drop', onDropZonePhotoAdElement, false);
 })();

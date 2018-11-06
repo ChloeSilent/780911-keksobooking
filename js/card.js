@@ -86,10 +86,8 @@
 
   /* отрисовка одной карточки*/
   window.card.drawOneCard = function (pin) {
-    var fragmentCard = document.createDocumentFragment();
-    fragmentCard.appendChild(createCard(pin));
-    window.card.mapFiltersContainerElement.appendChild(fragmentCard);
 
+    window.card.mapFiltersContainerElement.appendChild(createCard(pin));
   };
 
 })();
