@@ -81,8 +81,9 @@
     fieldsetInFormContainer.forEach(function (node) {
       node.disabled = false;
     });
-    // inputAddressElement.placeholder = window.map.DEFAULT_X + ', ' + window.map.DEFAULT_Y;
-    // window.form.setAddress(window.map.getCoordinateX(), window.map.getCoordinateY());
+
+
+    window.form.setAddress(window.map.getCoordinateX(), window.map.getCoordinateY());
     adFormElements.forEach(function (node) {
       node.disabled = false;
     });

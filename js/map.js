@@ -46,7 +46,7 @@
     window.pin.mapElement.classList.remove('map--faded');
     window.filter.aktiveFilterForm();
     window.form.makeFormActive();
-    // window.form.setAddress(window.map.getCoordinateX(), window.map.getCoordinateY());
+
   };
 
   /* помещает один пин на карту */
@@ -67,4 +67,12 @@
     window.map.createPins(window.map.pins);
   };
 
+  window.map.getCoordinateX = function () {
+    return window.map.mainPinElement.offsetLeft + window.map.HALF_OF_WIDTH_PIN;
+
+  };
+  /* вычисляет координату по оси Y для главного пина*/
+  window.map.getCoordinateY = function () {
+    return window.map.mainPinElement.offsetTop + window.pin.PIN_HEIGHT;
+  };
 })();

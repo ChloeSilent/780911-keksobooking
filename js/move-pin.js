@@ -53,15 +53,6 @@
       }
 
 
-      window.map.getCoordinateX = function () {
-        return window.map.mainPinElement.offsetLeft + window.map.HALF_OF_WIDTH_PIN;
-
-      };
-      /* вычисляет координату по оси Y для главного пина*/
-      window.map.getCoordinateY = function () {
-        return window.map.mainPinElement.offsetTop + window.pin.PIN_HEIGHT;
-      };
-
       window.form.setAddress(window.map.getCoordinateX(), window.map.getCoordinateY());
       /* вычисляет координату по оси Х для главного пина, адаптировано под расширение окна путем вычета координат карты */
 
