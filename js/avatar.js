@@ -153,10 +153,16 @@
 
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
-
   var fileChooserAvatarElement = document.querySelector('.ad-form__field input[type=file]');
   var previewAvatarElement = document.querySelector('.ad-form-header__preview').querySelector('img');
   var dropZoneAvatarElement = document.querySelector('.ad-form__field');
+
+
+  var fileChooserPhotoAdElement = document.querySelector('.ad-form__upload input[type=file]');
+  var previewPhotoAdElement = document.querySelector('.ad-form__photo');
+  var dropZonePhotoAdElement = document.querySelector('.ad-form__upload');
+  var adFormPhotoContainerElement = document.querySelector('.ad-form__photo-container');
+
 
   var uploadFile = function (file) {
 
@@ -205,36 +211,9 @@
 
   }
 
-  dropZoneAvatarElement.addEventListener('dragenter', dragenter, false);
-  dropZoneAvatarElement.addEventListener('dragover', dragover, false);
-  dropZoneAvatarElement.addEventListener('drop', drop, false);
 
-  /* ------------------------------------------------------------  */
-
-  var fileChooserPhotoAdElement = document.querySelector('.ad-form__upload input[type=file]');
-  var previewPhotoAdElement = document.querySelector('.ad-form__photo');
-  var dropZonePhotoAdElement = document.querySelector('.ad-form__upload');
-  var adFormPhotoContainerElement = document.querySelector('.ad-form__photo-container');
-
-  // var createPhotoContainer = function (file) {
-
-
-  //   var newDiv = document.createElement('div');
-
-  //   newDiv.className = 'ad-form__photo';
-  //   previewPhotoAdElement.appendChild(newDiv);
-
-  //   var newPhoto = document.createElement('img');
-  //   newPhoto.className = 'photoAd';
-  //   newPhoto.src = 'img/muffin-grey.svg';
-  //   newPhoto.alt = 'фотография предложения';
-  //   newPhoto.width = '70';
-  //   newPhoto.height = '70';
-  //   newDiv.appendChild(newPhoto);
-  //   adFormPhotoContainerElement.appendChild(newDiv);
-  // };
   var uploadPhotos = function (file) {
-    // var previewElement = document.querySelector('.ad-form__photo').querySelector('.photoAd');
+
 
     var fileName = file.name.toLowerCase();
 
@@ -269,17 +248,11 @@
     }
   };
 
-  // fileChooserPhotoAdElement.addEventListener('change', function () {
-  //   for (var i = 0; i < 2; i++) {
-  //     createPhotoContainer(fileChooserPhotoAdElement.files[i]);
-  //   }
-  //   // createPhotoContainer(fileChooserPhotoAdElement.files[0]);
-  // });
+
   fileChooserPhotoAdElement.addEventListener('change', function () {
 
     Array.from(fileChooserPhotoAdElement.files).forEach(function (file) {
       uploadPhotos(file);
-
     });
 
   });
@@ -298,16 +271,12 @@
 
   }
 
+
+  dropZoneAvatarElement.addEventListener('dragenter', dragenter, false);
+  dropZoneAvatarElement.addEventListener('dragover', dragover, false);
+  dropZoneAvatarElement.addEventListener('drop', drop, false);
+
   dropZonePhotoAdElement.addEventListener('dragenter', dragenter, false);
   dropZonePhotoAdElement.addEventListener('dragover', dragover, false);
   dropZonePhotoAdElement.addEventListener('drop', dropdropZonePhotoAdElement, false);
 })();
-
-
-// var newDiv = document.createElement('div');
-// newDiv.className = 'ad-form__photo';
-// previewPhotoAdElement.appendChild(newDiv);
-
-// var newPhoto = document.createElement('img');
-// newPhoto.className = 'photoAd';
-// newDiv.appendChild(newPhoto);
