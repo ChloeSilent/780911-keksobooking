@@ -17,7 +17,6 @@
 
 
   var fileChooserPhotoAdElement = document.querySelector('.ad-form__upload input[type=file]');
-  // var previewPhotoAdElement = document.querySelector('.ad-form__photo');
   var dropZonePhotoAdElement = document.querySelector('.ad-form__upload');
   var adFormPhotoContainerElement = document.querySelector('.ad-form__photo-container');
 
