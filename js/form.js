@@ -16,7 +16,6 @@
   var DEFAULT_PRICE = '1000';
   var ROOMS_NOT_FOR_GUESTS = 100;
 
-  var inputTitleElement = document.querySelector('#title');
   var selectTypeElement = document.querySelector('#type');
   var priceInputElement = document.querySelector('#price');
   var checkSelectElement = document.querySelector('#timein');
@@ -40,10 +39,6 @@
     '100': 'Выберите, пожалуйста, опцию "не для гостей"'
   };
 
-  var titleLength = {
-    'MIN': 30,
-    'MAX': 100
-  };
 
   window.form.setAddress = function (x, y) {
     inputAddressElement.value = x + ', ' + y;
@@ -154,14 +149,7 @@
    проверка всех инпутов, очистка формы, дисэбл карты, удаление слушателей*/
   var onSubmitButtonElementMouseDown = function () {
 
-    /* проверка названия на ввденное количество символов */
-    if (inputTitleElement.value.length < titleLength.MIN) {
-      inputTitleElement.setCustomValidity('Минимальная длина заголовка объявления 30 символов.');
-    }
-    if (inputTitleElement.value.length > titleLength.MAX) {
-      inputTitleElement.setCustomValidity('Максимальная длина заголовка объявления 100 символов.');
 
-    }
     /* проверка стоимости тип/цена*/
     if (TypePrice[selectTypeElement.value] > parseInt(priceInputElement.value, 10)) {
       priceInputElement.setCustomValidity('Стоимость жилья должна быть не ниже ' + TypePrice[selectTypeElement.value] + ' .');
@@ -170,14 +158,17 @@
     var roomSelectValue = parseInt(amountRoomsSelectElement.value, 10);
     var guestsSelectValue = parseInt(capacitySelectElement.value, 10);
     /* проверка команат и гостей */
+
     if (roomSelectValue === ROOMS_NOT_FOR_GUESTS && guestsSelectValue !== 0) {
       capacitySelectElement.setCustomValidity('Количество комнат не для гостей.');
-    }
-    if (guestsSelectValue > roomSelectValue) {
-      capacitySelectElement.setCustomValidity('Количество гостей должно быть не больше ' + matchAmountOfGuests[roomSelectValue] + ' .');
     } else {
-      capacitySelectElement.setCustomValidity('');
+      if (guestsSelectValue > roomSelectValue) {
+        capacitySelectElement.setCustomValidity('Количество гостей должно быть не больше ' + matchAmountOfGuests[roomSelectValue] + ' .');
+      } else {
+        capacitySelectElement.setCustomValidity('');
+      }
     }
+
     /* проверка время выезда и заезда */
     if (checkOutSelectElement.selectedIndex !== checkSelectElement.selectedIndex) {
       checkSelectElement.setCustomValidity('Время заезда и время выезда должны совпадать.');
