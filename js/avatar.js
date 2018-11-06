@@ -216,55 +216,72 @@
   var dropZonePhotoAdElement = document.querySelector('.ad-form__upload');
   var adFormPhotoContainerElement = document.querySelector('.ad-form__photo-container');
 
-  var createPhotoContainer = function (file) {
+  // var createPhotoContainer = function (file) {
 
 
-    var newDiv = document.createElement('div');
+  //   var newDiv = document.createElement('div');
 
-    newDiv.className = 'ad-form__photo';
-    previewPhotoAdElement.appendChild(newDiv);
+  //   newDiv.className = 'ad-form__photo';
+  //   previewPhotoAdElement.appendChild(newDiv);
 
-    var newPhoto = document.createElement('img');
-    newPhoto.className = 'photoAd';
-    newPhoto.src = 'img/muffin-grey.svg';
-    newPhoto.alt = 'фотография предложения';
-    newPhoto.width = '70';
-    newPhoto.height = '70';
-    newDiv.appendChild(newPhoto);
+  //   var newPhoto = document.createElement('img');
+  //   newPhoto.className = 'photoAd';
+  //   newPhoto.src = 'img/muffin-grey.svg';
+  //   newPhoto.alt = 'фотография предложения';
+  //   newPhoto.width = '70';
+  //   newPhoto.height = '70';
+  //   newDiv.appendChild(newPhoto);
+  //   adFormPhotoContainerElement.appendChild(newDiv);
+  // };
+  var uploadPhotos = function (file) {
+    // var previewElement = document.querySelector('.ad-form__photo').querySelector('.photoAd');
 
+    var fileName = file.name.toLowerCase();
 
-    var uploadPhotos = function () {
-      // var previewElement = document.querySelector('.ad-form__photo').querySelector('.photoAd');
-      var previewElement = newPhoto;
-      var fileName = file.name.toLowerCase();
+    var matches = FILE_TYPES.some(function (it) {
+      return fileName.endsWith(it);
+    });
 
-      var matches = FILE_TYPES.some(function (it) {
-        return fileName.endsWith(it);
+    if (matches) {
+      var reader = new FileReader();
+
+      reader.addEventListener('load', function () {
+        var newDiv = document.createElement('div');
+        newDiv.className = 'ad-form__photo';
+        previewPhotoAdElement.appendChild(newDiv);
+
+        var newPhoto = document.createElement('img');
+        newPhoto.className = 'photoAd';
+        newPhoto.src = reader.result;
+        newPhoto.alt = 'фотография предложения';
+        newPhoto.width = '70';
+        newPhoto.height = '70';
+        newDiv.appendChild(newPhoto);
+        adFormPhotoContainerElement.appendChild(newDiv);
+
       });
 
-      if (matches) {
-        var reader = new FileReader();
-
-        reader.addEventListener('load', function () {
-
-          previewElement.src = reader.result;
-        });
-
-        if (file) {
-          reader.readAsDataURL(file);
-        } else {
-          previewElement.src = '';
-        }
+      if (file) {
+        reader.readAsDataURL(file);
+        // } else {
+        //   previewElement.src = '';
       }
-    };
-    uploadPhotos(file);
+    }
   };
 
+  // fileChooserPhotoAdElement.addEventListener('change', function () {
+  //   for (var i = 0; i < 2; i++) {
+  //     createPhotoContainer(fileChooserPhotoAdElement.files[i]);
+  //   }
+  //   // createPhotoContainer(fileChooserPhotoAdElement.files[0]);
+  // });
   fileChooserPhotoAdElement.addEventListener('change', function () {
-    for (var i = 0; i < 2; i++) {
-      createPhotoContainer(fileChooserPhotoAdElement.files[i]);
-    }
-    // createPhotoContainer(fileChooserPhotoAdElement.files[0]);
+
+    Array.from(fileChooserPhotoAdElement.files).forEach(function (file) {
+      uploadPhotos(file);
+
+    });
+
   });
 
   function dropdropZonePhotoAdElement(e) {
@@ -274,7 +291,10 @@
     var dt = e.dataTransfer;
     var files = dt.files;
 
-    Array.from(files).forEach(createPhotoContainer);
+    Array.from(files).forEach(function (file) {
+      uploadPhotos(file);
+
+    });
 
   }
 
