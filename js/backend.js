@@ -38,12 +38,12 @@
     mainElement.appendChild(successMessageClone);
 
     var removeMessageListeners = function () {
-      successMessageClone.removeEventListener('click', removeSuccesMessage);
+      successMessageClone.removeEventListener('click', removeSuccessMessage);
       document.removeEventListener('keydown', onSuccesssEscDown);
     };
 
 
-    var removeSuccesMessage = function () {
+    var removeSuccessMessage = function () {
       successMessageClone.remove();
       removeMessageListeners();
     };
@@ -54,7 +54,7 @@
 
     };
 
-    successMessageClone.addEventListener('click', removeSuccesMessage);
+    successMessageClone.addEventListener('click', removeSuccessMessage);
     document.addEventListener('keydown', onSuccesssEscDown);
 
   };
