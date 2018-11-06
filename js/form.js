@@ -38,7 +38,9 @@
   var adFormHeaderElement = document.querySelector('.ad-form-header__drop-zone');
   var featureAdFormElements = document.querySelectorAll('.feature');
   var dropZoneAdFormElement = document.querySelector('.ad-form__drop-zone');
-
+  var adFormPhotoElement = document.querySelector('.ad-form__photo-container').querySelector('.ad-form__photo');
+  var avatarPhotoElement = document.querySelector('.ad-form-header__preview').querySelector('img');
+  var photoAvatarDefaultImageSr = 'img/muffin-grey.svg';
   window.form.setAddress = function (x, y) {
     inputAddressElement.value = x + ', ' + y;
   };
@@ -65,6 +67,7 @@
     dropZoneAdFormElement.disabled = true;
     submitButtonElement.disabled = true;
     resetButtonElement.disabled = true;
+    adFormPhotoElement.remove();
   };
 
 
@@ -184,12 +187,14 @@
       window.form.makeFormDisabled();
       window.listeners.removeAllHandlers();
       setFormNew();
+      removeAllPhotos();
       window.filter.setFilterFormNew();
     }
 
   };
 
   var setFormNew = function () {
+
     fieldsetInFormContainer.forEach(function (node) {
       node.value = '';
     });
@@ -197,12 +202,22 @@
 
   };
 
+  var removeAllPhotos = function () {
+    avatarPhotoElement.src = photoAvatarDefaultImageSr;
+    var adFormPhotoElements = document.querySelector('.ad-form__photo-container').querySelectorAll('.ad-form__photo');
+    adFormPhotoElements.forEach(function (node) {
+      node.remove();
+    });
+  };
+
   var onResetButtonClick = function () {
     window.map.makeDisabled();
     window.form.makeFormDisabled();
     window.listeners.removeAllHandlers();
     setFormNew();
+    removeAllPhotos();
     window.filter.setFilterFormNew();
+
   };
 
   window.form.addFormEventListeners = function () {
