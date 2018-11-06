@@ -182,7 +182,7 @@
   };
 
   fileChooserAvatarElement.addEventListener('change', function () {
-    uploadFiles(fileChooserAvatarElement.files[0]);
+    uploadFile(fileChooserAvatarElement.files[0]);
   });
 
   function dragenter(e) {
@@ -259,9 +259,11 @@
     uploadPhotos(file);
   };
 
-  fileChooserAvatarElement.addEventListener('change', function () {
-    createPhotoContainer(fileChooserPhotoAdElement.files[0]);
-
+  fileChooserPhotoAdElement.addEventListener('change', function () {
+    for (var i = 0; i < 2; i++) {
+      createPhotoContainer(fileChooserPhotoAdElement.files[i]);
+    }
+    // createPhotoContainer(fileChooserPhotoAdElement.files[0]);
   });
 
   function dropdropZonePhotoAdElement(e) {
