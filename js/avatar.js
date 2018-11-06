@@ -234,7 +234,8 @@
 
 
     var uploadPhotos = function () {
-      var previewElement = document.querySelector('.ad-form__photo').querySelector('.photoAd');
+      // var previewElement = document.querySelector('.ad-form__photo').querySelector('.photoAd');
+      var previewElement = newPhoto;
       var fileName = file.name.toLowerCase();
 
       var matches = FILE_TYPES.some(function (it) {
