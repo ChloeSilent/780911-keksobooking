@@ -1,4 +1,3 @@
-
 'use strict';
 // модуль avatar.js
 
@@ -13,12 +12,12 @@
   var AD_PHOTO_HEIGHT = '70';
 
   var fileChooserAvatarElement = document.querySelector('.ad-form__field input[type=file]');
-  var previewAvatarElement = document.querySelector('.ad-form-header__preview').querySelector('img');
+  var previewAvatarElement = document.querySelector('.ad-form-header__preview img');
   var dropZoneAvatarElement = document.querySelector('.ad-form__field');
 
 
   var fileChooserPhotoAdElement = document.querySelector('.ad-form__upload input[type=file]');
-  var previewPhotoAdElement = document.querySelector('.ad-form__photo');
+  // var previewPhotoAdElement = document.querySelector('.ad-form__photo');
   var dropZonePhotoAdElement = document.querySelector('.ad-form__upload');
   var adFormPhotoContainerElement = document.querySelector('.ad-form__photo-container');
 
@@ -40,8 +39,6 @@
 
       if (file) {
         reader.readAsDataURL(file);
-      } else {
-        previewAvatarElement.src = '';
       }
     }
   };
@@ -70,9 +67,23 @@
 
   }
 
+  var onFileLoad = function (reader) {
+
+    var newDiv = document.createElement('div');
+    newDiv.className = 'ad-form__photo';
+
+    var newPhoto = document.createElement('img');
+    newPhoto.className = 'photoAd';
+    newPhoto.src = reader.result;
+    newPhoto.alt = AD_PHOTO_ALT;
+    newPhoto.width = AD_PHOTO_WIDTH;
+    newPhoto.height = AD_PHOTO_HEIGHT;
+    newDiv.appendChild(newPhoto);
+    adFormPhotoContainerElement.appendChild(newDiv);
+
+  };
 
   var uploadPhotos = function (file) {
-
 
     var fileName = file.name.toLowerCase();
 
@@ -82,21 +93,8 @@
 
     if (matches) {
       var reader = new FileReader();
-
       reader.addEventListener('load', function () {
-        var newDiv = document.createElement('div');
-        newDiv.className = 'ad-form__photo';
-        previewPhotoAdElement.appendChild(newDiv);
-
-        var newPhoto = document.createElement('img');
-        newPhoto.className = 'photoAd';
-        newPhoto.src = reader.result;
-        newPhoto.alt = AD_PHOTO_ALT;
-        newPhoto.width = AD_PHOTO_WIDTH;
-        newPhoto.height = AD_PHOTO_HEIGHT;
-        newDiv.appendChild(newPhoto);
-        adFormPhotoContainerElement.appendChild(newDiv);
-
+        onFileLoad(reader);
       });
 
       if (file) {

@@ -65,6 +65,7 @@
       node.value = '';
     });
     filtersFormElement.reset();
+    window.filter.disableFilterForm();
   };
 
   var filterType = function (pin) {
