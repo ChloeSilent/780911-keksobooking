@@ -49,6 +49,7 @@
     };
     var onSuccesssEscDown = function (evt) {
       if (successMessageClone && evt.keyCode === ECS_INPUT) {
+        successMessageClone.remove();
         removeMessageListeners();
       }
 
@@ -81,6 +82,7 @@
 
     var onErrorEscDown = function (evt) {
       if (errorMessageClone && evt.keyCode === ECS_INPUT) {
+        errorMessageClone.remove();
         removeMessageListeners();
       }
 
