@@ -1264,7 +1264,7 @@ fieldset {
   box-shadow: none;
 }
 
-.feature__checkbox:disabled ~ label{
+.feature__checkbox:disabled~label {
   cursor: default;
   box-shadow: none;
 }
@@ -1291,3 +1291,37 @@ fieldset {
   background-color: #fafafa;
   cursor: default;
 }
+
+
+
+
+.photoAd {
+	border-bottom-color: rgb(53, 53, 53);
+	border-bottom-style: none;
+	border-bottom-width: 0px;
+	border-image-outset: 0px;
+	border-image-repeat: stretch;
+	border-image-slice: 100%;
+	border-image-source: none;
+	border-image-width: 1;
+	border-left-color: rgb(53, 53, 53);
+	border-left-style: none;
+	border-left-width: 0px;
+	border-right-color: rgb(53, 53, 53);
+	border-right-style: none;
+	border-right-width: 0px;
+	border-top-color: rgb(53, 53, 53);
+	border-top-style: none;
+	border-top-width: 0px;
+	box-sizing: border-box;
+	color: rgb(53, 53, 53);
+	display: block;
+	font-family: Roboto, Arial, sans-serif;
+	font-size: 16px;
+	height: 70px;
+	text-align: center;
+	text-size-adjust: 100%;
+	width: 70px;
+}
+
+

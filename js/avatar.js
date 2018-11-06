@@ -8,9 +8,9 @@
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
 
-  var fileChooser = document.querySelector('.ad-form__field input[type=file]');
-  var preview = document.querySelector('.ad-form-header__preview').querySelector('img');
-  var dropZoneElement = document.querySelector('.ad-form-header__drop-zone');
+  var fileChooserAvatarElement = document.querySelector('.ad-form__field input[type=file]');
+  var previewAvatarElement = document.querySelector('.ad-form-header__preview').querySelector('img');
+  var dropZoneAvatarElement = document.querySelector('.ad-form__field');
 
   var uploadFile = function (file) {
 
@@ -24,19 +24,19 @@
       var reader = new FileReader();
 
       reader.addEventListener('load', function () {
-        preview.src = reader.result;
+        previewAvatarElement.src = reader.result;
       });
 
       if (file) {
         reader.readAsDataURL(file);
       } else {
-        preview.src = '';
+        previewAvatarElement.src = '';
       }
     }
   };
 
-  fileChooser.addEventListener('change', function () {
-    uploadFile(fileChooser.files[0]);
+  fileChooserAvatarElement.addEventListener('change', function () {
+    uploadFile(fileChooserAvatarElement.files[0]);
   });
 
   function dragenter(e) {
@@ -53,15 +53,12 @@
     e.stopPropagation();
     e.preventDefault();
 
-    // var dt = e.dataTransfer;
-    // var files = dt.files;
-    var files = e.dataTransfer.getData('id', e.currentTarget.id);
-    uploadFile(files);
+    var dt = e.dataTransfer;
+    var files = dt.files;
+    Array.from(files).forEach(uploadFile);
+
   }
 
-  dropZoneElement.addEventListener('dragenter', dragenter, false);
-  dropZoneElement.addEventListener('dragover', dragover, false);
-  dropZoneElement.addEventListener('drop', drop, false);
-
-
-})();
+  dropZoneAvatarElement.addEventListener('dragenter', dragenter, false);
+  dropZoneAvatarElement.addEventListener('dragover', dragover, false);
+  dropZoneAvatarElement.addEventListener('drop', drop, false);
