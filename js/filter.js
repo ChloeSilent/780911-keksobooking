@@ -11,6 +11,13 @@
 (function () {
   window.filter = {};
 
+  var DEFAULT_FILTER = 'any';
+
+  var offerPrice = {
+    'LOW': 10000,
+    'HIGH': 50000
+  };
+
   var filtersFormElement = document.querySelector('.map__filters');
   var housingTypeSelectElement = filtersFormElement.querySelector('#housing-type');
   var housingPriceSelectElement = filtersFormElement.querySelector('#housing-price');
@@ -22,12 +29,6 @@
   var mapCheckboxElements = filtersFormElement.querySelectorAll('.map__checkbox');
 
   var featuresList = Array.from(mapCheckboxElements);
-  var DEFAULT_FILTER = 'any';
-
-  var offerPrice = {
-    'LOW': 10000,
-    'HIGH': 50000
-  };
 
   //  дисэйблит фильтры
   var disableFilterForm = function () {

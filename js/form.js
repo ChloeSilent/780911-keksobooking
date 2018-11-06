@@ -6,6 +6,9 @@
 
   window.form = {};
 
+  var DEFAULT_PRICE = '1000';
+  var ROOMS_NOT_FOR_GUESTS = 100;
+
   var TypePrice = {
     bungalo: 0,
     flat: 1000,
@@ -13,8 +16,12 @@
     palace: 10000
   };
 
-  var DEFAULT_PRICE = '1000';
-  var ROOMS_NOT_FOR_GUESTS = 100;
+  var matchAmountOfGuests = {
+    '1': '1',
+    '2': '2',
+    '3': '3',
+    '100': 'Выберите, пожалуйста, опцию "не для гостей"'
+  };
 
   var selectTypeElement = document.querySelector('#type');
   var priceInputElement = document.querySelector('#price');
@@ -31,14 +38,6 @@
   var adFormHeaderElement = document.querySelector('.ad-form-header__drop-zone');
   var featureAdFormElements = document.querySelectorAll('.feature');
   var dropZoneAdFormElement = document.querySelector('.ad-form__drop-zone');
-
-  var matchAmountOfGuests = {
-    '1': '1',
-    '2': '2',
-    '3': '3',
-    '100': 'Выберите, пожалуйста, опцию "не для гостей"'
-  };
-
 
   window.form.setAddress = function (x, y) {
     inputAddressElement.value = x + ', ' + y;
@@ -151,8 +150,11 @@
 
 
     /* проверка стоимости тип/цена*/
-    if (TypePrice[selectTypeElement.value] > parseInt(priceInputElement.value, 10)) {
+    var value = parseInt(priceInputElement.value, 10);
+    if (TypePrice[selectTypeElement.value] > value) {
       priceInputElement.setCustomValidity('Стоимость жилья должна быть не ниже ' + TypePrice[selectTypeElement.value] + ' .');
+    } else {
+      priceInputElement.setCustomValidity('');
     }
 
     var roomSelectValue = parseInt(amountRoomsSelectElement.value, 10);
@@ -172,6 +174,8 @@
     /* проверка время выезда и заезда */
     if (checkOutSelectElement.selectedIndex !== checkSelectElement.selectedIndex) {
       checkSelectElement.setCustomValidity('Время заезда и время выезда должны совпадать.');
+    } else {
+      checkSelectElement.setCustomValidity('');
     }
 
     if (formAdElement.checkValidity()) {
