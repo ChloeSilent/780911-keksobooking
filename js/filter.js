@@ -28,11 +28,10 @@
     /* убирает с селктов эффекты на ховере и ставит им дисйэбл*/
     filtersInFormElements.forEach(function (node) {
       node.disabled = true;
-      node.classList.add('map__filter_no_hover');
     });
     /* убирает с лейблов эффекты на ховере*/
     featuresLabelElements.forEach(function (node) {
-      node.classList.add('map__feature_no_hover');
+      node.disabled = true;
     });
     /* дисэйблит именно чекбоксы на мапе*/
     mapCheckboxElements.forEach(function (node) {
@@ -46,11 +45,11 @@
 
     filtersInFormElements.forEach(function (node) {
       node.disabled = false;
-      node.classList.remove('map__filter_no_hover');
+
     });
 
     featuresLabelElements.forEach(function (node) {
-      node.classList.remove('map__feature_no_hover');
+      node.disabled = false;
     });
 
 

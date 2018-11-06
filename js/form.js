@@ -96,22 +96,22 @@
     dropZoneAdFormElement.disabled = false;
     submitButtonElement.disabled = false;
     resetButtonElement.disabled = false;
+
+    /* устанавливает дефолтно min=1000  при смене значения в поле цена*/
+    priceInputElement.min = DEFAULT_PRICE;
+
   };
 
   /* устанавливает цену за 1 ночь в зависимости от типа жилья */
-  var onSelectTypeMouseup = function () {
+  var onSelectTypeChange = function () {
     var selectedOption = selectTypeElement.options[selectTypeElement.selectedIndex].value;
     var priceForNight = TypePrice[selectedOption];
     priceInputElement.placeholder = priceForNight;
     priceInputElement.min = priceForNight;
   };
-  /* устанавливает дефолтно min=1000  при смене значения в поле цена*/
-  var onpriceInputChange = function () {
-    priceInputElement.min = DEFAULT_PRICE;
-  };
 
   /* проверяет введеное заначение в поле цена и если оно меньше соответс. ему типу пишет ошибку */
-  var onPriceInputMouseup = function (evt) {
+  var onPriceInputChange = function (evt) {
     var target = evt.target;
     if (target.value < selectTypeElement.min) {
       target.setCustomValidity('Стоимость жилья должна быть не ниже ' + selectTypeElement.min + ' .');
@@ -152,8 +152,7 @@
 
   /* функция, которая запукается при клике на сабмит
    проверка всех инпутов, очистка формы, дисэбл карты, удаление слушателей*/
-  var onSubmitButtonElementMouseDown = function () {
-
+  var onSubmitButtonElementClick = function () {
 
     /* проверка стоимости тип/цена*/
     var value = parseInt(priceInputElement.value, 10);
@@ -226,27 +225,26 @@
   };
 
   window.form.addFormEventListeners = function () {
-    selectTypeElement.addEventListener('mouseup', onSelectTypeMouseup);
-    priceInputElement.addEventListener('change', onpriceInputChange);
-    priceInputElement.addEventListener('mouseup', onPriceInputMouseup);
+    selectTypeElement.addEventListener('change', onSelectTypeChange);
+    priceInputElement.addEventListener('change', onPriceInputChange);
     checkSelectElement.addEventListener('change', onSelectTimeInChange);
     checkOutSelectElement.addEventListener('change', onSelectTimeOutChange);
     amountRoomsSelectElement.addEventListener('change', onSelectRoomNumberChange);
     capacitySelectElement.addEventListener('change', onSelectRoomNumberChange);
     resetButtonElement.addEventListener('click', onResetButtonClick);
-    submitButtonElement.addEventListener('mousedown', onSubmitButtonElementMouseDown);
+    submitButtonElement.addEventListener('click', onSubmitButtonElementClick);
     onSelectRoomNumberChange();
   };
 
   window.form.removeFormEventListeners = function () {
-    selectTypeElement.removeEventListener('mouseup', onSelectTypeMouseup);
-    priceInputElement.removeEventListener('change', onpriceInputChange);
-    priceInputElement.removeEventListener('mouseup', onPriceInputMouseup);
+    selectTypeElement.removeEventListener('change', onSelectTypeChange);
+    priceInputElement.removeEventListener('change', onPriceInputChange);
     checkSelectElement.removeEventListener('change', onSelectTimeInChange);
     checkOutSelectElement.removeEventListener('change', onSelectTimeOutChange);
     amountRoomsSelectElement.removeEventListener('change', onSelectRoomNumberChange);
+    capacitySelectElement.addEventListener('change', onSelectRoomNumberChange);
     resetButtonElement.removeEventListener('click', onResetButtonClick);
-    submitButtonElement.removeEventListener('mousedown', onSubmitButtonElementMouseDown);
+    submitButtonElement.removeEventListener('click', onSubmitButtonElementClick);
   };
 
   window.form.makeFormDisabled();
