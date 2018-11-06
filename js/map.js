@@ -17,7 +17,7 @@
     window.pin.mapElement.classList.add('map--faded');
     window.map.mainPinElement.style.left = window.map.DEFAULT_X + 'px';
     window.map.mainPinElement.style.top = window.map.DEFAULT_Y + 'px';
-
+    // window.form.setAddress(window.map.getCoordinateX(), window.map.getCoordinateY());
   };
   window.map.makeDisabled();
 
@@ -46,6 +46,7 @@
     window.pin.mapElement.classList.remove('map--faded');
     window.filter.aktiveFilterForm();
     window.form.makeFormActive();
+    // window.form.setAddress(window.map.getCoordinateX(), window.map.getCoordinateY());
   };
 
   /* помещает один пин на карту */

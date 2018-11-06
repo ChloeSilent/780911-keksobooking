@@ -31,7 +31,7 @@
   var featuresList = Array.from(mapCheckboxElements);
 
   //  дисэйблит фильтры
-  var disableFilterForm = function () {
+  window.filter.disableFilterForm = function () {
     /* убирает с селктов эффекты на ховере и ставит им дисйэбл*/
     filtersInFormElements.forEach(function (node) {
       node.disabled = true;
@@ -138,6 +138,6 @@
     });
   };
 
-  disableFilterForm();
+  window.filter.disableFilterForm();
 
 })();

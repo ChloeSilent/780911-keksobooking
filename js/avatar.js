@@ -153,6 +153,10 @@
 
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
+  var AD_PHOTO_ALT = 'фотография предложения';
+  var AD_PHOTO_WIDTH = '70';
+  var AD_PHOTO_HEIGHT = '70';
+
   var fileChooserAvatarElement = document.querySelector('.ad-form__field input[type=file]');
   var previewAvatarElement = document.querySelector('.ad-form-header__preview').querySelector('img');
   var dropZoneAvatarElement = document.querySelector('.ad-form__field');
@@ -232,9 +236,9 @@
         var newPhoto = document.createElement('img');
         newPhoto.className = 'photoAd';
         newPhoto.src = reader.result;
-        newPhoto.alt = 'фотография предложения';
-        newPhoto.width = '70';
-        newPhoto.height = '70';
+        newPhoto.alt = AD_PHOTO_ALT;
+        newPhoto.width = AD_PHOTO_WIDTH;
+        newPhoto.height = AD_PHOTO_HEIGHT;
         newDiv.appendChild(newPhoto);
         adFormPhotoContainerElement.appendChild(newDiv);
 
@@ -242,8 +246,6 @@
 
       if (file) {
         reader.readAsDataURL(file);
-        // } else {
-        //   previewElement.src = '';
       }
     }
   };

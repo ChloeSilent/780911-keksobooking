@@ -40,7 +40,9 @@
   var dropZoneAdFormElement = document.querySelector('.ad-form__drop-zone');
   var adFormPhotoElement = document.querySelector('.ad-form__photo-container').querySelector('.ad-form__photo');
   var avatarPhotoElement = document.querySelector('.ad-form-header__preview').querySelector('img');
-  var photoAvatarDefaultImageSr = 'img/muffin-grey.svg';
+  var PHOTO_AVATAR_DEFAULT_IMAGE_SRС = 'img/muffin-grey.svg';
+
+
   window.form.setAddress = function (x, y) {
     inputAddressElement.value = x + ', ' + y;
   };
@@ -79,8 +81,8 @@
     fieldsetInFormContainer.forEach(function (node) {
       node.disabled = false;
     });
-    inputAddressElement.placeholder = window.map.DEFAULT_X + ', ' + window.map.DEFAULT_Y;
-
+    // inputAddressElement.placeholder = window.map.DEFAULT_X + ', ' + window.map.DEFAULT_Y;
+    // window.form.setAddress(window.map.getCoordinateX(), window.map.getCoordinateY());
     adFormElements.forEach(function (node) {
       node.disabled = false;
     });
@@ -189,6 +191,7 @@
       setFormNew();
       removeAllPhotos();
       window.filter.setFilterFormNew();
+      window.filter.disableFilterForm();
     }
 
   };
@@ -199,11 +202,11 @@
       node.value = '';
     });
     formAdElement.reset();
-
+    window.form.setAddress(window.map.getCoordinateX(), window.map.getCoordinateY());
   };
 
   var removeAllPhotos = function () {
-    avatarPhotoElement.src = photoAvatarDefaultImageSr;
+    avatarPhotoElement.src = PHOTO_AVATAR_DEFAULT_IMAGE_SRС;
     var adFormPhotoElements = document.querySelector('.ad-form__photo-container').querySelectorAll('.ad-form__photo');
     adFormPhotoElements.forEach(function (node) {
       node.remove();
@@ -216,6 +219,7 @@
     window.listeners.removeAllHandlers();
     setFormNew();
     removeAllPhotos();
+    window.filter.disableFilterForm();
     window.filter.setFilterFormNew();
 
   };
@@ -244,7 +248,5 @@
     submitButtonElement.removeEventListener('mousedown', onSubmitButtonElementMouseDown);
   };
 
-  /* координаты для главного пина в интпуте адрес и для stle самого элемента */
-  window.form.setAddress(window.map.DEFAULT_X, window.map.DEFAULT_Y);
   window.form.makeFormDisabled();
 })();
