@@ -33,19 +33,34 @@
         y: startCoords.y - moveEvt.clientY
       };
 
-      startCoords = {
-        x: moveEvt.clientX,
-        y: moveEvt.clientY
+      var pinCoords = {
+        x: mainPin.offsetLeft,
+        y: mainPin.offsetTop,
       };
 
-      mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
-      mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
+      var newX = pinCoords.x - shift.x;
 
-      var yLine = mainPin.offsetTop - shift.y;
-      var xLine = mainPin.offsetLeft - shift.x;
+      if (LEFT_X < newX && newX < RIGHT_X) {
+        pinCoords.x -= shift.x;
+        startCoords.x -= shift.x;
+      }
 
-      window.form.setAddress((xLine + window.map.HALF_OF_WIDTH_PIN), (yLine + window.pin.PIN_HEIGHT));
-      checkBoundariesForPin(shift);
+      var newY = pinCoords.y - shift.y;
+
+      if (TOP_Y < newY && newY < BOTTOM_Y) {
+        pinCoords.y -= shift.y;
+        startCoords.y -= shift.y;
+      }
+
+
+      window.form.setAddress(window.map.getCoordinateX(), window.map.getCoordinateY());
+      /* вычисляет координату по оси Х для главного пина, адаптировано под расширение окна путем вычета координат карты */
+
+
+      mainPin.style.left = pinCoords.x + 'px';
+      mainPin.style.top = pinCoords.y + 'px';
+
+      window.form.setAddress(window.map.getCoordinateX(), window.map.getCoordinateY());
     };
 
     /* отпуск клавиши мыши снимает обработчики, запускающие перемещение пина и этой же функции*/
@@ -62,25 +77,6 @@
       };
       mainPin.addEventListener('click', onClickPreventDefault);
     }
-
-    /* проверка на вылезание за края*/
-    var checkBoundariesForPin = function (shift) {
-
-      var currentCoordiant = {
-        x: mainPin.offsetLeft - shift.x,
-        y: mainPin.offsetTop - shift.y
-      };
-      if (currentCoordiant.x > RIGHT_X) {
-        mainPin.style.left = RIGHT_X + 'px';
-      } else if (currentCoordiant.x < LEFT_X) {
-        mainPin.style.left = LEFT_X + 'px';
-      } else if (currentCoordiant.y > BOTTOM_Y) {
-        mainPin.style.top = BOTTOM_Y + 'px';
-      } else if (currentCoordiant.y < TOP_Y) {
-        mainPin.style.top = TOP_Y + 'px';
-      }
-
-    };
 
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);

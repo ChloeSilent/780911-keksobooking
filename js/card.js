@@ -7,6 +7,7 @@
   var PHOTO_PLACE_WIDTH = 45;
   var PHOTO_PLACE_HEIGHT = 45;
   var ECS_INPUT = 27;
+
   window.card.mapFiltersContainerElement = document.querySelector('.map__filters-container');
   var templateCardElement = document.querySelector('#card').content.querySelector('.map__card');
 
@@ -54,17 +55,16 @@
     cardClone.querySelector('.popup__text--time').textContent = 'Заезд после ' + pin.offer.checkin + ', выезд до ' + pin.offer.checkin;
 
     /* удаляет дефолтные li */
-    var ListFeaturesElement = cardClone.querySelector('.popup__features');
-    removeChildrenNodes(ListFeaturesElement);
-
+    var listFeaturesElement = cardClone.querySelector('.popup__features');
+    removeChildrenNodes(listFeaturesElement);
 
     cardClone.querySelector('.popup__features').appendChild(createFeatures(pin));
     cardClone.querySelector('.popup__description').textContent = pin.offer.description;
 
     /* удаляет дефолтные фото */
-    var ListPhotosElement = cardClone.querySelector('.popup__photos');
+    var listPhotosElement = cardClone.querySelector('.popup__photos');
 
-    removeChildrenNodes(ListPhotosElement);
+    removeChildrenNodes(listPhotosElement);
 
     /* вставляет фото как DOM-элемент в разметку */
     cardClone.querySelector('.popup__photos').appendChild(createPhotos(pin));
@@ -86,11 +86,8 @@
 
   /* отрисовка одной карточки*/
   window.card.drawOneCard = function (pin) {
-    var fragmentCard = document.createDocumentFragment();
-    fragmentCard.appendChild(createCard(pin));
-    window.card.mapFiltersContainerElement.appendChild(fragmentCard);
 
+    window.card.mapFiltersContainerElement.appendChild(createCard(pin));
   };
-
 
 })();

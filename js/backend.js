@@ -5,11 +5,21 @@
 (function () {
 
   window.backend = {};
+
   var URL = {
     'SEND': 'https://js.dump.academy/keksobooking',
     'GET': 'https://js.dump.academy/keksobooking/data'
   };
+
   var TIME_OUT = 10000;
+  var ECS_INPUT = 27;
+
+
+  var mainElement = document.querySelector('main');
+  var templateSuccessMessageElement = document.querySelector('#success').content.querySelector('.success');
+  var templateErrorMessageElement = document.querySelector('#error').content.querySelector('.error');
+
+
   window.backend.loadData = function (onLoadData) {
     xhrSend(URL['GET'], 'GET', onLoadData);
   };
@@ -18,60 +28,71 @@
     xhrSend(URL['SEND'], 'POST', onSuccess, data);
   };
 
-  var mainElement = document.querySelector('main');
-  var fragment = document.createDocumentFragment();
-
   /* блок с сообщениями на успшную/неуспешную ситуацию при получении/отправке данных */
   window.backend.onSuccessUpLoad = function () {
 
-    var templateSuccessMessageElement = document.querySelector('#success').content.querySelector('.success');
+
     var successMessageClone = templateSuccessMessageElement.cloneNode(true);
 
-    fragment.appendChild(successMessageClone);
-    mainElement.appendChild(fragment);
 
-    var ECS_INPUT = 27;
-    var removeSuccesMessage = function () {
+    mainElement.appendChild(successMessageClone);
+
+    var removeMessageListeners = function () {
+      successMessageClone.removeEventListener('click', removeSuccessMessage);
+      document.removeEventListener('keydown', onSuccesssEscDown);
+    };
+
+
+    var removeSuccessMessage = function () {
       successMessageClone.remove();
+      removeMessageListeners();
     };
     var onSuccesssEscDown = function (evt) {
       if (successMessageClone && evt.keyCode === ECS_INPUT) {
         successMessageClone.remove();
+        removeMessageListeners();
       }
+
     };
 
+    successMessageClone.addEventListener('click', removeSuccessMessage);
     document.addEventListener('keydown', onSuccesssEscDown);
-    templateSuccessMessageElement.addEventListener('click', removeSuccesMessage);
 
   };
 
 
   var onError = function (errorMessage) {
 
-    var templateErrorMessageElement = document.querySelector('#error').content.querySelector('.error');
     var errorMessageClone = templateErrorMessageElement.cloneNode(true);
-    fragment.appendChild(errorMessageClone);
-    mainElement.appendChild(fragment);
+
+    mainElement.appendChild(errorMessageClone);
     errorMessageClone.querySelector('.error__message').textContent = errorMessage;
     var messageCloseElement = errorMessageClone.querySelector('.error__button');
 
+    var removeMessageListeners = function () {
+      messageCloseElement.removeEventListener('click', removeErrorMessage);
+      document.removeEventListener('keydown', onErrorEscDown);
+      errorMessageClone.removeEventListener('click', removeErrorMessage);
+    };
 
-    var ECS_INPUT = 27;
     var removeErrorMessage = function () {
       errorMessageClone.remove();
+      removeMessageListeners();
     };
 
     var onErrorEscDown = function (evt) {
       if (errorMessageClone && evt.keyCode === ECS_INPUT) {
         errorMessageClone.remove();
+        removeMessageListeners();
       }
+
     };
+
 
     messageCloseElement.addEventListener('click', removeErrorMessage);
     document.addEventListener('keydown', onErrorEscDown);
-    templateErrorMessageElement.addEventListener('click', removeErrorMessage);
+    errorMessageClone.addEventListener('click', removeErrorMessage);
   };
-
 
   var xhrSend = function (url, method, onSuccess, data) {
     var xhr = new XMLHttpRequest();

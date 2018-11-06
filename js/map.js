@@ -4,16 +4,12 @@
 
   window.map = {};
 
-  window.map.mainPinElement = document.querySelector('.map__pin--main');
-
-  var bodyRect = window.map.mainPinElement.getBoundingClientRect();
-  var mapImage = window.pin.mapElement.getBoundingClientRect();
-
   window.map.DEFAULT_X = 570;
   window.map.DEFAULT_Y = 375;
   window.map.HALF_OF_WIDTH_PIN = 33;
   var PINS_AMOUNT = 5;
-  // var pins = [];
+
+  window.map.mainPinElement = document.querySelector('.map__pin--main');
 
   /* делает все инпуты, филдсеты, баттоны неактивными, делает неактивной карту */
   window.map.makeDisabled = function () {
@@ -21,7 +17,7 @@
     window.pin.mapElement.classList.add('map--faded');
     window.map.mainPinElement.style.left = window.map.DEFAULT_X + 'px';
     window.map.mainPinElement.style.top = window.map.DEFAULT_Y + 'px';
-
+    // window.form.setAddress(window.map.getCoordinateX(), window.map.getCoordinateY());
   };
   window.map.makeDisabled();
 
@@ -43,24 +39,14 @@
     }
   };
 
-
-  /* вычисляет координату по оси Х для главного пина, адаптировано под расширение окна путем вычета координат карты */
-  window.map.getCoordinateX = function () {
-    return bodyRect.left - mapImage.left + window.scrollX + window.map.HALF_OF_WIDTH_PIN;
-
-  };
-  /* вычисляет координату по оси Y для главного пина*/
-  window.map.getCoordinateY = function () {
-    return Math.abs(bodyRect.top) + window.pin.PIN_HEIGHT;
-
-  };
-
   /* активация карты(убирается класс .map--faded) и делает все инпуты, филдсеты, баттоны активными.
   Вычислет координаты главного пина, создает пины объявлений */
   window.map.makeActive = function () {
     /* удаляет disabled с карты и форм*/
     window.pin.mapElement.classList.remove('map--faded');
+    window.filter.aktiveFilterForm();
     window.form.makeFormActive();
+
   };
 
   /* помещает один пин на карту */
@@ -81,4 +67,12 @@
     window.map.createPins(window.map.pins);
   };
 
+  window.map.getCoordinateX = function () {
+    return window.map.mainPinElement.offsetLeft + window.map.HALF_OF_WIDTH_PIN;
+
+  };
+  /* вычисляет координату по оси Y для главного пина*/
+  window.map.getCoordinateY = function () {
+    return window.map.mainPinElement.offsetTop + window.pin.PIN_HEIGHT;
+  };
 })();
