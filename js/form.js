@@ -55,7 +55,7 @@
     fieldsetInFormContainer.forEach(function (node) {
       node.disabled = true;
     });
-    inputAddressElement.placeholder = window.map.DEFAULT_X + ', ' + window.map.DEFAULT_Y;
+    window.form.setAddress(window.map.getCoordinateX(), window.map.getCoordinateY());
 
     adFormElements.forEach(function (node) {
       node.disabled = true;
