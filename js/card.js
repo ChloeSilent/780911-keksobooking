@@ -75,12 +75,13 @@
     var onErrorEscDown = function (evt) {
       if (cardClone && evt.keyCode === ECS_INPUT) {
         cardClone.remove();
+        document.removeEventListener('keydown', onErrorEscDown);
       }
     };
     document.addEventListener('keydown', onErrorEscDown);
     cardCloseElement.addEventListener('click', function () {
       cardClone.remove();
-
+      document.removeEventListener('keydown', onErrorEscDown);
     });
 
     return cardClone;
