@@ -4,8 +4,6 @@
 /* модуль, который будет загружать наши данные по сети load.js. */
 (function () {
 
-  window.backend = {};
-
   var URL = {
     'SEND': 'https://js.dump.academy/keksobooking',
     'GET': 'https://js.dump.academy/keksobooking/data'
@@ -14,11 +12,11 @@
   var TIME_OUT = 10000;
   var ECS_INPUT = 27;
 
+  window.backend = {};
 
   var mainElement = document.querySelector('main');
   var templateSuccessMessageElement = document.querySelector('#success').content.querySelector('.success');
   var templateErrorMessageElement = document.querySelector('#error').content.querySelector('.error');
-
 
   window.backend.loadData = function (onLoadData) {
     xhrSend(URL['GET'], 'GET', onLoadData);

@@ -4,10 +4,11 @@
 
 (function () {
 
-  window.form = {};
-
   var DEFAULT_PRICE = '1000';
   var ROOMS_NOT_FOR_GUESTS = 100;
+  var PHOTO_AVATAR_DEFAULT_IMAGE_SRC = 'img/muffin-grey.svg';
+
+  window.form = {};
 
   var TypePrice = {
     bungalo: 0,
@@ -40,7 +41,6 @@
   var dropZoneAdFormElement = document.querySelector('.ad-form__drop-zone');
   var adFormPhotoElement = document.querySelector('.ad-form__photo-container').querySelector('.ad-form__photo');
   var avatarPhotoElement = document.querySelector('.ad-form-header__preview').querySelector('img');
-  var PHOTO_AVATAR_DEFAULT_IMAGE_SRС = 'img/muffin-grey.svg';
 
 
   window.form.setAddress = function (x, y) {
@@ -206,7 +206,7 @@
   };
 
   var removeAllPhotos = function () {
-    avatarPhotoElement.src = PHOTO_AVATAR_DEFAULT_IMAGE_SRС;
+    avatarPhotoElement.src = PHOTO_AVATAR_DEFAULT_IMAGE_SRC;
     var adFormPhotoElements = document.querySelector('.ad-form__photo-container').querySelectorAll('.ad-form__photo');
     adFormPhotoElements.forEach(function (node) {
       node.remove();

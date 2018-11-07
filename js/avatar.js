@@ -3,13 +3,12 @@
 
 (function () {
 
-  window.avatar = {};
-
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
-
   var AD_PHOTO_ALT = 'фотография предложения';
   var AD_PHOTO_WIDTH = '70';
   var AD_PHOTO_HEIGHT = '70';
+
+  window.avatar = {};
 
   var fileChooserAvatarElement = document.querySelector('.ad-form__field input[type=file]');
   var previewAvatarElement = document.querySelector('.ad-form-header__preview img');

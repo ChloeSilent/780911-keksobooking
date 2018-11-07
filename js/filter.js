@@ -1,15 +1,17 @@
 'use strict';
-// render.js — модуль, который отвечает за сортировку объявлений и отрисовку их на карте;
+// filter.js — модуль, который отвечает за сортировку объявлений и отрисовку их на карте;
 
 (function () {
-  window.filter = {};
 
   var DEFAULT_FILTER = 'any';
+
+  window.filter = {};
 
   var offerPrice = {
     'LOW': 10000,
     'HIGH': 50000
   };
+
 
   var filtersFormElement = document.querySelector('.map__filters');
   var housingTypeSelectElement = filtersFormElement.querySelector('#housing-type');
