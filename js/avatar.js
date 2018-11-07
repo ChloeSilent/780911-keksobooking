@@ -45,12 +45,12 @@
     uploadFile(fileChooserAvatarElement.files[0]);
   });
 
-  function dragenter(e) {
+  function onDragEnter(e) {
     e.stopPropagation();
     e.preventDefault();
   }
 
-  function dragover(e) {
+  function onDragOver(e) {
     e.stopPropagation();
     e.preventDefault();
   }
@@ -125,11 +125,11 @@
   }
 
 
-  dropZoneAvatarElement.addEventListener('dragenter', dragenter, false);
-  dropZoneAvatarElement.addEventListener('dragover', dragover, false);
+  dropZoneAvatarElement.addEventListener('dragenter', onDragEnter, false);
+  dropZoneAvatarElement.addEventListener('dragover', onDragOver, false);
   dropZoneAvatarElement.addEventListener('drop', drop, false);
 
-  dropZonePhotoAdElement.addEventListener('dragenter', dragenter, false);
-  dropZonePhotoAdElement.addEventListener('dragover', dragover, false);
+  dropZonePhotoAdElement.addEventListener('dragenter', onDragEnter, false);
+  dropZonePhotoAdElement.addEventListener('dragover', onDragOver, false);
   dropZonePhotoAdElement.addEventListener('drop', onDropZonePhotoAdElement, false);
 })();

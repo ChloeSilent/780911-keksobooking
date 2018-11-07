@@ -37,7 +37,7 @@
 
     var removeMessageListeners = function () {
       successMessageClone.removeEventListener('click', removeSuccessMessage);
-      document.removeEventListener('keydown', onSuccesssEscDown);
+      document.removeEventListener('keydown', onSuccessEscDown);
     };
 
 
@@ -45,7 +45,7 @@
       successMessageClone.remove();
       removeMessageListeners();
     };
-    var onSuccesssEscDown = function (evt) {
+    var onSuccessEscDown = function (evt) {
       if (successMessageClone && evt.keyCode === ECS_INPUT) {
         successMessageClone.remove();
         removeMessageListeners();
@@ -54,7 +54,7 @@
     };
 
     successMessageClone.addEventListener('click', removeSuccessMessage);
-    document.addEventListener('keydown', onSuccesssEscDown);
+    document.addEventListener('keydown', onSuccessEscDown);
 
   };
 
