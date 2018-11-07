@@ -5,13 +5,12 @@
 
   var DEFAULT_FILTER = 'any';
 
-  window.filter = {};
-
   var offerPrice = {
     'LOW': 10000,
     'HIGH': 50000
   };
 
+  window.filter = {};
 
   var filtersFormElement = document.querySelector('.map__filters');
   var housingTypeSelectElement = filtersFormElement.querySelector('#housing-type');

@@ -4,12 +4,13 @@
 
 (function () {
 
-  window.pin.PIN_HEIGHT = 81;
-  window.pin.PIN_WIDTH = 50;
+  var PIN_HEIGHT = 81;
+  var PIN_WIDTH = 50;
   var PX = 'px';
 
   window.pin = {
-    PIN_HEIGHT: window.pin.PIN_HEIGHT
+    PIN_HEIGHT: PIN_HEIGHT,
+    PIN_WIDTH: PIN_WIDTH
   };
 
   window.pin.mapElement = document.querySelector('.map');
@@ -21,8 +22,8 @@
   window.pin.createPin = function (element) {
     var pinClone = pinTemplateElement.cloneNode(true);
 
-    pinClone.style.left = element.location.x - window.pin.PIN_WIDTH + PX;
-    pinClone.style.top = element.location.y - window.pin.PIN_HEIGHT + PX;
+    pinClone.style.left = element.location.x - PIN_WIDTH + PX;
+    pinClone.style.top = element.location.y - PIN_HEIGHT + PX;
     var pinImage = pinClone.querySelector('img');
     pinImage.src = element.author.avatar;
     pinImage.alt = element.offer.avatar;

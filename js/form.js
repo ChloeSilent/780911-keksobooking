@@ -8,7 +8,6 @@
   var ROOMS_NOT_FOR_GUESTS = 100;
   var PHOTO_AVATAR_DEFAULT_IMAGE_SRC = 'img/muffin-grey.svg';
 
-  window.form = {};
 
   var TypePrice = {
     bungalo: 0,
@@ -23,6 +22,8 @@
     '3': '3',
     '100': 'Выберите, пожалуйста, опцию "не для гостей"'
   };
+
+  window.form = {};
 
   var selectTypeElement = document.querySelector('#type');
   var priceInputElement = document.querySelector('#price');

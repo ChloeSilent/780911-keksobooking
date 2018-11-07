@@ -8,6 +8,7 @@
   var PINS_AMOUNT = 5;
 
   window.map = {};
+
   window.map.mainPinElement = document.querySelector('.map__pin--main');
 
   /* делает все инпуты, филдсеты, баттоны неактивными, делает неактивной карту */
