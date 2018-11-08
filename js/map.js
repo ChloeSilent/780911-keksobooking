@@ -2,12 +2,12 @@
 /* карта деактивируется, при клике на главн пин снимется diabled с форм и карты, задаются координаты главного пина */
 (function () {
 
-  window.map = {};
-
-  window.map.DEFAULT_X = 570;
-  window.map.DEFAULT_Y = 375;
-  window.map.HALF_OF_WIDTH_PIN = 33;
+  var DEFAULT_X = 570;
+  var DEFAULT_Y = 375;
+  var HALF_OF_WIDTH_PIN = 33;
   var PINS_AMOUNT = 5;
+
+  window.map = {};
 
   window.map.mainPinElement = document.querySelector('.map__pin--main');
 
@@ -15,8 +15,8 @@
   window.map.makeDisabled = function () {
 
     window.pin.mapElement.classList.add('map--faded');
-    window.map.mainPinElement.style.left = window.map.DEFAULT_X + 'px';
-    window.map.mainPinElement.style.top = window.map.DEFAULT_Y + 'px';
+    window.map.mainPinElement.style.left = DEFAULT_X + 'px';
+    window.map.mainPinElement.style.top = DEFAULT_Y + 'px';
   };
   window.map.makeDisabled();
 
@@ -67,7 +67,7 @@
   };
 
   window.map.getCoordinateX = function () {
-    return window.map.mainPinElement.offsetLeft + window.map.HALF_OF_WIDTH_PIN;
+    return window.map.mainPinElement.offsetLeft + HALF_OF_WIDTH_PIN;
 
   };
   /* вычисляет координату по оси Y для главного пина*/

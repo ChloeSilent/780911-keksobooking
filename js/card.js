@@ -8,6 +8,8 @@
   var PHOTO_PLACE_HEIGHT = 45;
   var ECS_INPUT = 27;
 
+  window.card = {};
+
   window.card.mapFiltersContainerElement = document.querySelector('.map__filters-container');
   var templateCardElement = document.querySelector('#card').content.querySelector('.map__card');
 
@@ -73,12 +75,13 @@
     var onErrorEscDown = function (evt) {
       if (cardClone && evt.keyCode === ECS_INPUT) {
         cardClone.remove();
+        document.removeEventListener('keydown', onErrorEscDown);
       }
     };
     document.addEventListener('keydown', onErrorEscDown);
     cardCloseElement.addEventListener('click', function () {
       cardClone.remove();
-
+      document.removeEventListener('keydown', onErrorEscDown);
     });
 
     return cardClone;

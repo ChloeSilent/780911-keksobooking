@@ -1,16 +1,18 @@
 'use strict';
 // модуль, передвижения главного пина,заданы ограничения для его передвижения и задаются его координаты для формы
 
-
 (function () {
 
-  window.movePin = {};
 
   var TOP_Y = 130;
   var BOTTOM_Y = 630;
   var LEFT_X = -31;
   var RIGHT_X = 1165;
+
+  window.movePin = {};
+
   var mainPin = window.map.mainPinElement;
+
 
   /* функция передвижение главного пина*/
   var onMainPinElementMouseDown = function (evt) {
